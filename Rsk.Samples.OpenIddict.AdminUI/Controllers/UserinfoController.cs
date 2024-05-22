@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,9 +16,13 @@ namespace Velusia.Server.Controllers;
 public class UserinfoController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IOpenIddictScopeManager _scopeManager;
 
-    public UserinfoController(UserManager<ApplicationUser> userManager)
-        => _userManager = userManager;
+    public UserinfoController(UserManager<ApplicationUser> userManager, IOpenIddictScopeManager scopeManager)
+    {
+        _scopeManager = scopeManager;
+        _userManager = userManager;
+    }
 
     //
     // GET: /api/userinfo
@@ -25,6 +30,7 @@ public class UserinfoController : Controller
     [HttpGet("~/connect/userinfo"), HttpPost("~/connect/userinfo"), Produces("application/json")]
     public async Task<IActionResult> Userinfo()
     {
+        var requestedClaims = HttpContext.User.Claims;
         var user = await _userManager.FindByIdAsync(User.GetClaim(Claims.Subject));
         if (user is null)
         {
@@ -44,7 +50,56 @@ public class UserinfoController : Controller
             [Claims.Subject] = await _userManager.GetUserIdAsync(user)
         };
         
-        claims[Claims.Name] = await _userManager.GetUserNameAsync(user);
+        // Loop throw each scope (oi_scp) and get attached claims from properties
+        // Then add those claims to the response
+        foreach (var claim in requestedClaims)
+        {
+           if(claim.Type == "oi_scp")
+           {
+               var scope = await _scopeManager.FindByNameAsync(claim.Value);
+               
+               if(scope == null) continue;
+               
+
+               var scopeClaimList = await _scopeManager.GetClaimsFromProperties(scope);
+               foreach (var scopeClaim in scopeClaimList)
+               {
+                     switch(scopeClaim) 
+                     {
+                         case Scopes.Profile:
+                             claims[Claims.Name] = await _userManager.GetUserNameAsync(user);
+                             claims[Claims.GivenName] = $"{user.FirstName} {user.LastName}";
+                             claims[Claims.Email] = await _userManager.GetEmailAsync(user);
+                             claims[Claims.EmailVerified] = await _userManager.IsEmailConfirmedAsync(user);
+                             claims[Claims.PhoneNumber] = await _userManager.GetPhoneNumberAsync(user);
+                             claims[Claims.PhoneNumberVerified] = await _userManager.IsPhoneNumberConfirmedAsync(user);
+                             break;
+                         case "name":
+                             claims[Claims.Name] = await _userManager.GetUserNameAsync(user);
+                             break;
+                         case "given_name":
+                             claims[Claims.GivenName] = $"{user.FirstName} {user.LastName}";
+                             break;
+                         case Scopes.Email:
+                             claims[Claims.Email] = await _userManager.GetEmailAsync(user);
+                             claims[Claims.EmailVerified] = await _userManager.IsEmailConfirmedAsync(user);
+                             break;
+                         case Scopes.Phone:
+                             claims[Claims.PhoneNumber] = await _userManager.GetPhoneNumberAsync(user);
+                             claims[Claims.PhoneNumberVerified] = await _userManager.IsPhoneNumberConfirmedAsync(user);
+                             break;
+                         case Scopes.Roles:
+                         case "role":
+                             claims[Claims.Role] = await _userManager.GetRolesAsync(user);
+                             break;
+                         default:
+                             claims[scopeClaim] = User.GetClaim(scopeClaim);
+                             break;
+                     } 
+               }
+           }
+        }
+        
 
         if (User.HasScope(Scopes.Email))
         {
@@ -58,7 +113,7 @@ public class UserinfoController : Controller
             claims[Claims.PhoneNumberVerified] = await _userManager.IsPhoneNumberConfirmedAsync(user);
         }
 
-        if (User.HasScope(Scopes.Roles))
+        if (User.HasScope(Scopes.Roles) || User.HasScope("role"))
         {
             claims[Claims.Role] = await _userManager.GetRolesAsync(user);
         }
