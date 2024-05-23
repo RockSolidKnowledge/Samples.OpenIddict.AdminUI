@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -345,6 +346,35 @@ public class AuthorizationController : Controller
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        }
+        else if (request.IsClientCredentialsGrantType())
+        {
+            // Note: the client credentials are automatically validated by OpenIddict:
+            // if client_id or client_secret are invalid, this action won't be invoked.
+        
+            var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        
+            // Subject (sub) is a required field, we use the client id as the subject identifier here.
+            identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
+            
+            var client = await _applicationManager.FindByClientIdAsync(request.ClientId);
+            
+            var clientProperties = await _applicationManager.GetClaimsFromProperties(client);
+            
+            foreach (var claim in clientProperties)
+            {
+                identity.AddClaim(new Claim(claim.Key, claim.Value)
+                    .SetDestinations(Destinations.AccessToken));
+            }
+
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+        
+            claimsPrincipal.SetScopes(request.GetScopes());
+            
+            // TODO: Probably need to check the scopes exist in the client and add the related resources
+            claimsPrincipal.SetResources(request.GetScopes());
+
+            return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
         throw new InvalidOperationException("The specified grant type is not supported.");
