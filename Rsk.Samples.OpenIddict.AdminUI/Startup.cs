@@ -1,4 +1,3 @@
-using System.IO;
 using IdentityExpress.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenIddict.Sandbox.AspNetCore.Server.Services;
 using Quartz;
 using Velusia.Server.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -36,12 +36,13 @@ public class Startup
         });
 
         services.AddDatabaseDeveloperPageExceptionFilter();
-
+        
         // Register the Identity services.
         services.AddIdentity<ApplicationUser, IdentityExpressRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
-            .AddDefaultUI();
+            .AddDefaultUI()
+            .AddSignInManager<CustomSignInManager>();
 
         // OpenIddict offers native integration with Quartz.NET to perform scheduled tasks
         // (like pruning orphaned authorizations/tokens from the database) at regular intervals.
