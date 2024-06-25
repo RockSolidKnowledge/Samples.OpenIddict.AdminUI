@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rsk.Samples.OpenIddict.AdminUiIntegration", "Rsk.Samples.OpenIddict.AdminUI\Rsk.Samples.OpenIddict.AdminUiIntegration.csproj", "{AC4F7383-B751-4E95-B7B8-4EE138FFBAE2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestService", "TestService\TestService.csproj", "{8DF9AE11-2F7F-40B7-9993-156AF55C0387}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminUI", "AdminUI\AdminUI.csproj", "{EB199531-1BB1-4ED6-A094-9858B9E9FE4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{AC4F7383-B751-4E95-B7B8-4EE138FFBAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC4F7383-B751-4E95-B7B8-4EE138FFBAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC4F7383-B751-4E95-B7B8-4EE138FFBAE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF9AE11-2F7F-40B7-9993-156AF55C0387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF9AE11-2F7F-40B7-9993-156AF55C0387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF9AE11-2F7F-40B7-9993-156AF55C0387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF9AE11-2F7F-40B7-9993-156AF55C0387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB199531-1BB1-4ED6-A094-9858B9E9FE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB199531-1BB1-4ED6-A094-9858B9E9FE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB199531-1BB1-4ED6-A094-9858B9E9FE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB199531-1BB1-4ED6-A094-9858B9E9FE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
