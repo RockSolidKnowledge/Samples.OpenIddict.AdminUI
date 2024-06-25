@@ -1,0 +1,26 @@
+param($emailSubject,$emailBody)
+
+$emailFrom = "AdminUIIntegrationTests@rocksolidknowledge.com"
+$emailTo = "adminuitestemailrecipient@rocksolidknowledge.com"
+
+# Convert SMTP password to secure string
+$securePassword = ConvertTo-SecureString "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" -AsPlainText -Force
+
+# Define SMTP server and credentials
+$smtpServer = "smtp.sendgrid.net"
+$smtpPort = 587
+$smtpUsername = "apikey"
+$smtpCredentials = New-Object System.Management.Automation.PSCredential ($smtpUsername, $securePassword)
+
+# Setup SMTP client
+$smtpClient = New-Object Net.Mail.SmtpClient($smtpServer, $smtpPort)
+$smtpClient.EnableSsl = $true
+$smtpClient.Credentials = $smtpCredentials
+
+# Create the message		
+$message = New-Object System.Net.Mail.MailMessage $emailFrom, $emailTo
+$message.Subject = $emailSubject
+$message.Body = $emailBody
+
+# Send the email
+$smtpClient.Send($message)

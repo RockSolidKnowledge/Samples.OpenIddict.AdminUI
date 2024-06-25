@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:8 
+    ports: 
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Welkom1234!
+  oi-int: # OpenIddict
+    context: .
+      dockerfile: oi.Dockerfile
+    expose:
+      - "5003"
+    environment:
+      - DbProvider=MySql
+      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+  ui-int:
+    build:
+      context: .
+      dockerfile: ui.Dockerfile
+    expose:
+      - "5000"
+    entrypoint: /app/DbStart.sh db 3306
+    environment:
+      - UiUrl=http://ui-int:5000
+      - AuthorityUrl=http://ids-int:5003
+      - AddUserPassword=true
+      - AdminUIClientSecret=DockerDemo
+      - DbProvider=MySql
+      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - AuditRecordsConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - DataProtectionConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - OperationalConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - RequireHttpsMetadata=false
+      - TargetIdentityServer4=false
+      - LoggingProvider=Docker
+      - LoggingMinimumLevel=Info
+      - LoggingOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
+      - LicenseKey=${DEMOLICENSEKEY}
+  ui-tests:
+    build:
+      context: .
+      dockerfile: uiTests.Dockerfile
+    volumes: 
+      - ./logs:/logs # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
+      #- ./:/logs    # In this folder on host, map all to a volume named [logs] in the root of the container. Create folders if not present. BAD, as it will clog storage
+    depends_on:
+      - ids-int
+      - ui-int

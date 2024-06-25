@@ -1,0 +1,39 @@
+
+parameters:
+  database : ''
+
+steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: filePath
+      filePath: $(Build.SourcesDirectory)/TestService/startIdS.ps1
+      arguments: ${{ parameters.database }}
+      workingDirectory: $(Build.SourcesDirectory)/TestService
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'XUnit'
+      testResultsFiles: '*.xml'
+      searchFolder: '$(Build.SourcesDirectory)/TestService/logs'
+      testRunTitle: 'Playwright Integration Tests on ${{ parameters.database }}'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/TestService/ui-logs.txt'
+      artifact: '${{ parameters.database }}-ui-logs'
+      publishLocation: pipeline 
+
+  - bash: |
+      if [[ -f "$(Build.SourcesDirectory)/TestService/uitests-logs.txt" ]]; then
+        if grep -q  "AdminUI license expired" "$(Build.SourcesDirectory)/TestService/uitests-logs.txt"; then
+          pwsh "$(Build.SourcesDirectory)/TestService/sendMail.psh" 'EXPIRED LICENSE:AdminUI ${{ parameters.database }}' 'Tests not run. Demo license has expired.'
+        elif grep -q  "Failed!" "$(Build.SourcesDirectory)/TestService/uitests-logs.txt"; then
+          pwsh "$(Build.SourcesDirectory)/TestService/sendMail.psh" 'FAILED:AdminUI ${{ parameters.database }}' 'Tests failed'
+        elif grep -q  "Passed!" "$(Build.SourcesDirectory)/TestService/uitests-logs.txt"; then
+          pwsh "$(Build.SourcesDirectory)/TestService/sendMail.psh"  'SUCCESS:AdminUI ${{ parameters.database }}' 'All Tests Passed'
+          exit 0
+        fi
+      fi
+      exit 1
+    displayName: 'exit condition'

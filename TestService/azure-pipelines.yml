@@ -1,0 +1,41 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+schedules:
+- cron: '0 0 * * 1-5'
+  displayName: 'Daily midnight AdminUI tests'
+  branches:
+    include:
+    - main
+  always: true
+
+pool:
+  vmImage: ubuntu-latest 
+
+variables:
+- group: 'integration-testing-variable-group'
+jobs:
+- job: RunMySqlBasedTests
+  displayName: 'Running AdminUI test on MySql'  
+  steps:
+   - template: Templates/test-ui.yml
+     parameters:
+      database: 'MySql'
+
+       
+- job: RunSqlServerBasedTests
+  displayName: "Running AdminUI test on SqlServer"  
+  steps:
+   - template: Templates/test-ui.yml
+     parameters:
+      database: 'SqlServer'
+
+
+- job: RunPostgresTests
+  displayName: "Running AdminUI test on Postgres"  
+  steps:
+   - template: Templates/test-ui.yml
+     parameters:
+      database: 'Postgres'
