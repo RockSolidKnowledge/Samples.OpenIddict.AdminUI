@@ -17,7 +17,7 @@ public class EditIdentityResourceTetsts(AdminUiAutoTestFixture testFixture) : Ad
     {
         SetupInfoFactory.ResourceSetupInfo setupInfo = SetupInfoFactory.CreateResourceSetupInfo(SetupInfoFactory.ResourceType.Identity);
         await AddIdResource(setupInfo);
-        TestFixture.NameOfCurrentResource = setupInfo.IdentificationSetupInfo.DisplayName;
+        TestFixture.CurrentResourceName = setupInfo.IdentificationSetupInfo.DisplayName;
         SetupInfoFactory.ResourceSetupInfo newInfo  = setupInfo with { IdentificationSetupInfo = setupInfo.IdentificationSetupInfo with
         {
             DisplayName = "New Display Name",

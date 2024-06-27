@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.WebApp.Adding
         public async Task CanAddAWebAppClient()
         {
             SetupInfoFactory.WepAppClientSetupInfo newClient = SetupInfoFactory.CreateWebAppClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                     .AndThen(p => p.GotoTheClientsView())

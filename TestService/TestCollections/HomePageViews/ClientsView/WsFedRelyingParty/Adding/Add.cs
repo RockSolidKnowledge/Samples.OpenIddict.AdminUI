@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.WsFedRelyingPart
         public async Task CanAddAWsFedRelyingPartyClient()
         {
             SetupInfoFactory.WsFedRelyingPartyClientSetupInfo newClient = SetupInfoFactory.CreateWsFedRelyingPartyClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                 .AndThen(p => p.GotoTheClientsView())

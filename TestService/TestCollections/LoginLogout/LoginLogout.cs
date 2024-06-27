@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Playwright;
+using TestService.Models;
 using TestService.Pages;
 using TestService.TestCollections.Fixture;
 using Xunit.Extensions.Ordering;
@@ -21,7 +22,7 @@ namespace TestService.TestCollections.LoginLogout
         [Fact, Order(2)]
         public async Task FromTheWelcomePage_UserIsTakenToOpenIddict()
         {
-            const string expectedPageTitle = "OpenIddict";
+            const string expectedPageTitle = "Log in - Velusia.Server";
 
             WelcomePage.OpenIddictLoginPage page = await GotoTheWebsite()
                 .AndThen(p => p.LogIn());
@@ -33,28 +34,24 @@ namespace TestService.TestCollections.LoginLogout
         [Fact, Order(3)]
         public async Task AfterSuccessfulAuthenticationWithOpenIddict_UserCanLogIn()
         {
-            string testUserEmail = AdminUiAutoTestFixture.TestUser.EmailAddress;
+            User user = AdminUiAutoTestFixture.TestUser;
 
-            AdminUiHomePage page = await LoginToAdminUi(testUserEmail);
+            AdminUiHomePage page = await LoginToAdminUi(user.EmailAddress);
 
             string loggedInUser = await page.GetLoggedInUser();
-            loggedInUser.Should().Be(testUserEmail);
+            loggedInUser.Should().Be(user.UserName);
         }
 
         [Fact, Order(4)]
-        public async Task FromAdminUI_UserCanLogoutAndReturnToTheWelcomePage()
+        public async Task FromAdminUI_UserCanLogout()
         {
-            const string expectedPageTitle = "AdminUI";
-            string testUserEmail = AdminUiAutoTestFixture.TestUser.EmailAddress;
+            User user = AdminUiAutoTestFixture.TestUser;
 
-            IPage page = await LoginToAdminUi(testUserEmail)
-                .AndThen(p => p.Logout());
+            await LoginToAdminUi(user.EmailAddress)
+                .AndThen(p => p.Logout())
+                .AndThen(p => p.AcceptToLogout());
 
-            string? pageTitle = await TheTitleOfThePage(page);
-            pageTitle.Should().Be(expectedPageTitle);
-            var cookieCount =
-                (await TestFixture.Browser!.Contexts[0].CookiesAsync()).Count(c =>
-                    c.Name.StartsWith("AdminUI"));
+            var cookieCount = (await TestFixture.Browser!.Contexts[0].CookiesAsync()).Count(c => c.Name.StartsWith("AdminUI"));
             cookieCount.Should().Be(0);
         }
     }

@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.SinglePageAppLeg
         public async Task CanAddASinglePageAppLegacyClient()
         {
             SetupInfoFactory.SinglePageAppLegacyClientSetupInfo newClient = SetupInfoFactory.CreateSinglePageAppLegacyClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                 .AndThen(p => p.GotoTheClientsView())

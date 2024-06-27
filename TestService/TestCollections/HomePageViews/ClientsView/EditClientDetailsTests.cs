@@ -16,7 +16,7 @@ public class EditClientDetailsTests(AdminUiAutoTestFixture test) : AdminUiTest(t
         Client originalClient = ClientFactory.Create();
         await AddClient(originalClient);
         Client updatedClientDetails = originalClient with { displayName = "New Display Name" };
-        TestFixture.NameOfCurrentClient = updatedClientDetails.displayName;
+        TestFixture.CurrentClientName = updatedClientDetails.displayName;
 
         ClientsDetailsPage clientsDetailsPage = await LoginToAdminUi(AdminUiAutoTestFixture.TestUser.EmailAddress)
             .AndThen(p => p.GotoTheClientsView())

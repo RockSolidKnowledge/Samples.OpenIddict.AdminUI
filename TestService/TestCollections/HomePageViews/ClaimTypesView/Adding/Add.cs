@@ -15,7 +15,7 @@ namespace TestService.TestCollections.HomePageViews.ClaimTypesView.Adding
         public async Task CanAddAClaimTypeResource()
         {
             SetupInfoFactory.ClaimTypeSetupInfo setupInfo = SetupInfoFactory.CreateClaimTypeSetupInfo();
-            TestFixture.NameOfCurrentResource = setupInfo.IdentificationInfo.UniqueIdentifier;
+            TestFixture.CurrentResourceName = setupInfo.IdentificationInfo.UniqueIdentifier;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                         .AndThen(p => p.GotoTheClaimTypesView())

@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.Native.Adding
         public async Task CanAddAMachineClient()
         {
             SetupInfoFactory.NativeClientSetupInfo newClient = SetupInfoFactory.CreateNativeClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                     .AndThen(p => p.GotoTheClientsView())

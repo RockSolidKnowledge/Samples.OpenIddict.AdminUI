@@ -13,26 +13,23 @@ namespace TestService.TestCollections.Onboarding
         [Fact, Order(1)]
         public async Task AfterBootstrapping_TheUserIsPresentInTheUsersTable()
         {
-            User testUser = AdminUiAutoTestFixture.TestUser;
-            TestFixture.NameOfCurrentUser = testUser.UserName;
-
-            string userName = TestFixture.NameOfCurrentUser!;
-
-            UsersPage page = await LoginToAdminUi(testUser.UserName)
+            User user = AdminUiAutoTestFixture.TestUser;
+            
+            UsersPage page = await LoginToAdminUi(user.EmailAddress)
                 .AndThen(p => p.GotoTheUsersView());
 
-            bool userIsPresent = await page.IsTheUserPresent(testUser.UserName);
+            bool userIsPresent = await page.IsTheUserPresent(user.UserName);
             userIsPresent.Should().BeTrue();
         }
 
         [Fact, Order(2)]
         public async Task AfterBootstrapping_TheUserIsAssignedTheAdminUIAdministratorRole()
         {
-            string userName = TestFixture.NameOfCurrentUser!;
+            User user = AdminUiAutoTestFixture.TestUser;
 
-            UsersPage.Pager.PagerPage.EditUsersPage.UsersRolesPage usersRolesPage = await LoginToAdminUi(userName)
+            UsersPage.Pager.PagerPage.EditUsersPage.UsersRolesPage usersRolesPage = await LoginToAdminUi(user.EmailAddress)
                 .AndThen(p => p.GotoTheUsersView())
-                .AndThen(p => p.EditTheUser(userName))
+                .AndThen(p => p.EditTheUser(user.UserName))
                 .AndThen(p => p.GotoTheUsersRolesTab());
 
             bool roleHasRoleAdminRole = await usersRolesPage.IsAssigned(RoleFactory.GetAdministratorRoleName());

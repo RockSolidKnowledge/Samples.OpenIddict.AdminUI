@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.SinglePageApp.Ad
         public async Task CanAddASinglePageClient()
         {
             SetupInfoFactory.SinglePageClientSetupInfo newClient = SetupInfoFactory.CreateSinglePageClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                     .AndThen(p => p.GotoTheClientsView())

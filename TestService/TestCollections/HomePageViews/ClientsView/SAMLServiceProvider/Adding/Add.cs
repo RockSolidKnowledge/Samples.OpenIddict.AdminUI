@@ -14,7 +14,7 @@ namespace TestService.TestCollections.HomePageViews.ClientsView.SAMLServiceProvi
         public async Task CanAddAnSAMLClient()
         {
             SetupInfoFactory.SAMLClientSetupInfo newClient = SetupInfoFactory.CreateSAMLClientSetupInfo();
-            TestFixture.NameOfCurrentClient = newClient.IdentificationInfo.DisplayName;
+            TestFixture.CurrentClientName = newClient.IdentificationInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                     .AndThen(p => p.GotoTheClientsView())

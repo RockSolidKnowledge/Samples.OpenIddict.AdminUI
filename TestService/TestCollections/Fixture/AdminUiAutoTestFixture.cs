@@ -10,10 +10,10 @@ namespace TestService.TestCollections.Fixture
         public IBrowser? Browser { get; set; } = null!;
         public IBrowserContext? BrowserContext { get; set; }
         public static bool Headless { get; set; } = false;
-        public string? NameOfCurrentUser { get; set; }
-        public string? NameOfCurrentRole { get; set; }
-        public string? NameOfCurrentClient { get; set; }
-        public string? NameOfCurrentResource { get; set; }
+        public string? CurrentUserEmail { get; set; }
+        public string? CurrentRoleName { get; set; }
+        public string? CurrentClientName { get; set; }
+        public string? CurrentResourceName { get; set; }
         public static readonly User TestUser = UserFactory.GetTheTestUser();
         public static readonly string DefaultPassword = "Password123!";
 

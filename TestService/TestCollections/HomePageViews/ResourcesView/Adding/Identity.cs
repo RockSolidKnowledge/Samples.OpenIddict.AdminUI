@@ -15,7 +15,7 @@ namespace TestService.TestCollections.HomePageViews.ResourcesView.Adding
         public async Task CanAddAnIdentityResource()
         {
             SetupInfoFactory.ResourceSetupInfo setupInfo = SetupInfoFactory.CreateResourceSetupInfo(SetupInfoFactory.ResourceType.Identity);
-            TestFixture.NameOfCurrentResource = setupInfo.IdentificationSetupInfo.DisplayName;
+            TestFixture.CurrentResourceName = setupInfo.IdentificationSetupInfo.DisplayName;
 
             ISaveDialog saveDialog = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                 .AndThen(p => p.GotoTheResourcesView())
