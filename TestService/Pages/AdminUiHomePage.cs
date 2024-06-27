@@ -18,13 +18,13 @@ namespace TestService.Pages
             return await CurrentPage.Locator("#metaMenu").Locator("div").Locator("div").Locator($"div:nth-child({SignedInUserDiv})").Locator($"span:nth-child({SignedInUserSpan})").InnerTextAsync();
         }
 
-        public async Task<IPage> Logout()
+        public async Task<LogoutConfirmationPage> Logout()
         {
             await CurrentPage.GetByRole(AriaRole.Button, new() { Name = " Logout " }).ClickAsync();
 
-            await CurrentPage.Locator("app-landing-page").Locator("#loginBtn").WaitForAsync();
-
-            return CurrentPage;
+            await CurrentPage.GetByRole(AriaRole.Button, new(){ Name = "Yes" }).WaitForAsync();
+            
+            return new LogoutConfirmationPage(CurrentPage);
         }
 
         public async Task<UsersPage> GotoTheUsersView()
@@ -32,12 +32,6 @@ namespace TestService.Pages
             await CurrentPage
                 .Locator("#app-nav-item-users")
                 .ClickAsync();
-
-
-            //await CurrentPage
-            //    .Locator("#mainNavLinks")
-            //    .GetByRole(AriaRole.Button, new() { Name = " Users ", Exact = true })
-            //    .ClickAsync();
 
             await CurrentPage.Locator("#usersTable").WaitForAsync();
 
