@@ -27,11 +27,13 @@ namespace TestService
         {
             IPage page = await TestFixture.BrowserContext!.NewPageAsync();
 
+            // For running locally (not in docker) 
             await page.GotoAsync("https://localhost:5000");
 
-            return new WelcomePage(page);
+            // For running in a docker container
+            // await page.GotoAsync("http://ui-int:5000"); 
 
-            await page.GotoAsync("https://localhost:44313/Identity/Account/AcceptAuthorization");
+            return new WelcomePage(page);
         }
 
         protected async Task<AdminUiHomePage> LoginToAdminUi(string userEmail)
@@ -125,17 +127,12 @@ namespace TestService
     public class CollectionRunOrder
     {
         public const int LicenseValidation = 1;
-        //public const int ConsentEnforcement = 2;
         public const int Bootstrap = 2;
         public const int BootstrapValidation = 3;
         public const int LoginLogout = 4;
-        public const int AddRole = 5;
-        public const int EditRole = 6;
-        public const int AddUser = 7;   // Adding roles to user requires those roles to exist, so must run AFTER roles are managed
-        public const int EditUsersDetails = 8;
-        public const int EditUsersRoles = 9;
-        public const int UsersPager = 10; // TODO: Not sure this should be being tested. Would AdminUI be AdminUI without this feature?
-        public const int AddSettings = 11;
+        public const int ManagingRoles = 5;
+        public const int ManagingUsers = 6;   // Adding roles to user requires those roles to exist, so must run AFTER roles are managed
+        public const int ManageSettings = 7;
         public const int EditSettings = 12;
         public const int AddSinglePageClient = 13;
         public const int EditSinglePageClient = 14;
