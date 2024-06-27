@@ -46,8 +46,7 @@ namespace TestService.Pages
             {
                 await CurrentPage.ClickAsync(LoginBtnId);
 
-                // TODO : Uncomment when the "new" AdminUI app is enabled 
-                //await CurrentPage.GetByRole(AriaRole.Button, new() { Name = " Logout " }).WaitForAsync();
+                await CurrentPage.GetByRole(AriaRole.Button, new() { Name = " Logout " }).WaitForAsync();
 
                 return new AdminUiHomePage(CurrentPage);
             }
@@ -116,7 +115,9 @@ namespace TestService.Pages
 
                 public async Task<LicensePage?> GetLicenseInfo()
                 {
-                    var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
+                    //var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
+
+                    var response = await CurrentPage.GotoAsync("https://localhost:5000/license");
 
                     return response != null ? new LicensePage(CurrentPage, response) : null;
                 }
@@ -127,7 +128,7 @@ namespace TestService.Pages
                     {
                         await CurrentPage.ClickAsync("#loginBtn");
 
-                        await CurrentPage.GetByRole(AriaRole.Button, new(){Name = "Confirm"}).WaitForAsync();
+                        await CurrentPage.GetByRole(AriaRole.Button, new(){Name = "Yes"}).WaitForAsync();
 
                         return new LogoutConfirmationPage(CurrentPage);
                     }
@@ -136,40 +137,13 @@ namespace TestService.Pages
         }
     }
 
-    //public class ConsentPage(IPage page) : TestPage(page)
-    //{
-    //    public async Task<AdminUserCreationPage> AcceptToBootstrapAdminUser()
-    //    {
-    //        await Accept();
-
-    //        return new AdminUserCreationPage(CurrentPage);
-    //    }
-
-    //    public async Task<AdminUiHomePage> AcceptToLoginToAdminUi()
-    //    {
-    //        await Accept();
-
-    //        return new AdminUiHomePage(CurrentPage);
-    //    }
-
-    //    private async Task Accept()
-    //    {
-    //        await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Confirm" }).ClickAsync();
-    //    }
-
-    //    public async Task<LicensePage?> GetLicenseInfo()
-    //    {
-    //        var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
-
-    //        return response != null ? new LicensePage(CurrentPage, response) : null;
-    //    }
-    //}
-
     public class LogoutConfirmationPage(IPage page) : TestPage(page)
     {
-        public async Task<WelcomePage> Logout()
+        public async Task<WelcomePage> AcceptToLogout()
         {
-            await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Confirm" }).ClickAsync();
+            await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Yes" }).ClickAsync();
+
+            await CurrentPage.Locator("app-landing-page").Locator("#loginBtn").WaitForAsync();
 
             return new WelcomePage(CurrentPage);
         }
