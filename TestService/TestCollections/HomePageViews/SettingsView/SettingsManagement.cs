@@ -1,17 +1,17 @@
 ﻿using FluentAssertions;
 using TestService.Models;
-using TestService.Pages.HomePageViews.Clients;
 using TestService.Pages;
+using TestService.Pages.HomePageViews.Clients;
 using TestService.TestCollections.Fixture;
 using TestService.TestCollections.HomePageViews.ClientsView;
 using Xunit.Extensions.Ordering;
 
-namespace TestService.TestCollections.HomePageViews.SettingsView.Adding
+namespace TestService.TestCollections.HomePageViews.SettingsView
 {
-    [Order(CollectionRunOrder.AddSettings)]
-    public class Add(AdminUiAutoTestFixture testFixture) : AdminUiTest(testFixture)
+    [Order(CollectionRunOrder.ManageSettings)]
+    public class SettingsManagement(AdminUiAutoTestFixture fixture) : AdminUiTest(fixture)
     {
-        [Fact(Skip = "Not yet determined is validity as an OpenIddict.AdminUI test"), Order(1)]
+        [Fact(Skip = "[Access Policy] tab currently in Read-Only mode"), Order(1)]
         public async Task CanAddAnAccessPolicy()
         {
             SetupInfoFactory.AccessPolicySetupInfo setupInfo = SetupInfoFactory.CreateAccessPolicySetupInfo();
@@ -30,7 +30,7 @@ namespace TestService.TestCollections.HomePageViews.SettingsView.Adding
             resourceWasAdded.Should().BeTrue();
         }
 
-        [Fact(Skip = "Not yet determined is validity as an OpenIddict.AdminUI test"), Order(2)]
+        [Fact(Skip = "[Webhooks] tab currently in Read-Only mode"), Order(2)]
         public async Task CanAddAWebhook()
         {
             SetupInfoFactory.WebhookSetupInfo setupInfo = SetupInfoFactory.CreateWebhookSetupInfo();
