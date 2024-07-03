@@ -115,9 +115,9 @@ namespace TestService.Pages
 
                 public async Task<LicensePage?> GetLicenseInfo()
                 {
-                    //var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
+                    var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
 
-                    var response = await CurrentPage.GotoAsync("https://localhost:5000/license");
+                    //var response = await CurrentPage.GotoAsync("https://localhost:5000/license");
 
                     return response != null ? new LicensePage(CurrentPage, response) : null;
                 }

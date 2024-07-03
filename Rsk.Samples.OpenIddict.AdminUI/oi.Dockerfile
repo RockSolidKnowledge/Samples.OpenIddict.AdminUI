@@ -7,8 +7,13 @@
 # This image comes with the .NET runtime
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 
-ARG DATABASE_CONNECTION
-ENV ConnectionStrings__DefaultConnection=$DATABASE_CONNECTION
+#ARG DBPROVIDER
+#ENV DbProvider=$DBPROVIDER
+
+#ARG DATABASE_CONNECTION
+#ENV ConnectionStrings__DefaultConnection=$DATABASE_CONNECTION
+RUN echo "Db provider during build is:" $DbProvider
+RUN echo "Default connection string during build is:" $ConnectionStrings__DefaultConnection
 
 EXPOSE 80
 
@@ -18,14 +23,13 @@ USER root
 
 WORKDIR /app
 
-COPY ./Rsk.Samples.OpenIddict.AdminUI .
-COPY ./wait-for-it .
-RUN dotnet restore "./Rsk.Samples.OpenIddict.AdminUiIntegration.csproj"
+COPY . .
+# RUN dotnet restore "./Rsk.Samples.OpenIddict.AdminUiIntegration.csproj"
 
 ENV PATH $PATH:/root/.dotnet/tools
-RUN dotnet tool install --global dotnet-ef --version 8.0.4
+RUN dotnet tool install --global dotnet-ef --version 8.0.5
 
-RUN chmod +x StartOpen.sh
+RUN chmod +x StartOpenIddict.sh
 RUN chmod +x wait-for-it.sh
 RUN chmod +x DbUpdate.sh
 RUN chmod +x Publish.sh

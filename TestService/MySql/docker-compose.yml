@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   db:
     image: mysql:8 
@@ -7,46 +5,68 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=Welkom1234!
+  
   oi-int: # OpenIddict
-    context: .
+    build:
+      context: ../Rsk.Samples.OpenIddict.AdminUI
       dockerfile: oi.Dockerfile
+      args:
+        - DATABASE_CONNECTION=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+        - DbProvider=MySql        
     expose:
       - "5003"
     environment:
       - DbProvider=MySql
-      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
-      - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - OpenIddictConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - DATABASE_CONNECTION=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - ASPNETCORE_URLS=http://oi-int:5003
+      - DBPROVIDER=MySql
+    entrypoint: 
+      - "/app/StartOpenIddict.sh"
+      - "db" 
+      - "3306"
+      
   ui-int:
     build:
-      context: .
-      dockerfile: ui.Dockerfile
+      context: ../AdminUI
+    #  args:
+    #    - DATABASE_CONNECTION=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;    
+    #  dockerfile: ui.Dockerfile
+      dockerfile: uiFromLocallyPublished.Dockerfile
     expose:
       - "5000"
-    entrypoint: /app/DbStart.sh db 3306
+    entrypoint: 
+      - "/app/StartAdminUI.sh"
+      - "oi-int" 
+      - "5003"
     environment:
       - UiUrl=http://ui-int:5000
-      - AuthorityUrl=http://ids-int:5003
+      - AuthorityUrl=http://oi-int:5003
       - AddUserPassword=true
       - AdminUIClientSecret=DockerDemo
       - DbProvider=MySql
-      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
-      - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
-      - AuditRecordsConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
-      - DataProtectionConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
-      - OperationalConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=IdentityExpressDb;
+      - IdentityConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;  # For now, for some reason, this cannot be blank
+      - OpenIddictConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - AuditRecordsConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - DataProtectionConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+      - OperationalConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
       - RequireHttpsMetadata=false
-      - TargetIdentityServer4=false
       - LoggingProvider=Docker
       - LoggingMinimumLevel=Info
       - LoggingOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
       - LicenseKey=${DEMOLICENSEKEY}
+      - ASPNETCORE_URLS=http://ui-int:5000
+      - DATABASE_CONNECTION=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
+  
   ui-tests:
     build:
       context: .
       dockerfile: uiTests.Dockerfile
     volumes: 
       - ./logs:/logs # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
-      #- ./:/logs    # In this folder on host, map all to a volume named [logs] in the root of the container. Create folders if not present. BAD, as it will clog storage
+      - ./:/logs    # In this folder on host, map all to a volume named [logs] in the root of the container. Create folders if not present. BAD, as it will clog storage
     depends_on:
-      - ids-int
+      - oi-int
       - ui-int

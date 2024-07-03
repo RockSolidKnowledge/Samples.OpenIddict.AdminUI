@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/playwright/dotnet:v1.39.0-jammy AS build-n-publish
+# FROM mcr.microsoft.com/playwright/dotnet:v1.39.0-jammy AS build-n-publish
+FROM mcr.microsoft.com/playwright/dotnet:v1.44.0-jammy AS build-n-publish
 
 WORKDIR /src
 
@@ -11,12 +12,12 @@ RUN dotnet publish "TestService.csproj" -c Release -o /app/publish /p:UseAppHost
 FROM build-n-publish as final
 WORKDIR /app
 COPY --from=build-n-publish /app/publish .
-COPY ./TestService.csproj .
+# COPY ./TestService.csproj .
 
 WORKDIR /src
 
-COPY TestStart.sh .
-COPY wait-for-it.sh .
+COPY ./TestStart.sh .
+COPY ./wait-for-it.sh .
 
 RUN chmod +x TestStart.sh
 RUN chmod +x wait-for-it.sh

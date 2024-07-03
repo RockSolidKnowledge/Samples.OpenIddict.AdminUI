@@ -1,0 +1,225 @@
+warn: Microsoft.Extensions.DependencyInjection.IServiceCollection[0]
+      No Key Persistence Enable, Keys May Refresh On App Restart
+warn: Microsoft.Extensions.DependencyInjection.IServiceCollection[0]
+      Protection Not Configured - Please Make Sure You Have Database Level Encryption Turned On
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (55ms) [Parameters=[@__entityStore_AdminApiScope_Name_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictScopes] AS [o]
+              WHERE [o].[Name] = @__entityStore_AdminApiScope_Name_0) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__entityStore_AdminApiReadOnlyScope_Name_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictScopes] AS [o]
+              WHERE [o].[Name] = @__entityStore_AdminApiReadOnlyScope_Name_0) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__entityStore_UiPublicScope_Name_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictScopes] AS [o]
+              WHERE [o].[Name] = @__entityStore_UiPublicScope_Name_0) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__entityStore_AdminUiProfileScope_Name_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictScopes] AS [o]
+              WHERE [o].[Name] = @__entityStore_AdminUiProfileScope_Name_0) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@__entityStore_AdminUiClient_ClientId_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [o].[Id], [o].[ApplicationType], [o].[ClientId], [o].[ClientSecret], [o].[ClientType], [o].[ConcurrencyToken], [o].[ConsentType], [o].[DisplayName], [o].[DisplayNames], [o].[JsonWebKeySet], [o].[Permissions], [o].[PostLogoutRedirectUris], [o].[Properties], [o].[RedirectUris], [o].[Requirements], [o].[Settings]
+      FROM [OpenIddictApplications] AS [o]
+      WHERE [o].[ClientId] = @__entityStore_AdminUiClient_ClientId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (26ms) [Parameters=[@__NormalizeName_0_contains='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved], [a0].[UserId], [a0].[RoleId]
+      FROM [AspNetRoles] AS [a]
+      LEFT JOIN [AspNetUserRoles] AS [a0] ON [a].[Id] = [a0].[RoleId]
+      WHERE [a].[NormalizedName] LIKE @__NormalizeName_0_contains ESCAPE N'\'
+      ORDER BY [a].[Name], [a].[Id], [a0].[UserId]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__roleId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[Id] = @__roleId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AspNetRoles] ([Id], [ConcurrencyStamp], [Description], [Name], [NormalizedName], [Reserved])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [AspNetUsers] AS [a]
+warn: Microsoft.EntityFrameworkCore.Query[20504]
+      Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (20ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[AccessFailedCount], [t].[ConcurrencyStamp], [t].[Email], [t].[EmailConfirmed], [t].[FirstName], [t].[IsBlocked], [t].[IsDeleted], [t].[LastName], [t].[LockoutEnabled], [t].[LockoutEnd], [t].[NormalizedEmail], [t].[NormalizedFirstName], [t].[NormalizedLastName], [t].[NormalizedUserName], [t].[PasswordHash], [t].[PhoneNumber], [t].[PhoneNumberConfirmed], [t].[SecurityStamp], [t].[TwoFactorEnabled], [t].[UserName], [t0].[UserId], [t0].[RoleId], [t0].[Id], [t0].[ConcurrencyStamp], [t0].[Description], [t0].[Name], [t0].[NormalizedName], [t0].[Reserved], [t1].[Id], [t1].[ClaimType], [t1].[ClaimValue], [t1].[UserId], [t1].[Id0], [t1].[ConcurrencyStamp], [t1].[Description], [t1].[DisplayName], [t1].[Name], [t1].[NormalizedName], [t1].[Required], [t1].[Reserved], [t1].[Rule], [t1].[RuleValidationFailureDescription], [t1].[UserEditable], [t1].[ValueType], [a4].[LoginProvider], [a4].[ProviderKey], [a4].[ProviderDisplayName], [a4].[UserId], [a5].[UserId], [a5].[LoginProvider], [a5].[Name], [a5].[Value]
+      FROM (
+          SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[IsBlocked], [a].[IsDeleted], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedFirstName], [a].[NormalizedLastName], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+          FROM [AspNetUsers] AS [a]
+          WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+      ) AS [t]
+      LEFT JOIN (
+          SELECT [a0].[UserId], [a0].[RoleId], [a1].[Id], [a1].[ConcurrencyStamp], [a1].[Description], [a1].[Name], [a1].[NormalizedName], [a1].[Reserved]
+          FROM [AspNetUserRoles] AS [a0]
+          INNER JOIN [AspNetRoles] AS [a1] ON [a0].[RoleId] = [a1].[Id]
+      ) AS [t0] ON [t].[Id] = [t0].[UserId]
+      LEFT JOIN (
+          SELECT [a2].[Id], [a2].[ClaimType], [a2].[ClaimValue], [a2].[UserId], [a3].[Id] AS [Id0], [a3].[ConcurrencyStamp], [a3].[Description], [a3].[DisplayName], [a3].[Name], [a3].[NormalizedName], [a3].[Required], [a3].[Reserved], [a3].[Rule], [a3].[RuleValidationFailureDescription], [a3].[UserEditable], [a3].[ValueType]
+          FROM [AspNetUserClaims] AS [a2]
+          INNER JOIN [AspNetClaimTypes] AS [a3] ON [a2].[ClaimType] = [a3].[Name]
+      ) AS [t1] ON [t].[Id] = [t1].[UserId]
+      LEFT JOIN [AspNetUserLogins] AS [a4] ON [t].[Id] = [a4].[UserId]
+      LEFT JOIN [AspNetUserTokens] AS [a5] ON [t].[Id] = [a5].[UserId]
+      ORDER BY [t].[Id], [t0].[UserId], [t0].[RoleId], [t0].[Id], [t1].[Id], [t1].[Id0], [a4].[LoginProvider], [a4].[ProviderKey], [a5].[UserId], [a5].[LoginProvider]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (DbType = Int32), @p2='?' (Size = 4000), @p3='?' (Size = 256), @p4='?' (DbType = Boolean), @p5='?' (Size = 4000), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?' (Size = 4000), @p9='?' (DbType = Boolean), @p10='?' (DbType = DateTimeOffset), @p11='?' (Size = 256), @p12='?' (Size = 256), @p13='?' (Size = 256), @p14='?' (Size = 256), @p15='?' (Size = 4000), @p16='?' (Size = 4000), @p17='?' (DbType = Boolean), @p18='?' (Size = 4000), @p19='?' (DbType = Boolean), @p20='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [ConcurrencyStamp], [Email], [EmailConfirmed], [FirstName], [IsBlocked], [IsDeleted], [LastName], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedFirstName], [NormalizedLastName], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [TwoFactorEnabled], [UserName])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (23ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[AccessFailedCount], [t].[ConcurrencyStamp], [t].[Email], [t].[EmailConfirmed], [t].[FirstName], [t].[IsBlocked], [t].[IsDeleted], [t].[LastName], [t].[LockoutEnabled], [t].[LockoutEnd], [t].[NormalizedEmail], [t].[NormalizedFirstName], [t].[NormalizedLastName], [t].[NormalizedUserName], [t].[PasswordHash], [t].[PhoneNumber], [t].[PhoneNumberConfirmed], [t].[SecurityStamp], [t].[TwoFactorEnabled], [t].[UserName], [t0].[UserId], [t0].[RoleId], [t0].[Id], [t0].[ConcurrencyStamp], [t0].[Description], [t0].[Name], [t0].[NormalizedName], [t0].[Reserved], [t1].[Id], [t1].[ClaimType], [t1].[ClaimValue], [t1].[UserId], [t1].[Id0], [t1].[ConcurrencyStamp], [t1].[Description], [t1].[DisplayName], [t1].[Name], [t1].[NormalizedName], [t1].[Required], [t1].[Reserved], [t1].[Rule], [t1].[RuleValidationFailureDescription], [t1].[UserEditable], [t1].[ValueType], [a4].[LoginProvider], [a4].[ProviderKey], [a4].[ProviderDisplayName], [a4].[UserId], [a5].[UserId], [a5].[LoginProvider], [a5].[Name], [a5].[Value]
+      FROM (
+          SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[IsBlocked], [a].[IsDeleted], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedFirstName], [a].[NormalizedLastName], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+          FROM [AspNetUsers] AS [a]
+          WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+      ) AS [t]
+      LEFT JOIN (
+          SELECT [a0].[UserId], [a0].[RoleId], [a1].[Id], [a1].[ConcurrencyStamp], [a1].[Description], [a1].[Name], [a1].[NormalizedName], [a1].[Reserved]
+          FROM [AspNetUserRoles] AS [a0]
+          INNER JOIN [AspNetRoles] AS [a1] ON [a0].[RoleId] = [a1].[Id]
+      ) AS [t0] ON [t].[Id] = [t0].[UserId]
+      LEFT JOIN (
+          SELECT [a2].[Id], [a2].[ClaimType], [a2].[ClaimValue], [a2].[UserId], [a3].[Id] AS [Id0], [a3].[ConcurrencyStamp], [a3].[Description], [a3].[DisplayName], [a3].[Name], [a3].[NormalizedName], [a3].[Required], [a3].[Reserved], [a3].[Rule], [a3].[RuleValidationFailureDescription], [a3].[UserEditable], [a3].[ValueType]
+          FROM [AspNetUserClaims] AS [a2]
+          INNER JOIN [AspNetClaimTypes] AS [a3] ON [a2].[ClaimType] = [a3].[Name]
+      ) AS [t1] ON [t].[Id] = [t1].[UserId]
+      LEFT JOIN [AspNetUserLogins] AS [a4] ON [t].[Id] = [a4].[UserId]
+      LEFT JOIN [AspNetUserTokens] AS [a5] ON [t].[Id] = [a5].[UserId]
+      ORDER BY [t].[Id], [t0].[UserId], [t0].[RoleId], [t0].[Id], [t1].[Id], [t1].[Id0], [a4].[LoginProvider], [a4].[ProviderKey], [a5].[UserId], [a5].[LoginProvider]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@__roleId_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[ConcurrencyStamp], [t].[Description], [t].[Name], [t].[NormalizedName], [t].[Reserved], [a0].[UserId], [a0].[RoleId]
+      FROM (
+          SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+          FROM [AspNetRoles] AS [a]
+          WHERE [a].[Id] = @__roleId_0
+      ) AS [t]
+      LEFT JOIN [AspNetUserRoles] AS [a0] ON [t].[Id] = [a0].[RoleId]
+      ORDER BY [t].[Id], [a0].[UserId]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Description], [a].[Name], [a].[NormalizedName], [a].[Reserved]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@p5='?' (Size = 450), @p0='?' (Size = 4000), @p6='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (Size = 256), @p3='?' (Size = 256), @p4='?' (DbType = Boolean), @p7='?' (Size = 450), @p8='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      UPDATE [AspNetRoles] SET [ConcurrencyStamp] = @p0, [Description] = @p1, [Name] = @p2, [NormalizedName] = @p3, [Reserved] = @p4
+      OUTPUT 1
+      WHERE [Id] = @p5 AND [ConcurrencyStamp] IS NULL;
+      INSERT INTO [AspNetUserRoles] ([RoleId], [UserId])
+      VALUES (@p7, @p8);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictScopes] AS [o]
+              WHERE [o].[Name] = N'admin_ui_webhooks') THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__clientId_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [OpenIddictApplications] AS [o]
+              WHERE [o].[ClientId] = @__clientId_0) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@p0='?' (Size = 450), @p1='?' (Size = 4000), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (Size = 4000), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (Size = 4000), @p13='?' (Size = 4000), @p14='?' (Size = 4000), @p15='?' (Size = 4000), @p16='?' (Size = 450), @p17='?' (Size = 4000), @p18='?' (Size = 4000), @p19='?' (Size = 4000), @p20='?' (Size = 4000), @p21='?' (Size = 4000), @p22='?' (Size = 4000), @p23='?' (Size = 4000), @p24='?' (Size = 4000), @p25='?' (Size = 450), @p26='?' (Size = 4000), @p27='?' (Size = 4000), @p28='?' (Size = 4000), @p29='?' (Size = 4000), @p30='?' (Size = 4000), @p31='?' (Size = 4000), @p32='?' (Size = 4000), @p33='?' (Size = 4000), @p34='?' (Size = 450), @p35='?' (Size = 4000), @p36='?' (Size = 4000), @p37='?' (Size = 4000), @p38='?' (Size = 4000), @p39='?' (Size = 4000), @p40='?' (Size = 4000), @p41='?' (Size = 4000), @p42='?' (Size = 4000), @p43='?' (Size = 450), @p44='?' (Size = 4000), @p45='?' (Size = 4000), @p46='?' (Size = 4000), @p47='?' (Size = 4000), @p48='?' (Size = 4000), @p49='?' (Size = 4000), @p50='?' (Size = 4000), @p51='?' (Size = 4000), @p52='?' (Size = 450), @p53='?' (Size = 4000), @p54='?' (Size = 4000), @p55='?' (Size = 4000), @p56='?' (Size = 4000), @p57='?' (Size = 4000), @p58='?' (Size = 4000), @p59='?' (Size = 4000), @p60='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [OpenIddictApplications] ([Id], [ApplicationType], [ClientId], [ClientSecret], [ClientType], [ConcurrencyToken], [ConsentType], [DisplayName], [DisplayNames], [JsonWebKeySet], [Permissions], [PostLogoutRedirectUris], [Properties], [RedirectUris], [Requirements], [Settings])
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15);
+      INSERT INTO [OpenIddictScopes] ([Id], [ConcurrencyToken], [Description], [Descriptions], [DisplayName], [DisplayNames], [Name], [Properties], [Resources])
+      VALUES (@p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24),
+      (@p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33),
+      (@p34, @p35, @p36, @p37, @p38, @p39, @p40, @p41, @p42),
+      (@p43, @p44, @p45, @p46, @p47, @p48, @p49, @p50, @p51),
+      (@p52, @p53, @p54, @p55, @p56, @p57, @p58, @p59, @p60);
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://localhost:5000
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5086
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\RichardNgwa\source\repos\Samples.OpenIddict.AdminUI\AdminUI
+info: IdentityExpress.Manager.BusinessLogic.Logic.Licensing.LicenseValidationService[0]
+      Validating License
+info: IdentityExpress.Manager.Services.HealthCheckService[0]
+      CheckUi
+info: IdentityExpress.Manager.Controllers.HealthCheckController[0]
+      UI check succeeded
+info: IdentityExpress.Manager.Services.HealthCheckService[0]
+      CheckIdentityServer https://localhost:5003
+info: System.Net.Http.HttpClient.Default.LogicalHandler[100]
+      Start processing HTTP request GET https://localhost:5003/.well-known/openid-configuration
+info: System.Net.Http.HttpClient.Default.ClientHandler[100]
+      Sending HTTP request GET https://localhost:5003/.well-known/openid-configuration
+info: System.Net.Http.HttpClient.Default.ClientHandler[101]
+      Received HTTP response headers after 72.812ms - 200
+info: System.Net.Http.HttpClient.Default.LogicalHandler[101]
+      End processing HTTP request after 111.8114ms - 200
+info: System.Net.Http.HttpClient.Default.LogicalHandler[100]
+      Start processing HTTP request GET https://localhost:5003/.well-known/jwks
+info: System.Net.Http.HttpClient.Default.ClientHandler[100]
+      Sending HTTP request GET https://localhost:5003/.well-known/jwks
+info: System.Net.Http.HttpClient.Default.ClientHandler[101]
+      Received HTTP response headers after 31.6828ms - 200
+info: System.Net.Http.HttpClient.Default.LogicalHandler[101]
+      End processing HTTP request after 31.8779ms - 200
+info: IdentityExpress.Manager.Controllers.HealthCheckController[0]
+      IdentityServer is reachable

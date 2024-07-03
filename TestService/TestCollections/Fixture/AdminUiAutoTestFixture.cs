@@ -9,7 +9,7 @@ namespace TestService.TestCollections.Fixture
         public AdminUiHomePage? AdminUiHomePage { get; set; }
         public IBrowser? Browser { get; set; } = null!;
         public IBrowserContext? BrowserContext { get; set; }
-        public static bool Headless { get; set; } = false;
+        public static bool Headless { get; set; } = true;
         public string? CurrentUserEmail { get; set; }
         public string? CurrentRoleName { get; set; }
         public string? CurrentClientName { get; set; }
