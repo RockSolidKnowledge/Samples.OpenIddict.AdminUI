@@ -32,7 +32,7 @@ namespace TestService.Pages
         {
             DateTime now = DateTime.Now;
 
-            await CurrentPage.ScreenshotAsync(new(){Path = $"/logs/{caller}-{now.Hour}{now.Minute}{now.Second}-{now.Millisecond}.png"});
+            await CurrentPage.ScreenshotAsync(new(){Path = $"/log/{caller}-{now.Hour}{now.Minute}{now.Second}-{now.Millisecond}.png"});
         }
     }
 }

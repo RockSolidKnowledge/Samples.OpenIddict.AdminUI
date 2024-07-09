@@ -53,7 +53,7 @@ services:
       context: .
       dockerfile: uiTests.Dockerfile
     volumes: 
-      - ./logs:/logs # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
+      - ./log:/log # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
     depends_on:
       - ids-int
       - ui-int

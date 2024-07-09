@@ -6,7 +6,7 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: filePath
-      filePath: $(Build.SourcesDirectory)/TestService/startIdS.ps1
+      filePath: $(Build.SourcesDirectory)/TestService/start.ps1
       arguments: ${{ parameters.database }}
       workingDirectory: $(Build.SourcesDirectory)/TestService
 
@@ -15,7 +15,7 @@ steps:
     inputs:
       testResultsFormat: 'XUnit'
       testResultsFiles: '*.xml'
-      searchFolder: '$(Build.SourcesDirectory)/TestService/logs'
+      searchFolder: '$(Build.SourcesDirectory)/TestService/log'
       testRunTitle: 'Playwright Integration Tests on ${{ parameters.database }}'
 
   - task: PublishPipelineArtifact@1
