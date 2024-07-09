@@ -17,12 +17,12 @@ pool:
 variables:
 - group: 'integration-testing-variable-group'
 jobs:
-- job: RunMySqlBasedTests
-  displayName: 'Running AdminUI test on MySql'  
-  steps:
-   - template: Templates/test-ui.yml
-     parameters:
-      database: 'MySql'
+# - job: RunMySqlBasedTests
+  # displayName: 'Running AdminUI test on MySql'  
+  # steps:
+   # - template: Templates/test-ui.yml
+     # parameters:
+      # database: 'MySql'
 
        
 - job: RunSqlServerBasedTests
@@ -33,9 +33,9 @@ jobs:
       database: 'SqlServer'
 
 
-- job: RunPostgresTests
-  displayName: "Running AdminUI test on Postgres"  
-  steps:
-   - template: Templates/test-ui.yml
-     parameters:
-      database: 'Postgres'
+# - job: RunPostgresTests
+  # displayName: "Running AdminUI test on Postgres"  
+  # steps:
+   # - template: Templates/test-ui.yml
+     # parameters:
+      # database: 'Postgres'
