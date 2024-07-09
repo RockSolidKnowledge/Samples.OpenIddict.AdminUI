@@ -8,45 +8,52 @@ services:
     container_name: postgres-db  
     environment:
       - POSTGRES_PASSWORD=Welkom1234!
-  ids-int:
-    image: rocksolidknowledge/identityserver-demo
+      
+  oi-int: # OpenIddict
+    build:
+      context: ../Rsk.Samples.OpenIddict.AdminUI
+      dockerfile: oi.Dockerfile
     expose:
       - "5003"
     environment:
-      - DbProvider=PostgreSql
-      - IdentityConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - IdentityServerConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
+      - DbProvider=MySql
+      - ConnectionStrings__DefaultConnection=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
+      - DbProvider=MySql
+      - ASPNETCORE_URLS=http://oi-int:5003      
+    entrypoint: 
+      - "/app/StartOpenIddict.sh"
+      - "db" 
+      - "5432"
+      
   ui-int:
     build:
-      context: .
-      dockerfile: ui.Dockerfile
+      context: ../AdminUI
+    # Eventually, the dockerfile will build from an image. Currently we are building and publishing locally and the uiFromLocallyPublished.Dockerfile is simply copying the binaries onto the container.   
+    #  dockerfile: ui.Dockerfile
+      dockerfile: uiFromLocallyPublished.Dockerfile
     expose:
       - "5000"
-    entrypoint: /app/DbStart.sh db 5432
+    entrypoint: 
+      - "/app/StartAdminUI.sh"
+      - "oi-int" 
+      - "5003"
     environment:
       - UiUrl=http://ui-int:5000
-      - AuthorityUrl=http://ids-int:5003
-      - AddUserPassword=true
-      - AdminUIClientSecret=DockerDemo
-      - DbProvider=PostgreSql
+      - AuthorityUrl=http://oi-int:5003
       - IdentityConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
       - IdentityServerConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - AuditRecordsConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - DataProtectionConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - OperationalConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - RequireHttpsMetadata=false
-      - TargetIdentityServer4=false
-      - LoggingProvider=Docker
-      - LoggingMinimumLevel=Info
-      - LoggingOutputTemplate=[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
+      - OpenIddictConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
+      - LoggingOutputTemplate=[{"ui-int"} {Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
+      - DbProvider=SqlServer
       - LicenseKey=${DEMOLICENSEKEY}
+      - ASPNETCORE_URLS=http://ui-int:5000
+
   ui-tests:
     build:
       context: .
       dockerfile: uiTests.Dockerfile
     volumes: 
       - ./logs:/logs # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
-      #- ./:/logs    # In this folder on host, map all to a volume named [logs] in the root of the container. Create folders if not present. BAD, as it will clog storage
     depends_on:
       - ids-int
       - ui-int
