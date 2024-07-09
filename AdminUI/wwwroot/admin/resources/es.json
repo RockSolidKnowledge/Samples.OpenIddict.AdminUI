@@ -438,7 +438,7 @@
     "Role": "Rol",
     "NewRole": "Nuevo Rol",
     "AddRole": "Añadir rol",
-    "TrimWhitespaceHelp":  "Cualquier espacio en blanco, al principio o final del nombre, será eliminado",
+    "TrimWhitespaceHelp": "Cualquier espacio en blanco, al principio o final del nombre, será eliminado",
     "AddAnother": "Añadir otro Rol después de enviar",
     "AddAnotherInfo": "Si seleccionas <strong>Añadir otro Rol después de enviar</strong>, el cuadro de diálogo se abrirá después de crear un Rol para que puedas añadir otro fácilmente.",
     "CloseReturnsRoleList": "Con la opción <strong>Añadir</strong>, se cerrará este cuadro y volverás a la lista de roles.",
@@ -929,7 +929,8 @@
       "Refresh": "Uso del token de actualización",
       "OneTime": "Solo una vez",
       "ReUse": "Reutilizar",
-      "Expiration": "Vencimiento de token de actualización",
+      "EnableSliding": "Activar la Expiración Deslizante del Token",
+      "EnableSlidingHelp": "Establecer la expiración del token en deslizante habilitando el valor para la vida útil de la expiración deslizante junto con la absoluta",
       "Absolute": "Absoluto",
       "Sliding": "Sliding",
       "AllowOfflineAccess": "Permitir el acceso sin conexión",
@@ -964,7 +965,7 @@
       "BackChannelLogoutSessionRequiredHelp": "Habilitar para enviar el identificador de sesión durante un cierre de sesión único",
       "BackChannelLogoutUriHelp": "El IdentityServer de punto final llamará a través de HTTP cuando se active el cierre de sesión único",
       "UserCodeHelp": "Anular el tipo predeterminado",
-	    "AllowedIdentityTokenSigningAlgorithms": "Algoritmos de firma de token de identidad permitidos",
+      "AllowedIdentityTokenSigningAlgorithms": "Algoritmos de firma de token de identidad permitidos",
       "Durations": {
         "Seconds": "segundos",
         "SecondsShort": "s",
@@ -1347,7 +1348,7 @@
         "OIDC": {
           "Name": "Proveedor OIDC",
           "Title": "Proveedor OpenID Connect",
-          "Description":  "Un proveedor que usa OpenID Connect para autenticar a los usuarios. <br/>La documentación para añadir proveedores se encuentra <a class=\"tw-inline-block tw-text-blue-500 hover:tw-text-body trans\" href=\"documentation/DynamicAuthentication/Adding_a_Oidc_Dynamic_Provider.html\" target=\"_blank\">aquí</a>."
+          "Description": "Un proveedor que usa OpenID Connect para autenticar a los usuarios. <br/>La documentación para añadir proveedores se encuentra <a class=\"tw-inline-block tw-text-blue-500 hover:tw-text-body trans\" href=\"documentation/DynamicAuthentication/Adding_a_Oidc_Dynamic_Provider.html\" target=\"_blank\">aquí</a>."
         },
         "SAML": {
           "Name": "Proveedor SAML",
@@ -1697,6 +1698,8 @@
     "NoSessionsFound": "No se ha encontrado ninguna sesión"
   },
   "StarterMode": {
+    "BasicSetup": "Configuración Básica",
+    "EnterpriseSetup": "Configuración Enterprise",
     "RequiresUpgrade": "Requiere actualización desde la licencia Starter",
     "UpgradeAdminUI": "Actualizar a AdminUI Enterprise",
     "ExtendDemo": "Extender la Licencia de Demostración",
@@ -1737,8 +1740,6 @@
       }
     },
     "Clients": {
-      "Basic": "Configuración Básica",
-      "Enterprise": "Configuración Enterprise",
       "ExtraClientFlows": "más flujos de aplicaciones cliente"
     }
   }

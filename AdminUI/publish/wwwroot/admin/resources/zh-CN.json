@@ -389,7 +389,7 @@
       "RevokeAll": "全部撤销",
       "DontRevokeAll": "否，不全部撤销",
       "RevokeConfirm": "您是否希望撤销所有应用在此账户上的访问权限?",
-      "DataEncrypted" : "由于 IdentityServer 数据保护配置，可能不会在此处显示范围"
+      "DataEncrypted": "由于 IdentityServer 数据保护配置，可能不会在此处显示范围"
     },
     "AssignedRoles": "所分配的角色",
     "LockoutEnabled": "锁定已启用",
@@ -930,7 +930,8 @@
       "Refresh": "Refresh 令牌 用法",
       "OneTime": "一次性",
       "ReUse": "重用",
-      "Expiration": "Refresh 令牌 逾期",
+      "EnableSliding": "启用滑动令牌到期",
+      "EnableSlidingHelp": "将令牌到期设置为滑动，使滑动到期生命周期的值与绝对值一起启用",
       "Absolute": "Absolute",
       "Sliding": "滑动",
       "AllowOfflineAccess": "允许离线访问",
@@ -1055,9 +1056,9 @@
       "Created": "Web应用程序已创建",
       "Secrets": "输入一些密钥（可选）"
     },
-    "PKCENativeApp":{
+    "PKCENativeApp": {
       "Setup": "设置本地应用程序",
-      "Title": "本地", 
+      "Title": "本地",
       "Summary": "授权代码流 + PKCE",
       "Description": "在用户设备上运行的桌面或移动应用程序。<br />这些应用程序不能被信任，可能泄露密钥，但可以使用刷新令牌。<br />令牌可见性取决于浏览器和重定向 URI 选择。",
       "Created": "已创建本地应用程序",
@@ -1143,7 +1144,7 @@
       "ArtifactDeliveryBindingTypeHelp": "工件如何通过前端通道传递",
       "NameIdentifierFormat": "名称标识符格式",
       "NameIdentifierFormatHelp": "控制身份提供者的用户在单点登录期间映射到服务提供者的用户",
-      "DefaultSamlRequestSigning":"默认/全局"
+      "DefaultSamlRequestSigning": "默认/全局"
     },
     "WsFed": {
       "Setup": "设置WS联合身份验证依赖方",
@@ -1702,6 +1703,8 @@
     "NoSessionsFound": "未找到会话"
   },
   "StarterMode": {
+    "BasicSetup": "基本设置",
+    "EnterpriseSetup": "企业设置",
     "RequiresUpgrade": "需要从 Starter 许可证升级",
     "UpgradeAdminUI": "升级到 AdminUI 企业版",
     "ExtendDemo": "延长演示许可证",
@@ -1742,8 +1745,6 @@
       }
     },
     "Clients": {
-      "Basic": "基本设置",
-      "Enterprise": "企业设置",
       "ExtraClientFlows": "更多客户端应用程序流程"
     }
   }

@@ -1,9 +1,9 @@
 {
   "Common": {
-    "LicenseIsInGracePeriod" : "Votre licence a expiré, veuillez renouveler votre abonnement par {0} afin de continuer à utiliser AdminUI",
-    "PolicyWithUTCNotice" : "<br/>Les dates de politique d'accès sélectionnées sont en UTC",
+    "LicenseIsInGracePeriod": "Votre licence a expiré, veuillez renouveler votre abonnement par {0} afin de continuer à utiliser AdminUI",
+    "PolicyWithUTCNotice": "<br/>Les dates de politique d'accès sélectionnées sont en UTC",
     "Dates": {
-      "UTCWarning" : "Les dates sélectionnées sont en UTC"
+      "UTCWarning": "Les dates sélectionnées sont en UTC"
     },
     "Saving": "Enregistrement en cours",
     "Confirm": "Confirmer",
@@ -270,7 +270,7 @@
     "IdP": "Fournisseur d'identité (IdP)"
   },
   "Errors": {
-    "UnableToCompilePolicy" : "Impossible de compiler la stratégie d'autorisation, veuillez consulter les journaux ou contacter un administrateur",
+    "UnableToCompilePolicy": "Impossible de compiler la stratégie d'autorisation, veuillez consulter les journaux ou contacter un administrateur",
     "NotFoundTitle": "Erreur 404",
     "NotFoundDescription": "Cette page ou cette ressource est introuvable.",
     "ForbiddenTitle": "Erreur 403",
@@ -334,8 +334,8 @@
     "MinimumSearchLength": "Le terme recherché doit comporter au moins 2 caractères",
     "Filter": {
       "Active": "Actif",
-      "IncludeClaims" : "Inclure les valeurs de réclamation",
-      "IncludeClaimsHelp" : "Recherche sur les valeurs de réclamation de l'utilisateur. Peut affecter la performance.",
+      "IncludeClaims": "Inclure les valeurs de réclamation",
+      "IncludeClaimsHelp": "Recherche sur les valeurs de réclamation de l'utilisateur. Peut affecter la performance.",
       "Blocked": "Bloqué",
       "Label": "Afficher uniquement les utilisateurs qui sont",
       "Deleted": "Supprimés",
@@ -457,7 +457,7 @@
     "Role": "Rôle",
     "NewRole": "Nouveau rôle",
     "AddAnother": "Ajouter un autre rôle après l'envoi",
-	"TrimWhitespaceHelp":  "Tous les espaces sera coupé dès le début et à la fin du nom", 
+    "TrimWhitespaceHelp": "Tous les espaces sera coupé dès le début et à la fin du nom",
     "AddAnotherInfo": "Si vous sélectionnez <strong>Ajouter un autre rôle après l'envoi</strong> , cette boîte de dialogue restera ouverte après la création d'un rôle et vous pourrez facilement en ajouter un autre.",
     "CloseReturnsRoleList": "Si vous sélectionnez<strong> Ajouter</strong> , cette boîte de dialogue sera fermée et vous retournez à la liste des rôles.",
     "RoleRemoved": "Le rôle a été supprimé",
@@ -527,9 +527,9 @@
     "ResourceName": "Nom de ressource utilisé dans l'interface utilisateur Admin",
     "ResourceDescription": "Description de la ressource utilisée dans l'interface utilisateur Admin",
     "UpdatedSuccess": "La ressource a bien été mise à jour",
-	"RequireResourceIndicator": "Indicateur de ressources requises",
-    "Failed" : "Échec de la mise à jour de la ressource",
-	"RequireResourceIndicatorHelp": "Garantit que cette ressource ne peut être demandée que lorsque la demande inclut le paramètre de ressource. Garantit que les jetons ne contiendront que cette ressource en tant qu'audience.",
+    "RequireResourceIndicator": "Indicateur de ressources requises",
+    "Failed": "Échec de la mise à jour de la ressource",
+    "RequireResourceIndicatorHelp": "Garantit que cette ressource ne peut être demandée que lorsque la demande inclut le paramètre de ressource. Garantit que les jetons ne contiendront que cette ressource en tant qu'audience.",
     "Scope": {
       "NewScope": "Nouvelle portée pour",
       "DisplayName": "Nom de la portée qui sera visible sur les écrans de consentement",
@@ -575,7 +575,7 @@
     "Secrets": "Entrez quelques secrets pour l'introspection (facultatif)",
     "UserClaimTypes": "Types de demande de l'utilisateur à inclure dans les tokens S'applique à toutes les portées pour la ressource.",
     "AddScope": "Ajouter une portée",
-    "AddSharedScope" : "Attribuer des périmètres partagés",
+    "AddSharedScope": "Attribuer des périmètres partagés",
     "ProtectedResource": "ressource protégée ?",
     "ClientAccess": "Sélectionnez les ressources protégées auxquelles ce client peut accéder",
     "NoneFound": "Aucune ressource protégée n'a été trouvée",
@@ -583,7 +583,7 @@
   },
   "Clients": {
     "SearchPlaceholder": "Le nom du client commence par...",
-    "ScopePickerSharedScopeWarning" : "(*) Utilisé par plus d'une ressource protégée",
+    "ScopePickerSharedScopeWarning": "(*) Utilisé par plus d'une ressource protégée",
     "ArsEndpoints": "Points de terminaison ARS",
     "Export": {
       "ExportAll": "Exporter tout",
@@ -934,7 +934,8 @@
       "Refresh": "Actualiser l'utilisation du token",
       "OneTime": "Une fois seulement",
       "ReUse": "Réutiliser",
-      "Expiration": "Actualiser l'expiration du token",
+      "EnableSliding": "Activer l'Expiration Glissante du Jeton",
+      "EnableSlidingHelp": "Définir l'expiration du jeton sur glissante en activant la valeur pour la durée de vie de l'expiration glissante aux côtés de la durée de vie absolue",
       "Absolute": "Absolu",
       "Sliding": "Glissant",
       "AllowOfflineAccess": "Autoriser l'accès hors ligne",
@@ -969,7 +970,7 @@
       "BackChannelLogoutSessionRequiredHelp": "Activer pour envoyer l'ID de session lors de la déconnexion unique",
       "BackChannelLogoutUriHelp": "Endpoint IdentityServer appellera via HTTP lorsque la déconnexion unique est déclenchée",
       "UserCodeHelp": "Remplacer le type par défaut",
-	  "AllowedIdentityTokenSigningAlgorithms": "Algorithmes de signature de jetons d'identité autorisés",
+      "AllowedIdentityTokenSigningAlgorithms": "Algorithmes de signature de jetons d'identité autorisés",
       "Durations": {
         "Seconds": "secondes",
         "SecondsShort": "s",
@@ -1136,7 +1137,7 @@
       "RequireRequestDestinationHelp": "Les demandes entrantes nécessitent une destination afin qu'IdentityServer puisse confirmer qu'il s'agit du destinataire prévu",
       "AddEndpoint": "Ajouter point d'arrivée",
       "AddClaimMapping": "Ajouter un mappage de revendication",
-	  "RequireRequestsSigned": "Exiger la signature de la demande d'authentification",
+      "RequireRequestsSigned": "Exiger la signature de la demande d'authentification",
       "RequireRequestsSignedHelp": "Exiger des demandes signées du fournisseur de services. Cela remplace le paramètre global 'WantAuthenticationRequestsSigned'",
       "ACSEndpointHelpTitle": "Points de terminaison de service consommateur d'assertion",
       "ACSEndpointsHelpBody": "Les points de terminaison du fournisseur de services auxquels les réponses et les assertions SAML seront envoyées",
@@ -1238,7 +1239,6 @@
       "ReachableWarning": "Avertissement : Impossible d’obtenir le document de découverte. Cela pourrait signifier que cette autorité n’est pas valide.",
       "ReachableWarningTitle": "Validation d'autorité",
       "ReachableWarningMsg": "Impossible d'obtenir le document de découverte à l'adresse du point de terminaison standard, cela pourrait signifier que cette autorité est invalide."
-
     },
     "ClientId": {
       "Label": "ID Client",
@@ -1706,6 +1706,8 @@
     "NoSessionsFound": "Aucune session trouvée"
   },
   "StarterMode": {
+    "BasicSetup": "Configuration de Base",
+    "EnterpriseSetup": "Configuration Entreprise",
     "RequiresUpgrade": "Nécessite une mise à niveau depuis la licence Starter",
     "UpgradeAdminUI": "Mettre à jour vers AdminUI Enterprise",
     "ExtendDemo": "Prolonger la Licence de Démo",
@@ -1746,8 +1748,6 @@
       }
     },
     "Clients": {
-      "Basic": "Configuration de Base",
-      "Enterprise": "Configuration Entreprise",
       "ExtraClientFlows": "plus de flux d'applications clientes"
     }
   }

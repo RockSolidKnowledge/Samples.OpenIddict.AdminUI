@@ -205,7 +205,8 @@
     "None": "None",
     "Help": "Help",
     "ReadOnlyModeWarningTitle": "Read-Only Mode:",
-    "Documentation": "Documentation"
+    "Documentation": "Documentation",
+    "AllowedScopes": "Allowed Scopes"
   },
   "Nav": {
     "SkipToContent": "Skip to content",
@@ -944,7 +945,8 @@
       "RefreshHelp": "One time only is recommended for security best practice",
       "OneTime": "One Time Only",
       "ReUse": "Reuse",
-      "Expiration": "Refresh Token Expiration",
+      "EnableSliding": "Enable Sliding Token Expiry",
+      "EnableSlidingHelp": "Set token expiration to sliding enabling the value for sliding expiration lifetime alongside the absolute one",
       "Absolute": "Absolute",
       "SlidingRefreshTokenLifetime": "Sliding Refresh Token Lifetime",
       "Sliding": "Sliding",
@@ -1198,7 +1200,10 @@
     "ArsEndpointHelp": "ARS endpoint URL. These protocols rely upon TLS in production",
     "BindingType": "Binding Type",
     "BindingTypeHelp": "Binding type for the endpoint",
-    "IndexHelp": "Index of the endpoint"
+    "IndexHelp": "Index of the endpoint",
+    "Scopes": {
+      "Select": "Select scopes to assign to this client application"
+    }
   },
   "DynamicAuth": {
     "Title": {
@@ -1379,6 +1384,7 @@
     "Wizard": {
       "Setup": "Setup a Dynamic Authentication provider",
       "Title": "Add a Dynamic Authentication provider",
+      "Description": "Choose an dynamic auth type from the list to find out more.<br />Then click \"Start\" to begin setup.",
       "TypeSelectStep": {
         "OIDC": {
           "Name": "OIDC Provider",
@@ -1699,6 +1705,8 @@
     "NoSessionsFound": "No Sessions Found"
   },
   "StarterMode": {
+    "BasicSetup": "Basic setup",
+    "EnterpriseSetup": "Enterprise setup",
     "RequiresUpgrade": "Requires upgrade from starter license",
     "UpgradeAdminUI": "Upgrade to AdminUI Enterprise",
     "ExtendDemo": "Extend Demo License",
@@ -1739,8 +1747,6 @@
       }
     },
     "Clients": {
-      "Basic": "Basic setup",
-      "Enterprise": "Enterprise setup",
       "ExtraClientFlows": "more Client application flows"
     }
   }

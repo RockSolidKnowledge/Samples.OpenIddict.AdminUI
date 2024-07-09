@@ -485,7 +485,7 @@
     "UpdateUnauthorized": "您沒有修改此角色所需之權限",
     "DeleteUnauthorized": "您沒有移除此角色所需之權限",
     "AddRole": "添加角色",
-	"TrimWhitespaceHelp":  "名稱的開頭和結尾將修剪所有空格"
+    "TrimWhitespaceHelp": "名稱的開頭和結尾將修剪所有空格"
   },
   "Claims": {
     "Title": "宣告",
@@ -928,7 +928,8 @@
       "Refresh": "Refresh Token 用法",
       "OneTime": "一次性",
       "ReUse": "重覆使用",
-      "Expiration": "Refresh Token 逾期",
+      "EnableSliding": "啟用滑動令牌到期",
+      "EnableSlidingHelp": "將令牌到期設置為滑動，啟用滑動到期生命週期的值與絕對值一起",
       "Absolute": "絕對",
       "Sliding": "滑動",
       "AllowOfflineAccess": "允許離線存取",
@@ -963,7 +964,7 @@
       "BackChannelLogoutSessionRequiredHelp": "啟動在單一登出期間發送工作階段ID",
       "BackChannelLogoutUriHelp": "觸發單一登出時，Endpoint IdentityServer將被HTTP召集",
       "UserCodeHelp": "覆蓋默認類型",
-	    "AllowedIdentityTokenSigningAlgorithms": "允許的身份令牌簽名算法",
+      "AllowedIdentityTokenSigningAlgorithms": "允許的身份令牌簽名算法",
       "Durations": {
         "Seconds": "秒",
         "SecondsShort": "s",
@@ -1701,6 +1702,8 @@
     "NoSessionsFound": "未找到工作階段"
   },
   "StarterMode": {
+    "BasicSetup": "基本設置",
+    "EnterpriseSetup": "企業設置",
     "RequiresUpgrade": "需要從 Starter 許可證升級",
     "UpgradeAdminUI": "升級到 AdminUI 企業版",
     "ExtendDemo": "延長示範許可證",
@@ -1741,8 +1744,6 @@
       }
     },
     "Clients": {
-      "Basic": "基本設置",
-      "Enterprise": "企業設置",
       "ExtraClientFlows": "更多客戶端應用程序流程"
     }
   }

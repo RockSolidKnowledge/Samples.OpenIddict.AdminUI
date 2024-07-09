@@ -340,7 +340,7 @@
     "AddUser": "Benutzer hinzufügen",
     "NewUser": "Neuer Benutzer",
     "SearchUser": "Nach einem Benutzer suchen ...",
-    "MinimumSearchLength":"Die minimale Suchlänge beträgt 2 Zeichen",
+    "MinimumSearchLength": "Die minimale Suchlänge beträgt 2 Zeichen",
     "Filter": {
       "Active": "Aktiv",
       "Blocked": "Gesperrt",
@@ -494,7 +494,7 @@
     "UnassignUnauthorized": "Sie haben nicht die erforderlichen Berechtigungen, um diese Rolle aufzuheben",
     "UpdateUnauthorized": "Sie haben nicht die erforderlichen Berechtigungen, um diese Rolle zu aktualisieren",
     "DeleteUnauthorized": "Sie haben nicht die erforderlichen Berechtigungen, um diese Rolle zu löschen.",
-	"TrimWhitespaceHelp":  "Alle Leerzeichen werden vom Anfang und Ende des Namens abgeschnitten"
+    "TrimWhitespaceHelp": "Alle Leerzeichen werden vom Anfang und Ende des Namens abgeschnitten"
   },
   "Claims": {
     "Add": "Anspruchstyp hinzufügen",
@@ -932,13 +932,14 @@
       "PairWiseSubjectSalt": "Pairwise Subject Salt",
       "FrontChannelLogoutSessionRequired": "Front Channel Logout Session Required",
       "AccessTokenType": "Zugriffs-Tokentyp",
-	    "AllowedIdentityTokenSigningAlgorithms": "Akzeptable Identitätsalgorithmen für Zugriffstoken",
+      "AllowedIdentityTokenSigningAlgorithms": "Akzeptable Identitätsalgorithmen für Zugriffstoken",
       "Jwt": "JWT",
       "Reference": "Referenz",
       "Refresh": "Nutzung von Aktualisierungs-Token",
       "OneTime": "Nur einmalig",
       "ReUse": "Wiederverwenden",
-      "Expiration": "Ablauf von Aktualisierungs-Token",
+      "EnableSliding": "Aktivieren Sie die Gleitende Token-Ablaufzeit",
+      "EnableSlidingHelp": "Legen Sie die Token-Ablaufzeit auf Gleitend fest, indem Sie den Wert für die Gleitende Ablaufzeit neben der absoluten festlegen",
       "Absolute": "Absolut",
       "Sliding": "Gleitend",
       "AllowOfflineAccess": "Offlinezugriff erlauben",
@@ -1708,6 +1709,8 @@
     "NoSessionsFound": "Keine Sitzungen gefunden"
   },
   "StarterMode": {
+    "BasicSetup": "Grundlegende Konfiguration",
+    "EnterpriseSetup": "Unternehmenskonfiguration",
     "RequiresUpgrade": "Erfordert ein Upgrade von der Starterlizenz",
     "UpgradeAdminUI": "Auf AdminUI Enterprise aktualisieren",
     "ExtendDemo": "Demo-Lizenz verlängern",
@@ -1748,8 +1751,6 @@
       }
     },
     "Clients": {
-      "Basic": "Grundlegende Konfiguration",
-      "Enterprise": "Unternehmenskonfiguration",
       "ExtraClientFlows": "weitere Client-Anwendungsflüsse"
     }
   }
