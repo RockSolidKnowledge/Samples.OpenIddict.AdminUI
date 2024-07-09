@@ -12,18 +12,12 @@ services:
     build:
       context: ../Rsk.Samples.OpenIddict.AdminUI
       dockerfile: oi.Dockerfile
-      # args:
-        # - DATABASE_CONNECTION=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-        # - DbProvider=SqlServer        
     expose:
       - "5003"
     environment:
-#      - IdentityConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-#      - OpenIddictConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - ConnectionStrings__DefaultConnection=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - DbProvider=SqlServer        
       - ASPNETCORE_URLS=http://oi-int:5003
-      - ASPNETCORE_ENVIRONMENT=Development
     entrypoint: 
       - "/app/StartOpenIddict.sh"
       - "db" 
@@ -32,9 +26,8 @@ services:
   ui-int:
     build:
       context: ../AdminUI
-      # args:
-        # - DATABASE_CONNECTION=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-    #  dockerfile: ui.Dockerfile
+    # Eventually, the dockerfile will build from an image. Currently we are building and publishing locally and the uiFromLocallyPublished.Dockerfile is simply copying the binaries onto the container.   
+    #  dockerfile: ui.Dockerfile 
       dockerfile: uiFromLocallyPublished.Dockerfile
     expose:
       - "5000"
@@ -48,23 +41,17 @@ services:
       - IdentityConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - IdentityServerConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - OpenIddictConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-      #- AuditRecordsConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-      #- DataProtectionConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-      #- OperationalConnectionString=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - LoggingOutputTemplate=[{"ui-int"} {Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
       - DbProvider=SqlServer
       - LicenseKey=${DEMOLICENSEKEY}
       - ASPNETCORE_URLS=http://ui-int:5000
-      - ASPNETCORE_ENVIRONMENT=Development
-      #- DATABASE_CONNECTION=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-  
+      
   ui-tests:
     build:
       context: .
       dockerfile: uiTests.Dockerfile
     volumes: 
       - ./logs:/logs # In this folder on host, map all in sub-folder named [logs] to a volume named [logs] in the root of the container. Create folders if not present.
-      - ./:/logs    # In this folder on host, map all to a volume named [logs] in the root of the container. Create folders if not present. BAD, as it will clog storage
     depends_on:
       - oi-int
       - ui-int
