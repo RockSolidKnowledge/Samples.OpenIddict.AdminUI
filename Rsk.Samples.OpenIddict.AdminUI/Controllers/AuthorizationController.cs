@@ -268,7 +268,10 @@ public class AuthorizationController : Controller
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
     [HttpGet("~/connect/logout")]
-    public IActionResult Logout() => View();
+    public async Task<IActionResult> Logout()
+    {
+        return await LogoutPost();
+    }
 
     [ActionName(nameof(Logout)), HttpPost("~/connect/logout"), ValidateAntiForgeryToken]
     public async Task<IActionResult> LogoutPost()

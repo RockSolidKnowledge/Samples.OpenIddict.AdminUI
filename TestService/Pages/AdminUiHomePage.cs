@@ -18,13 +18,11 @@ namespace TestService.Pages
             return await CurrentPage.Locator("#metaMenu").Locator("div").Locator("div").Locator($"div:nth-child({SignedInUserDiv})").Locator($"span:nth-child({SignedInUserSpan})").InnerTextAsync();
         }
 
-        public async Task<LogoutConfirmationPage> Logout()
+        public async Task<WelcomePage> Logout()
         {
             await CurrentPage.GetByRole(AriaRole.Button, new() { Name = " Logout " }).ClickAsync();
 
-            await CurrentPage.GetByRole(AriaRole.Button, new(){ Name = "Yes" }).WaitForAsync();
-            
-            return new LogoutConfirmationPage(CurrentPage);
+            return new WelcomePage(CurrentPage);
         }
 
         public async Task<UsersPage> GotoTheUsersView()
