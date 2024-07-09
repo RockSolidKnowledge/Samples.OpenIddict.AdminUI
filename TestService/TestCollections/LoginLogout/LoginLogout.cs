@@ -48,9 +48,8 @@ namespace TestService.TestCollections.LoginLogout
             User user = AdminUiAutoTestFixture.TestUser;
 
             await LoginToAdminUi(user.EmailAddress)
-                .AndThen(p => p.Logout())
-                .AndThen(p => p.AcceptToLogout());
-
+                .AndThen(p => p.Logout());
+                
             var cookieCount = (await TestFixture.Browser!.Contexts[0].CookiesAsync()).Count(c => c.Name.StartsWith("AdminUI"));
             cookieCount.Should().Be(0);
         }
