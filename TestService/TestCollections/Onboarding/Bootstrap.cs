@@ -27,8 +27,7 @@ namespace TestService.TestCollections.Onboarding
                 .AndThen(p => p.SetPassword(password))
                 .AndThen(p => p.SetConfirmedPassword(password))
                 .AndThen(p => p.Save())
-                .AndThen(p => p.Login())
-                .AndThen(p => p.AcceptToLogout());
+                .AndThen(p => p.Login());
 
             await LoginToAdminUi(testUser.EmailAddress);
 

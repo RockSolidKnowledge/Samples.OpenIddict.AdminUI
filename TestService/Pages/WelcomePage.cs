@@ -124,28 +124,26 @@ namespace TestService.Pages
 
                 public class SuccessPage(IPage page) : TestPage(page)
                 {
-                    public async Task<LogoutConfirmationPage> Login()
+                    public async Task<WelcomePage> Login()
                     {
                         await CurrentPage.ClickAsync("#loginBtn");
 
-                        await CurrentPage.GetByRole(AriaRole.Button, new(){Name = "Yes"}).WaitForAsync();
-
-                        return new LogoutConfirmationPage(CurrentPage);
+                        return new WelcomePage(CurrentPage);
                     }
                 }
             }
         }
     }
 
-    public class LogoutConfirmationPage(IPage page) : TestPage(page)
-    {
-        public async Task<WelcomePage> AcceptToLogout()
-        {
-            await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Yes" }).ClickAsync();
+    //public class LogoutConfirmationPage(IPage page) : TestPage(page)
+    //{
+    //    public async Task<WelcomePage> AcceptToLogout()
+    //    {
+    //        await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Yes" }).ClickAsync();
 
-            await CurrentPage.Locator("app-landing-page").Locator("#loginBtn").WaitForAsync();
+    //        await CurrentPage.Locator("app-landing-page").Locator("#loginBtn").WaitForAsync();
 
-            return new WelcomePage(CurrentPage);
-        }
-    }
+    //        return new WelcomePage(CurrentPage);
+    //    }
+    //}
 }
