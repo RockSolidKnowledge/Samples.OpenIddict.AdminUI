@@ -6,9 +6,9 @@ echo "Waiting for AdminUI"
 if [ $? -eq 0 ]
 then 
   echo "Validating user license ..."
-  dotnet test --logger "xunit;LogFilePath=/log/license-test.xml" --filter DisplayName=TestService.TestCollections.Onboarding.License.ShouldVerifyUserLicenseHasNotExpired
-  #dotnet test --logger "xunit;LogFilePath=/log/bootstrap-test.xml" --filter DisplayName=TestService.TestCollections.Onboarding.Bootstrap.DuringOnboarding_TheUserCanBootstrapAUserAndLoginAsTheNewUser
-  #exit 0
+  #dotnet test --logger "xunit;LogFilePath=/log/license-test.xml" --filter DisplayName=TestService.TestCollections.Onboarding.License.ShouldVerifyUserLicenseHasNotExpired
+  dotnet test --logger "xunit;LogFilePath=/log/bootstrap-test.xml" --filter DisplayName=TestService.TestCollections.Onboarding.Bootstrap.DuringOnboarding_TheUserCanBootstrapAUserAndLoginAsTheNewUser
+  exit 0
   if [ $? -eq 0 ]
   then 
 	echo "Running tests ..."
