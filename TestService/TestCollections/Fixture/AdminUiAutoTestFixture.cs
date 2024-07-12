@@ -9,7 +9,7 @@ namespace TestService.TestCollections.Fixture
         public AdminUiHomePage? AdminUiHomePage { get; set; }
         public IBrowser? Browser { get; set; } = null!;
         public IBrowserContext? BrowserContext { get; set; }
-        public static bool Headless { get; set; } = true;
+        public static bool Headless { get; set; } = false;
         public string? CurrentUserEmail { get; set; }
         public string? CurrentRoleName { get; set; }
         public string? CurrentClientName { get; set; }
@@ -36,7 +36,7 @@ namespace TestService.TestCollections.Fixture
             // TODO: Create environment variables BrowserType and HeadlessMode on the host. Read these at this point and launch the browser type in the headless mode.  
             Browser ??= await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions()
             {
-                Headless = Headless,
+                Headless = RunningInDocker || Headless,
             });
 
             BrowserContext = await Browser.NewContextAsync(new BrowserNewContextOptions()
@@ -45,5 +45,7 @@ namespace TestService.TestCollections.Fixture
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
             });
         }
+
+        public static bool RunningInDocker => Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
     }
 }
