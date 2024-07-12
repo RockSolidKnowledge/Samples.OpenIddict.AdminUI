@@ -1749,5 +1749,51 @@
     "Clients": {
       "ExtraClientFlows": "more Client application flows"
     }
+  },
+  "Scopes" : {
+    "Title": "Scopes",
+    "SearchPlaceholder": "Name or Display name contains...",
+    "NoneFound": "No scopes found",
+    "DefaultLanguage": "Default Language",
+    "Success": {
+      "Created": "Scope Created",
+      "Updated": "Scope Updated",
+      "Deleted": "Scope Deleted"
+    },
+    "Wizard": {
+      "Title": "Add a Scope",
+      "Setup": "Setup a Scope",
+      "EnterBasicDetails": "Enter some basic details",
+      "ResourcesStep": "Add resources"
+    },
+    "Name": {
+      "Label": "Name",
+      "Help": "Unique name of the scope"
+    },
+    "DisplayName": {
+      "Label": "Display Name",
+      "Help": "Friendly name of the scope"
+    },
+    "Description": {
+      "Label": "Description",
+      "Help": "Description of the scope"
+    },
+    "Resources": {
+      "Label": "Assigned Resources",
+      "Help": "Resources that include this scope",
+      "Placeholder": "Enter resource...",
+      "MustSpecifyResource": "Resource not specified",
+      "CannotHaveSpaces": "Resources cannot contain whitespaces",
+      "AlreadyAdded": "This resource has already been added"
+    },
+    "ClaimTypes": {
+      "Label": "Assigned Claims",
+      "Help": "User claim types to be included in tokens"
+    },
+    "Properties": {
+      "EmptyMessage": "Properties are empty.",
+      "DeleteProperty": "Confirm Delete Property",
+      "AddProperty": "Add Property"
+    }
   }
 }
