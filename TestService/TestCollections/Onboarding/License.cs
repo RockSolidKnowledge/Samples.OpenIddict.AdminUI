@@ -16,7 +16,7 @@ namespace TestService.TestCollections.Onboarding
                 .AndThen(p => p.SetUserEmail("info@rocksolidknowledge.com"))
                 .AndThen(p => p.SetPassword(AdminUiAutoTestFixture.DefaultPassword))
                 .AndThen(p => p.LoginToBootstrapAdminUser())
-                .AndThen(p => p.GetLicenseInfo());
+                .AndThen(p => p.GetLicenseInfo(AdminUiAutoTestFixture.RunningInDocker ? "http://ui-int:5000" : "https://localhost:5000"));
 
             page.Should().NotBeNull();
 

@@ -27,11 +27,7 @@ namespace TestService
         {
             IPage page = await TestFixture.BrowserContext!.NewPageAsync();
 
-            // For running locally (not in docker) 
-            //await page.GotoAsync("https://localhost:5000");
-
-            // For running in a docker container
-            await page.GotoAsync("http://ui-int:5000"); 
+            await page.GotoAsync(AdminUiAutoTestFixture.RunningInDocker ? "http://ui-int:5000" : "https://localhost:5000");
 
             return new WelcomePage(page);
         }
