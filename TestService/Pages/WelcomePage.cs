@@ -25,6 +25,20 @@ namespace TestService.Pages
             {
                 await CurrentPage.Locator("#Input_Email").FillAsync(userEmail);
 
+                //try
+                //{
+                //    // This item is never available when the test user tries to login after being bootstrapped! The page is just a WHITE canvas! We are giving it more time to refresh  
+                //    await CurrentPage.Locator("#Input_Email").WaitForAsync(new() { Timeout = 60000 });
+                    
+                //    await CurrentPage.Locator("#Input_Email").FillAsync(userEmail);
+                //    await Screenshot("OILPageSetUserEmail");
+                //}
+                //catch (Exception)
+                //{
+                //    await Screenshot("OILPageSetUserEmailEx");
+                //    throw;
+                //}
+
                 return this;
             }
 
@@ -113,11 +127,9 @@ namespace TestService.Pages
                     return new SuccessPage(CurrentPage);
                 }
 
-                public async Task<LicensePage?> GetLicenseInfo()
+                public async Task<LicensePage?> GetLicenseInfo(string url)
                 {
-                    var response = await CurrentPage.GotoAsync("http://ui-int:5000/license");
-
-                    //var response = await CurrentPage.GotoAsync("https://localhost:5000/license");
+                    var response = await CurrentPage.GotoAsync(url);
 
                     return response != null ? new LicensePage(CurrentPage, response) : null;
                 }
