@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
+using Microsoft.DotNet.Scaffolding.Shared;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
@@ -28,19 +31,22 @@ public class AuthorizationController : Controller
     private readonly IOpenIddictScopeManager _scopeManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ILogger<AuthorizationController> _logger;
 
     public AuthorizationController(
         IOpenIddictApplicationManager applicationManager,
         IOpenIddictAuthorizationManager authorizationManager,
         IOpenIddictScopeManager scopeManager,
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        ILogger<AuthorizationController> logger)
     {
         _applicationManager = applicationManager;
         _authorizationManager = authorizationManager;
         _scopeManager = scopeManager;
         _signInManager = signInManager;
         _userManager = userManager;
+        _logger = logger;
     }
 
     [HttpGet("~/connect/authorize")]
@@ -96,6 +102,8 @@ public class AuthorizationController : Controller
             });
         }
 
+        // Added for investigative reasons: In docker, after bootstrapping and transitioning to the Welcome Page and clicking the Login button we are redirected to the IdS! 
+        _logger.LogError("The principal: " + result?.Principal?.Identity?.Name);
         // Retrieve the profile of the logged in user.
         var user = await _userManager.GetUserAsync(result.Principal) ??
             throw new InvalidOperationException("The user details cannot be retrieved.");
