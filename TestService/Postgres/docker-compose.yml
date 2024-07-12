@@ -47,6 +47,7 @@ services:
       - DbProvider=SqlServer
       - LicenseKey=${DEMOLICENSEKEY}
       - ASPNETCORE_URLS=http://ui-int:5000
+      - RequireHttpsMetadata=false
 
   ui-tests:
     build:
