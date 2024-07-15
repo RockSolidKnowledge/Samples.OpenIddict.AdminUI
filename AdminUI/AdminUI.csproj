@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-	<PackageReference Include="Rsk.AdminUI.OpenIddict" Version="9.0.0-alpha.79783" />
+	<PackageReference Include="Rsk.AdminUI.OpenIddict" Version="9.0.0-alpha.79802" />
   </ItemGroup>
 
 </Project>
