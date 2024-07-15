@@ -25,20 +25,6 @@ namespace TestService.Pages
             {
                 await CurrentPage.Locator("#Input_Email").FillAsync(userEmail);
 
-                //try
-                //{
-                //    // This item is never available when the test user tries to login after being bootstrapped! The page is just a WHITE canvas! We are giving it more time to refresh  
-                //    await CurrentPage.Locator("#Input_Email").WaitForAsync(new() { Timeout = 60000 });
-                    
-                //    await CurrentPage.Locator("#Input_Email").FillAsync(userEmail);
-                //    await Screenshot("OILPageSetUserEmail");
-                //}
-                //catch (Exception)
-                //{
-                //    await Screenshot("OILPageSetUserEmailEx");
-                //    throw;
-                //}
-
                 return this;
             }
 
@@ -146,16 +132,4 @@ namespace TestService.Pages
             }
         }
     }
-
-    //public class LogoutConfirmationPage(IPage page) : TestPage(page)
-    //{
-    //    public async Task<WelcomePage> AcceptToLogout()
-    //    {
-    //        await CurrentPage.GetByRole(AriaRole.Button, new() { Name = "Yes" }).ClickAsync();
-
-    //        await CurrentPage.Locator("app-landing-page").Locator("#loginBtn").WaitForAsync();
-
-    //        return new WelcomePage(CurrentPage);
-    //    }
-    //}
 }
