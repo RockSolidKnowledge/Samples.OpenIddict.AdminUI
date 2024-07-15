@@ -18,8 +18,6 @@ services:
       - ConnectionStrings__DefaultConnection=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
       - DbProvider=SqlServer        
       - ASPNETCORE_URLS=http://oi-int:5003
-#      - Logging__LogLevel__Default=Debug
-#      - Logging__LogLevel__Microsoft=Debug
     entrypoint: 
       - "/app/StartOpenIddict.sh"
       - "db" 

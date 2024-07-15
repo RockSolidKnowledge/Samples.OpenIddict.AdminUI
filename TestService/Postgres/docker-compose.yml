@@ -18,7 +18,6 @@ services:
     environment:
       - DbProvider=MySql
       - ConnectionStrings__DefaultConnection=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - DbProvider=MySql
       - ASPNETCORE_URLS=http://oi-int:5003      
     entrypoint: 
       - "/app/StartOpenIddict.sh"
