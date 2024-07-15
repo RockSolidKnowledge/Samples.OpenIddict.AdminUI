@@ -23,4 +23,3 @@ COPY ./wait-for-it.sh .
 RUN chmod +x StartAdminUI.sh
 RUN chmod +x wait-for-it.sh
 
-# ENTRYPOINT ["./StartAdminUI.sh" "oi-int" "5003"] 
