@@ -15,7 +15,6 @@ services:
     environment:
       - DbProvider=MySql
       - ConnectionStrings__DefaultConnection=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
-      - DbProvider=MySql
       - ASPNETCORE_URLS=http://oi-int:5003      
     entrypoint: 
       - "/app/StartOpenIddict.sh"
