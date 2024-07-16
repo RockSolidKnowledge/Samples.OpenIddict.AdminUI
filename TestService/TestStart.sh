@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
   
 echo "Waiting for AdminUI"
-./wait-for-it.sh ui-int:5000 -t 360
+./wait-for-it.sh admin-ui:5000 -t 360
 
 if [ $? -eq 0 ]
 then 
