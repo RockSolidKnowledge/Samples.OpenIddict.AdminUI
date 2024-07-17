@@ -95,7 +95,7 @@ public class AuthorizationController : Controller
                 RedirectUri = Request.PathBase + Request.Path + QueryString.Create(parameters)
             });
         }
-
+        
         // Retrieve the profile of the logged in user.
         var user = await _userManager.GetUserAsync(result.Principal) ??
             throw new InvalidOperationException("The user details cannot be retrieved.");
@@ -268,7 +268,10 @@ public class AuthorizationController : Controller
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
     [HttpGet("~/connect/logout")]
-    public IActionResult Logout() => View();
+    public async Task<IActionResult> Logout(string logoutId)
+    {
+        return await LogoutPost();
+    }
 
     [ActionName(nameof(Logout)), HttpPost("~/connect/logout"), ValidateAntiForgeryToken]
     public async Task<IActionResult> LogoutPost()
