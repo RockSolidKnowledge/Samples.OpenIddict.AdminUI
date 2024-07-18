@@ -18,7 +18,7 @@ services:
       - "5003"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db,1433;User Id=sa;Pwd=Welkom1234#;Database=OpenIddictDb;TrustServerCertificate=True;
-      - DbProvider=SqlServer        
+      - ConnectionStrings__DbProvider=SqlServer        
       - ASPNETCORE_URLS=http://open-iddict:5003
     entrypoint: 
       - "/app/StartOpenIddict.sh"

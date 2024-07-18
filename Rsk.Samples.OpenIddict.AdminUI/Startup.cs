@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenIddict.Sandbox.AspNetCore.Server.Services;
 using Quartz;
+using System;
+using System.Reflection;
 using Velusia.Server.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -25,15 +27,43 @@ public class Startup
         services.AddControllersWithViews();
         services.AddRazorPages();
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        var connectionString = Configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
+        if (connectionString == null)
         {
-            options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            throw new Exception("Connection string is null");
+        }
 
-            // Register the entity sets needed by OpenIddict.
-            // Note: use the generic overload if you need
-            // to replace the default OpenIddict entities.
-            options.UseOpenIddict();
-        });
+        var provider = Configuration.GetValue<string>("ConnectionStrings:DbProvider");
+        if (provider == null)
+        {
+            throw new Exception("Database provider is null");
+        }
+
+        var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+        Action<DbContextOptionsBuilder> configure =
+            provider switch
+            {
+                "MySql" => b =>
+                {
+                    b.UseMySQL(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
+                    b.UseOpenIddict();
+                },
+                "SqlServer" => b =>
+                {
+                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
+                    b.UseOpenIddict();
+                },
+                "PostgreSQL" => b =>
+                {
+                    b.UseNpgsql(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
+                    b.UseOpenIddict();
+                },
+                _ => throw new InvalidOperationException($"Invalid database provider '{provider}' specified in configuration!")
+            };
+
+        //Required to replace in-memory user added via
+        services.AddDbContext<ApplicationDbContext>(configure);
 
         services.AddDatabaseDeveloperPageExceptionFilter();
         

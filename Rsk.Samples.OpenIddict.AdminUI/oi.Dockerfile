@@ -11,8 +11,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 #ENV DbProvider=$DBPROVIDER
 
 #ARG DATABASE_CONNECTION
-#ENV ConnectionStrings__DefaultConnection=$DATABASE_CONNECTION
-RUN echo "Db provider during build is:" $DbProvider
+#ENV ConnectionStrings__ConnectionString=$DATABASE_CONNECTION
+RUN echo "Db provider during build is:" $ConnectionStrings__DbProvider
 RUN echo "Default connection string during build is:" $ConnectionStrings__DefaultConnection
 
 EXPOSE 80
@@ -23,15 +23,15 @@ USER root
 
 WORKDIR /app
 
+# This also copies source to which we will add the ef migration, but only after the db service is ready. 
 COPY . .
-# RUN dotnet restore "./Rsk.Samples.OpenIddict.AdminUiIntegration.csproj"
 
 ENV PATH $PATH:/root/.dotnet/tools
 RUN dotnet tool install --global dotnet-ef --version 8.0.5
 
 RUN chmod +x StartOpenIddict.sh
 RUN chmod +x wait-for-it.sh
-RUN chmod +x DbUpdate.sh
+RUN chmod +x DbMigrations.sh
 RUN chmod +x Publish.sh
 
 # Still to establish how this user comes into play in AdminUI. The compose uses "root" user.

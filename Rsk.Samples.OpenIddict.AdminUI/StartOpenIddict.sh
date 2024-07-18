@@ -9,7 +9,7 @@ fi
 db=$1
 port=$2
 
-./wait-for-it.sh $db:$port -t 180 -- && printf "\n\nUpdating the database ...\n\n" && ./DbUpdate.sh && printf "\n\nPublishing OpenIddict ...\n\n" && ./Publish.sh && dotnet Rsk.Samples.OpenIddict.AdminUiIntegration.dll
+./wait-for-it.sh $db:$port -t 180 -- && printf "\n\nUpdating the database ...\n\n" && ./DbMigrations.sh && printf "\n\nPublishing OpenIddict ...\n\n" && ./Publish.sh && dotnet Rsk.Samples.OpenIddict.AdminUiIntegration.dll
 
 
 

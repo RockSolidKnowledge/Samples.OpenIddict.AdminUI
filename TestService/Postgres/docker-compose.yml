@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   db:
     image: postgres
@@ -18,8 +16,8 @@ services:
     expose:
       - "5003"
     environment:
-      - DbProvider=MySql
-      - ConnectionStrings__DefaultConnection=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
+      - ConnectionStrings__DbProvider=PostgreSQL
+      - ConnectionStrings__DefaultConnection=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
       - ASPNETCORE_URLS=http://open-iddict:5003      
     entrypoint: 
       - "/app/StartOpenIddict.sh"
@@ -43,11 +41,11 @@ services:
     environment:
       - UiUrl=http://admin-ui:5000
       - AuthorityUrl=http://open-iddict:5003
-      - IdentityConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - IdentityServerConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
-      - OpenIddictConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=IdentityExpressDb;
+      - IdentityConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
+      - IdentityServerConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
+      - OpenIddictConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
       - LoggingOutputTemplate=[{"admin-ui"} {Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
-      - DbProvider=SqlServer
+      - DbProvider=PostgreSQL
       - LicenseKey=${DEMOLICENSEKEY}
       - ASPNETCORE_URLS=http://admin-ui:5000
       - RequireHttpsMetadata=false

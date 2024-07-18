@@ -3,6 +3,7 @@ services:
     image: mysql:8 
     ports: 
       - "3306:3306"
+    container_name: mysql-db
     environment:
       - MYSQL_ROOT_PASSWORD=Welkom1234!
   
@@ -15,7 +16,7 @@ services:
     expose:
       - "5003"
     environment:
-      - DbProvider=MySql
+      - ConnectionStrings__DbProvider=MySql
       - ConnectionStrings__DefaultConnection=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
       - ASPNETCORE_URLS=http://open-iddict:5003      
     entrypoint: 
@@ -44,7 +45,7 @@ services:
       - IdentityServerConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;  # For now, for some reason, this cannot be blank
       - OpenIddictConnectionString=Server=db;Uid=root;Pwd=Welkom1234!;Database=OpenIddictDb;
       - LoggingOutputTemplate=[{"admin-ui"} {Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
-      - DbProvider=SqlServer
+      - DbProvider=MySql
       - LicenseKey=${DEMOLICENSEKEY}
       - ASPNETCORE_URLS=http://admin-ui:5000
       - RequireHttpsMetadata=false
