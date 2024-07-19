@@ -206,7 +206,17 @@
     "Help": "Help",
     "ReadOnlyModeWarningTitle": "Read-Only Mode:",
     "Documentation": "Documentation",
-    "AllowedScopes": "Allowed Scopes"
+    "AllowedScopes": "Allowed Scopes",
+    "NewSecretModal": {
+      "Title": "Update Secret Value",
+      "Description": "Add here your new secret value here",
+      "DescriptionAllowEmpty": "Add here your new secret value here, leave empty if you wish to remove secret"
+    },
+    "NothingSet": "Nothing set here!",
+    "AlreadyExists": {
+      "Title": "Already Exists!",
+      "Message": "has already been added."
+    }
   },
   "Nav": {
     "SkipToContent": "Skip to content",
@@ -1167,6 +1177,10 @@
       "SendTokens": "Can send tokens to this URL",
       "RedirectAfterLogout": "Can redirect to this URL after logout",
       "CORSDomain": "Domain that can make cross-origin requests",
+      "AlreadyExistsWarn": {
+        "Title": "Application URL Already Exists",
+        "Message": "Application URL '{{url}}' already configured, the configuration for this new URL will be applied to the existing one."
+      },
       "NoURLS": "Cannot have no redirect urls",
       "URLAddUnsuccessful": "There was a problem adding your URL",
       "AddURL": "Add URL",
@@ -1748,6 +1762,10 @@
     },
     "Clients": {
       "ExtraClientFlows": "more Client application flows"
+    },
+    "Nav": {
+      "QuotaLimitExceededEditGuardTitle": "Starter Mode {{resources}} Quota Exceeded",
+      "QuotaLimitExceededEditGuardMsg": "You have exceeded the limit for {{resources}} in AdminUI starter mode. You have been sent to the readonly view. Upgrade to AdminUI Enterprise or reduce the amount of clients in your database to use the {{resources}} edit views."
     }
   },
   "Scopes" : {
