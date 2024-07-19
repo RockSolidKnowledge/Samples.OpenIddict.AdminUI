@@ -59,7 +59,7 @@ public class Startup
                     b.UseNpgsql(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
                     b.UseOpenIddict();
                 },
-                _ => throw new InvalidOperationException($"Invalid database provider '{provider}' specified in configuration!")
+                _ => throw new InvalidOperationException($"Invalid database provider '{provider}' specified in configuration")
             };
 
         //Required to replace in-memory user added via
