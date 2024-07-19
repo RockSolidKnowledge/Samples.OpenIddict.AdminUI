@@ -1,0 +1,5 @@
+bin/
+obj/
+[Ll]ogs/
+Migrations/
+**.gitignore
