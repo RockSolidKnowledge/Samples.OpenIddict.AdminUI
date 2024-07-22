@@ -62,7 +62,6 @@ public class Startup
                 _ => throw new InvalidOperationException($"Invalid database provider '{provider}' specified in configuration")
             };
 
-        //Required to replace in-memory user added via
         services.AddDbContext<ApplicationDbContext>(configure);
 
         services.AddDatabaseDeveloperPageExceptionFilter();
