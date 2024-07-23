@@ -16,7 +16,7 @@ services:
     expose:
       - "5003"
     environment:
-      - ConnectionStrings__DbProvider=PostgreSQL
+      - ConnectionStrings__DbProvider=PostgreSql
       - ConnectionStrings__DefaultConnection=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
       - ASPNETCORE_URLS=http://open-iddict:5003      
     entrypoint: 
@@ -45,7 +45,7 @@ services:
       - IdentityServerConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
       - OpenIddictConnectionString=Server=db;User Id=postgres;Password=Welkom1234!;Database=OpenIddictDb;
       - LoggingOutputTemplate=[{"admin-ui"} {Timestamp:dd-MM-yyyy HH:mm:ss} {Level}] {Message}{NewLine}{Exception}
-      - DbProvider=PostgreSQL
+      - DbProvider=PostgreSql
       - LicenseKey=${DEMOLICENSEKEY}
       - ASPNETCORE_URLS=http://admin-ui:5000
       - RequireHttpsMetadata=false
