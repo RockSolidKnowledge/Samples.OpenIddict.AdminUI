@@ -54,7 +54,7 @@ public class Startup
                     b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
                     b.UseOpenIddict();
                 },
-                "PostgreSQL" => b =>
+                "PostgreSql" => b =>
                 {
                     b.UseNpgsql(connectionString, dbOpts => dbOpts.MigrationsAssembly(migrationsAssembly));
                     b.UseOpenIddict();
