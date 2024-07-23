@@ -1,3 +1,4 @@
+using System;
 using IdentityExpress.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,22 @@ public class Startup
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var openIddictConnectionString = Configuration.GetValue<string>("OpenIddictConnectionString");
+            
+            switch (Configuration.GetValue<string>("DbProvider"))
+            {
+                case "SqlServer":
+                    options.UseSqlServer(openIddictConnectionString);
+                    break;
+                case "MySql":
+                    options.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString));
+                    break;
+                case "PostgreSql":
+                    options.UseNpgsql(openIddictConnectionString);
+                    break;
+                default:
+                    throw new NotSupportedException("Unsupported database provider");
+            }
 
             // Register the entity sets needed by OpenIddict.
             // Note: use the generic overload if you need
