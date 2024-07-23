@@ -1,3 +1,4 @@
+using System;
 using IdentityExpress.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,8 +42,7 @@ public class Startup
                     options.UseNpgsql(openIddictConnectionString);
                     break;
                 default:
-                    options.UseSqlite(openIddictConnectionString);
-                    break;
+                    throw new NotSupportedException("Unsupported database provider");
             }
 
             // Register the entity sets needed by OpenIddict.
