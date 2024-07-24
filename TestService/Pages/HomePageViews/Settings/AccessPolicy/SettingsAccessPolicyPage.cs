@@ -1,5 +1,7 @@
 ﻿using Microsoft.Playwright;
 using TestService.Pages.HomePageViews.Clients;
+using TestService.TestCollections.HomePageViews.ClientsView;
+using static TestService.TestCollections.HomePageViews.ClientsView.SetupInfoFactory;
 
 namespace TestService.Pages.HomePageViews.Settings.AccessPolicy
 {
@@ -36,6 +38,39 @@ namespace TestService.Pages.HomePageViews.Settings.AccessPolicy
         public bool SuccessfullySaved()
         {
             return SaveSuccessful;
+        }
+
+        public async Task<bool> ConfirmConfiguredAccessPoliciesAreListed(List<AccessPolicySetupInfo> expectedAccessPolicies)
+        {
+            bool accessPoliciesListed = false;
+            int expectedListedCount = expectedAccessPolicies.Count;
+
+            if (expectedListedCount == 0)
+            {
+                return true;  // We have verified that there are no configured custom claim types in AdminUI appsettings.json
+            }
+
+            
+            var rows = await CurrentPage.Locator("tbody").Locator("tr").AllAsync();
+
+            var numberFound = 0;
+
+            foreach (var row in rows)
+            {
+                var type = await row.Locator("td").Nth(0).InnerTextAsync();
+                var value = await row.Locator("td").Nth(1).InnerTextAsync();
+
+                if (expectedAccessPolicies.Exists(p => p.ClaimType == type && p.Value == value ))
+                {
+                    if (++numberFound == expectedListedCount)
+                    {
+                        accessPoliciesListed = true;
+                        break;
+                    }
+                }
+            }
+        
+            return accessPoliciesListed;
         }
     }
 }

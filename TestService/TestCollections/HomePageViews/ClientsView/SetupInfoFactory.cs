@@ -222,33 +222,72 @@
             );
         }
 
-        public static WebhookSetupInfo CreateWebhookSetupInfo()
+        public static WebhooksConfig CreateWebhooksConfiguration()
         {
-            string client = Guid.NewGuid().ToString();
+            string host = "https://dosomething.com/";
 
-            return new WebhookSetupInfo
+
+            return new WebhooksConfig
             (
-                $"https://{client}.com/admin/mfa-reset/home",
-                "admin_ui_webhooks",
-                $"https://{client}.com/admin/pwd-reset/home",
-                "admin_ui_webhooks",
-                $"https://{client}/admin/user-reg/home",
-                "admin_ui_webhooks",
-                $"https://{client}/admin/my-sessions-can-be-deleted/home",
-                "admin_ui_webhooks"
+                "webhook-cli",
+                "webhook-cli",
+                [
+                    new Webhook
+                    (
+                        "MfaReset",
+                        $"{host}/mfa-reset",
+                        "scope-mfa"
+                    ),
+                    new Webhook
+                    (
+                        "PasswordReset",
+                        $"{host}/pass-reset",
+                        "scope-pres scope-b"
+                    ),
+                    new Webhook
+                    (
+                        "UserRegistration",
+                        $"{host}/usr-reg",
+                        "scope-ur"
+                    )
+                    ,
+                    new Webhook
+                    (
+                        "ServerSideSessionDelete",
+                        $"{host}/server-side-session",
+                        "scope-sss"
+                    )
+                ]
             );
         }
 
-        public record WebhookSetupInfo
+        public record WebhooksConfig
         (
-            string MFAResetUrl,
-            string MFAResetProtectingScope,
-            string PasswordResetUrl,
-            string PasswordResetProtectingScope,
-            string UserRegistrationUrl,
-            string UserRegistrationProtectingScope,
-            string ServersideSessionDeletionUrl,
-            string ServersideSessionDeletionProtectingScope
+            string ClientId,
+            string ClientSecret,
+            List<Webhook> Webhooks
+
+            //string MFAResetUrl,
+            //string MFAResetProtectingScope,
+            //string PasswordResetUrl,
+            //string PasswordResetProtectingScope,
+            //string UserRegistrationUrl,
+            //string UserRegistrationProtectingScope,
+            //string ServersideSessionDeletionUrl,
+            //string ServersideSessionDeletionProtectingScope
+        );
+
+        public record Webhook(
+            string Type,
+            string Url,
+            string Scopes
+            //string MFAResetProtectingScope,
+            //string PasswordResetUrl,
+            //string PasswordResetProtectingScope,
+            //string UserRegistrationUrl,
+            //string UserRegistrationProtectingScope,
+            //string ServersideSessionDeletionUrl,
+            //string ServersideSessionDeletionProtectingScope
         );
 
         public record AccessPolicySetupInfo

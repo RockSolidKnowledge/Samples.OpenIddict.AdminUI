@@ -13,27 +13,36 @@ namespace TestService.Pages.HomePageViews.ClaimTypes
             return new NewClaimTypeSetup(CurrentPage);
         }
 
-        public async Task<bool> ConfirmClaimsListed(List<string> expectedClaimTypes)
+        public async Task<bool> ConfirmConfiguredClaimTypesAreListed(List<string> expectedClaimTypes)
         {
-            if (expectedClaimTypes.Count == 0)
+            bool allConfiguredClaimTypesAreListed = false;
+            int expectedListedCount = expectedClaimTypes.Count;
+
+            if (expectedListedCount == 0)
             {
                 return true;  // We have verified that there are no configured custom claim types in AdminUI appsettings.json
             }
 
-            var allListedClaimTypes = new List<string>();
 
-            int rowCount = await CurrentPage.Locator(".tbody").Locator("tr").CountAsync();
+            var rows = await CurrentPage.Locator("tbody").Locator("tr").AllAsync();
 
-            for (int i = 0; i < rowCount; i++)
+            var numberFound = 0;
+
+            foreach (var row in rows)
             {
-                var listedCLaimName = await CurrentPage.Locator(".tbody").Locator("tr").Nth(i).Locator("td").Nth(1).InnerTextAsync();
+                var listedCLaimName = await row.Locator("td").Nth(0).InnerTextAsync();
+
                 if (expectedClaimTypes.Contains(listedCLaimName))
                 {
-                    expectedClaimTypes.Remove(listedCLaimName);
+                    if (++numberFound == expectedListedCount)
+                    {
+                        allConfiguredClaimTypesAreListed = true;
+                        break;
+                    }
                 }
             }
 
-            return expectedClaimTypes.Count == 0;
+            return allConfiguredClaimTypesAreListed;
         }
     }
 }

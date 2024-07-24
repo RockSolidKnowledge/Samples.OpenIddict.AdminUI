@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using TestService.Pages.HomePageViews.Clients;
+using TestService.TestCollections.HomePageViews.ClientsView;
 
 namespace TestService.Pages.HomePageViews.Settings.Webhooks
 {
@@ -183,6 +184,40 @@ namespace TestService.Pages.HomePageViews.Settings.Webhooks
         public bool SuccessfullySaved()
         {
             return SaveSuccessful;
+        }
+
+        public async Task<bool> ConfirmConfiguredWebhooksAreListedAndEnabled(SetupInfoFactory.WebhooksConfig webhooksConfig)
+        {
+            //bool allConfiguredWebhooksAreListed = false;
+            //int expectedListedCount = webhooksConfig.Webhooks.Count;
+
+            //if (expectedListedCount == 0)
+            //{
+            //    return true;  // We have verified that there are no configured custom claim types in AdminUI appsettings.json
+            //}
+
+
+            //var rows = await CurrentPage.Locator("app-readonly-webhook").AllAsync();
+
+            //var numberFound = 0;
+
+            //foreach (var row in rows)
+            //{
+            //    var listedCLaimName = await row.Locator("#singleCommaMainText").InnerTextAsync();
+
+            //    if (expectedClaimTypes.Contains(listedCLaimName))
+            //    {
+            //        if (++numberFound == expectedListedCount)
+            //        {
+            //            allConfiguredWebhooksAreListed = true;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //return allConfiguredWebhooksAreListed;
+
+            throw new NotImplementedException();
         }
     }
 }

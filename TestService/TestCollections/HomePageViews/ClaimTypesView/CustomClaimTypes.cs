@@ -14,16 +14,18 @@ namespace TestService.TestCollections.HomePageViews.ClaimTypesView
     public class CustomClaimTypes(AdminUiAutoTestFixture testFixture) : AdminUiTest(testFixture)
     {
         [Fact, Order(1)]
-        public async Task ConfiguredCustomClaimTypeArePresent()
+        public async Task ConfiguredCustomClaimTypesShouldBeListedInClaimTypesTable()
         {
-            var configuredClaimTypeNames = await GetCustomAdminUiClaimTypes();
+            //var configuredClaimTypeNames = await GetCustomAdminUiClaimTypes();
+            var configuredClaimTypeNames = new List<string>() { "playwright_test1", "playwright_test2" };
 
             bool customClaimsAreListed = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                                         .AndThen(p => p.GotoTheClaimTypesView())
-                                        .AndThen(p => p.ConfirmClaimsListed(configuredClaimTypeNames));
+                                        .AndThen(p => p.ConfirmConfiguredClaimTypesAreListed(configuredClaimTypeNames));
 
             customClaimsAreListed.Should().BeTrue();
         }
+
 
         private async Task<List<string>> GetCustomAdminUiClaimTypes()
         {
