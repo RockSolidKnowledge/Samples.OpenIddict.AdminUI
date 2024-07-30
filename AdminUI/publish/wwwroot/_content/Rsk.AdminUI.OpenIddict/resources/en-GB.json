@@ -216,7 +216,18 @@
     "AlreadyExists": {
       "Title": "Already Exists!",
       "Message": "has already been added."
-    }
+    },
+    "Claim": "Claim",
+    "Authorisation": "Authorisation",
+    "Revocation": "Revocation",
+    "Token": "Token",
+    "RefreshToken": "Refresh Token",
+    "Logout": "Logout",
+    "AuthorisationCode": "Authorisation Code",
+    "DeviceCode": "Device Code",
+    "UserCode": "User Code",
+    "AccessToken": "Access Token",
+    "IdentityToken": "Identity Token"
   },
   "Nav": {
     "SkipToContent": "Skip to content",
@@ -278,7 +289,15 @@
     "Webhooks": "Webhooks",
     "DynamicAuth": "Dynamic Authentication",
     "SP": "Service Provider (SP)",
-    "IdP": "Identity Provider (IdP)"
+    "IdP": "Identity Provider (IdP)",
+    "Apis": "APIs",
+    "Security": "Security",
+    "ApplicationUrls": "Application URLs",
+    "TokenRequest": "Token Request",
+    "AllowedScopes": "Allowed Scopes",
+    "Endpoints": "Endpoints",
+    "Lifetimes": "Lifetimes",
+    "Proeprties": "Properties"
   },
   "Errors": {
     "NotFoundTitle": "Error 404",
@@ -1217,6 +1236,35 @@
     "IndexHelp": "Index of the endpoint",
     "Scopes": {
       "Select": "Select scopes to assign to this client application"
+    },
+    "ApplicationType": {
+      "Label": "Application Type",
+      "Help": "Defaults to Web, allows you to opt into the relaxed redirect uris comparison that ignores ports"
+    },
+    "ClientType": {
+      "Label": "Client Type",
+      "Help": "Defaults to Web, allows you to opt into the relaxed redirect uris comparison that ignores ports"
+    },
+    "ConsentType": {
+      "Label": "Consent Type"
+    },
+    "ResponseType": {
+      "Label": "Response Type"
+    },
+    "Endpoints": {
+      "AuthorisationHelp": "Grants access to the Authorisation endpoint to the client",
+      "RevocationHelp": "Grants access to the Revocation endpoint to the client",
+      "TokenHelp": "Grants access to the Token endpoint to the client",
+      "RefreshTokenHelp": "Grants access to the Refresh Token endpoint to the client",
+      "LogoutHelp": "Grants access to the Logout endpoint to the client"
+    },
+    "Lifetimes": {
+      "AuthorisationCodeHelp": "Specifies the lifetime of an Authorisation Code issued by OpenIddicct",
+      "DeviceCodeHelp": "Specifies the lifetime of an Device Code issued by OpenIddicct",
+      "UserCodeHelp": "Specifies the lifetime of an User Code issued by OpenIddicct",
+      "AccessTokenHelp": "Specifies the lifetime of an Access Token issued by OpenIddicct",
+      "IdentityTokenHelp": "Specifies the lifetime of an Identity Token issued by OpenIddicct",
+      "RefreshTokenHelp": "Specifies the lifetime of an Refresh Token issued by OpenIddicct"
     }
   },
   "DynamicAuth": {
@@ -1768,11 +1816,15 @@
       "QuotaLimitExceededEditGuardMsg": "You have exceeded the limit for {{resources}} in AdminUI starter mode. You have been sent to the readonly view. Upgrade to AdminUI Enterprise or reduce the amount of clients in your database to use the {{resources}} edit views."
     }
   },
+  "Languages": {
+    "Select": "Select Language",
+    "Helper": "The language being displayed",
+    "DefaultLanguage": "Default Language"
+  },
   "Scopes" : {
     "Title": "Scopes",
     "SearchPlaceholder": "Name or Display name contains...",
     "NoneFound": "No scopes found",
-    "DefaultLanguage": "Default Language",
     "Success": {
       "Created": "Scope Created",
       "Updated": "Scope Updated",
@@ -1802,7 +1854,8 @@
       "Placeholder": "Enter resource...",
       "MustSpecifyResource": "Resource not specified",
       "CannotHaveSpaces": "Resources cannot contain whitespaces",
-      "AlreadyAdded": "This resource has already been added"
+      "AlreadyAdded": "This resource has already been added",
+      "NoneFound": "No resources found"
     },
     "ClaimTypes": {
       "Label": "Assigned Claims",
