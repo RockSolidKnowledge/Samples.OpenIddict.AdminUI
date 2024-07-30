@@ -1,223 +1,90 @@
 ﻿using Microsoft.Playwright;
 using TestService.Pages.HomePageViews.Clients;
-using TestService.TestCollections.HomePageViews.ClientsView;
 
 namespace TestService.Pages.HomePageViews.Settings.Webhooks
 {
-    public class SettingsWebhooksPage(IPage currentPage) : TestPage(currentPage), ISaveDialog
+    
+
+    public class SettingsWebhooksPage(IPage currentPage) : TestPage(currentPage)
     {
-        private bool SaveSuccessful { get; set; }
+        private const int WebhookEnabledElementIndex = 0;
+        private const int WebhookUrlElementIndex = 1;
+        private const int WebhookScopesElementIndex = 2;
 
-        public async Task<SettingsWebhooksPage> EnableWebhookForMfaReset()
+        public async Task<bool> IsWebHookConfigured(string webHookName, string url, string protectingScopes)
         {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .First
-                .Locator(".tw-form-switch__state")
-                .ClickAsync();
+            int webHookCount = await CurrentPage.Locator("app-readonly-webhook").CountAsync();
+            
+            for (int headerIndex = 0; headerIndex < webHookCount; headerIndex++)
+            {
+                string header = await CurrentPage.Locator("app-manage-webhooks").Locator("h2").Nth(headerIndex).InnerTextAsync();
+                if (header == webHookName)
+                {
+                    if (await UiUrlMatches(headerIndex, url) )
+                    {
+                        if (await UiProtectingScopesMatch(headerIndex, protectingScopes))
+                        {
+                            return await UiEnabledStatusMatches(headerIndex, "Yes");
+                        }
+                    }
+                }
 
-            return this;
+            }
+            Console.WriteLine("Returning FALSE !!!");
+            return false;
         }
 
-        public async Task<SettingsWebhooksPage> SetUrlForMfaReset(string url)
+        public async Task<bool> IsWebHookNotConfigured(string webhookName)
         {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .First
-                .Locator("#WebhookUrl")
-                .FillAsync(url);
+            int webHookCount = await CurrentPage.Locator("app-readonly-webhook").CountAsync();
 
-            return this;
+            for (int headerIndex = 0; headerIndex < webHookCount; headerIndex++)
+            {
+                string header = await CurrentPage.Locator("app-manage-webhooks").Locator("h2").Nth(headerIndex).InnerTextAsync();
+
+                if (header == webhookName)
+                {
+                    return await UiEnabledStatusMatches(headerIndex, "No");
+                }
+
+            }
+
+            return false;
+        }
+        private async Task<bool> UiEnabledStatusMatches(int headerIndex, string expectedStatus)
+        {
+            string uiStatus = await CurrentPage.Locator("app-readonly-webhook")
+                .Nth(headerIndex)
+                .Locator("app-form-row")
+                .Nth(WebhookEnabledElementIndex)
+                .Locator("#singleCommaMainText")
+                .InnerTextAsync();
+
+            return uiStatus == expectedStatus;
         }
 
-        public async Task<SettingsWebhooksPage> SelectProtectingScopeMfaReset(string protectingScope)
+        private async Task<bool> UiUrlMatches(int headerIndex, string expectedUrl)
         {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .First
-                .Locator("#scopes")
-                .SelectOptionAsync(new[] { protectingScope });
+            string uiUrl = await CurrentPage.Locator("app-readonly-webhook")
+                .Nth(headerIndex)
+                .Locator("app-form-row")
+                .Nth(WebhookUrlElementIndex)
+                .Locator("#singleCommaMainText")
+                .InnerTextAsync();
 
-            return this;
+            return uiUrl == expectedUrl;
         }
 
-        public async Task<SettingsWebhooksPage> EnableWebhookForPasswordReset()
+        private async Task<bool> UiProtectingScopesMatch(int headerIndex, string scopes)
         {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(1)
-                .Locator(".tw-form-switch__state")
-                .ClickAsync();
+            string uiScopes = await CurrentPage.Locator("app-readonly-webhook")
+                .Nth(headerIndex)
+                .Locator("app-form-row")
+                .Nth(WebhookScopesElementIndex)
+                .Locator("#singleCommaMainText")
+                .InnerTextAsync();
 
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SetUrlForPasswordReset(string url)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(1)
-                .Locator("#WebhookUrl")
-                .FillAsync(url);
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SelectProtectingScopeForPasswordReset(string protectingScope)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(1)
-                .Locator("#scopes")
-                .SelectOptionAsync(new[] { protectingScope });
-
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(2)
-                .Locator("#WebhookUrl")
-                .WaitForAsync();
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> EnableWebhookForUserRegistration()
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(2)
-                .Locator(".tw-form-switch__state")
-                .ClickAsync();
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SetUrlForUserRegistration(string url)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(2)
-                .Locator("#WebhookUrl")
-                .FillAsync(url);
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SelectProtectingScopeForUserRegistration(string protectingScope)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(2)
-                .Locator("#scopes")
-                .SelectOptionAsync(new[] { protectingScope });
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> EnableWebhookForServerSideSessionDeletion()
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(3)
-                .Locator(".tw-form-switch__state")
-                .ClickAsync();
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SetUrlForServerSideSessionDeletion(string url)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(3)
-                .Locator("#WebhookUrl")
-                .FillAsync(url);
-
-            return this;
-        }
-
-        public async Task<SettingsWebhooksPage> SelectProtectingScopeForServerSideSessionDeletion(string protectingScope)
-        {
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(3)
-                .Locator("#scopes")
-                .SelectOptionAsync(new[] { protectingScope });
-
-            return this;
-        }
-
-        public async Task<ISaveDialog> Save()
-        {
-            // 1. Click Save button
-            await CurrentPage
-                .GetByRole(AriaRole.Button, new() { Name = " Save " })
-                .ClickAsync();
-
-            PreCreateConfirmationDialog preDeletionWarningDialog = new (CurrentPage);
-            await preDeletionWarningDialog.Continue();
-
-            // 2. Wait for popup to confirm save completed successfully
-            string expectedSuccessLabel = "Success";
-            await CurrentPage.GetByLabel(expectedSuccessLabel).WaitForAsync();
-
-            // 3. Wait for the above popup state changes to hidden.
-            await CurrentPage.GetByLabel(expectedSuccessLabel).WaitForAsync(new() { State = WaitForSelectorState.Hidden });
-
-            SaveSuccessful = true;
-
-            return this;
-        }
-
-        public bool SuccessfullySaved()
-        {
-            return SaveSuccessful;
-        }
-
-        public async Task<bool> ConfirmConfiguredWebhooksAreListedAndEnabled(SetupInfoFactory.WebhooksConfig webhooksConfig)
-        {
-            //bool allConfiguredWebhooksAreListed = false;
-            //int expectedListedCount = webhooksConfig.Webhooks.Count;
-
-            //if (expectedListedCount == 0)
-            //{
-            //    return true;  // We have verified that there are no configured custom claim types in AdminUI appsettings.json
-            //}
-
-
-            //var rows = await CurrentPage.Locator("app-readonly-webhook").AllAsync();
-
-            //var numberFound = 0;
-
-            //foreach (var row in rows)
-            //{
-            //    var listedCLaimName = await row.Locator("#singleCommaMainText").InnerTextAsync();
-
-            //    if (expectedClaimTypes.Contains(listedCLaimName))
-            //    {
-            //        if (++numberFound == expectedListedCount)
-            //        {
-            //            allConfiguredWebhooksAreListed = true;
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //return allConfiguredWebhooksAreListed;
-
-            throw new NotImplementedException();
+            return uiScopes == scopes;
         }
     }
 }
