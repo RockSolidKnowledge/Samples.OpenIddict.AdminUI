@@ -10,6 +10,8 @@ namespace TestService.Pages.HomePageViews.Settings
         {
             await CurrentPage.Locator("#acessPolicyTab").ClickAsync();
 
+            await CurrentPage.Locator("tr").Nth(0).WaitForAsync();
+            
             return new SettingsAccessPolicyPage(CurrentPage);
         }
 
@@ -17,13 +19,7 @@ namespace TestService.Pages.HomePageViews.Settings
         {
             await CurrentPage.GetByRole(AriaRole.Tab, new(){Name = "Webhooks"}).ClickAsync();
 
-            // The next control we will be interacting with is the checkbox. Making sure it is visible. 
-            await CurrentPage
-                .Locator("app-manage-webhooks")
-                .Locator("app-edit-webhook")
-                .Nth(3)
-                .Locator("span", new() { HasText = "Protecting Scope" })
-                .WaitForAsync();
+            await CurrentPage.Locator("app-manage-webhooks").WaitForAsync();
 
             return new SettingsWebhooksPage(CurrentPage);
         }
