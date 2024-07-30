@@ -1,11 +1,10 @@
 ﻿using FluentAssertions;
 using TestService.Models;
 using TestService.Pages;
-using TestService.Pages.HomePageViews.Clients;
+using TestService.Pages.HomePageViews.Settings.AccessPolicy;
+using TestService.Pages.HomePageViews.Settings.Webhooks;
 using TestService.TestCollections.Fixture;
-using TestService.TestCollections.HomePageViews.ClientsView;
 using Xunit.Extensions.Ordering;
-using static TestService.TestCollections.HomePageViews.ClientsView.SetupInfoFactory;
 
 namespace TestService.TestCollections.HomePageViews.SettingsView
 {
@@ -13,49 +12,40 @@ namespace TestService.TestCollections.HomePageViews.SettingsView
     public class SettingsManagement(AdminUiAutoTestFixture fixture) : AdminUiTest(fixture)
     {
         [Fact, Order(1)]
-        public async Task ConfiguredCustomAccessPoliciesShouldBeListedInAccessPolicyTable()
+        public async Task AccessPolicies_ShouldDisplayConfiguredAccessPolicies()
         {
-            var configuredAccessPolicies = new List<AccessPolicySetupInfo>
-            {
-                new 
-                (
-                    "role",
-                    "Role c4eba9df-e83c-4325-bda5-1b0a151d008e",
-                    "UserManagerReadOnly"
-                ),
-                new
-                (
-                    "role",
-                    "Role c4eba9df-e83c-4325-bda5-1b0a151d008e",
-                    "All"
-                ),
-                new
-                (
-                    "<any-string>",
-                    "<any-string>",
-                    "All"
-                )
-            };
-
-            bool customClaimsAreListed = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
+            SettingsAccessPolicyPage page = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                 .AndThen(p => p.GotoTheSettingsView())
-                .AndThen(p => p.SelectAccessPolicy())
-                .AndThen(p => p.ConfirmConfiguredAccessPoliciesAreListed(configuredAccessPolicies));
+                .AndThen(p => p.SelectAccessPolicy());
 
-            customClaimsAreListed.Should().BeTrue();
+            bool result = await page.AreConfiguredAccessPoliciesListedAndAsExpected("role", "Role c4eba9df-e83c-4325-bda5-1b0a151d008e", "User Manager Read Only");
+            result.Should().BeTrue();
+
+            result = await page.AreConfiguredAccessPoliciesListedAndAsExpected("role", "Role c4eba9df-e83c-4325-bda5-1b0a151d008e", "All");
+            result.Should().BeTrue();
+
+            result = await page.AreConfiguredAccessPoliciesListedAndAsExpected("<any-string>", "<any-string>", "All");
+            result.Should().BeTrue();
         }
 
         [Fact, Order(2)]
-        public async Task ConfiguredWebhooksShouldBeListedAndEnabled()
+        public async Task WebHooks_ShouldDisplayConfiguredAndNonConfiguredHooks()
         {
-            SetupInfoFactory.WebhooksConfig webhooksConfig = SetupInfoFactory.CreateWebhooksConfiguration();
-
-            bool webhooksVerified = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
+            SettingsWebhooksPage page = await LoginToAdminUi(UserFactory.GetTheTestUser().EmailAddress)
                 .AndThen(p => p.GotoTheSettingsView())
-                .AndThen(p => p.SelectWebhooks())
-                .AndThen(p => p.ConfirmConfiguredWebhooksAreListedAndEnabled(webhooksConfig));
+                .AndThen(p => p.SelectWebhooks());
 
-            webhooksVerified.Should().BeTrue();
+            bool result = await page.IsWebHookConfigured("Multi-factor Authentication Reset", "https://dosomething.com/mfa-reset", "scope-mfa");
+            result.Should().BeTrue();
+
+            result = await page.IsWebHookConfigured("Password Reset", "https://dosomething.com/pass-reset", "scope-pres scope-b");
+            result.Should().BeTrue();
+
+            result = await page.IsWebHookConfigured("Server Side Session Deletion", "https://dosomething.com/server-side-session", "scope-sss");
+            result.Should().BeTrue();
+
+            result = await page.IsWebHookNotConfigured("User Registration");
+            result.Should().BeTrue();
         }
     }
 }
