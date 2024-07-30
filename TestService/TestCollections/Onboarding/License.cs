@@ -12,7 +12,7 @@ namespace TestService.TestCollections.Onboarding
         public async Task ShouldVerifyUserLicenseHasNotExpired()
         {
             LicensePage? page = await GotoTheWebsite()
-                .AndThen(p => p.LogIn())
+                .AndThen(p => p.Login())
                 .AndThen(p => p.SetUserEmail("info@rocksolidknowledge.com"))
                 .AndThen(p => p.SetPassword(AdminUiAutoTestFixture.DefaultPassword))
                 .AndThen(p => p.LoginToBootstrapAdminUser())

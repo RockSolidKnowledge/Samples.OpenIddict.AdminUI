@@ -12,7 +12,7 @@ namespace TestService.TestCollections
             const string expectedPageTitle = "OpenIddict";
 
             WelcomePage.OpenIddictLoginPage page = await GotoTheWebsite()
-                .AndThen(p => p.LogIn("#gdsdghsdkj"));
+                .AndThen(p => p.Login("#gdsdghsdkj"));
 
             string? pageTitle = await page.GetTitle();
             pageTitle.Should().Be(expectedPageTitle);

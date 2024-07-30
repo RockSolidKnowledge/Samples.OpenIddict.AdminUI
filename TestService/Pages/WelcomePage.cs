@@ -1,11 +1,10 @@
 ﻿using Microsoft.Playwright;
-using static TestService.Pages.WelcomePage.OpenIddictLoginPage;
 
 namespace TestService.Pages
 {
     public class WelcomePage(IPage currentPage) : TestPage(currentPage)
     {
-        public async Task<OpenIddictLoginPage> LogIn(string selectorId = "#loginBtn")
+        public async Task<OpenIddictLoginPage> Login(string selectorId = "#loginBtn")
         {
             await CurrentPage.ClickAsync(selectorId);
 
@@ -47,7 +46,7 @@ namespace TestService.Pages
                 await CurrentPage.ClickAsync(LoginBtnId);
 
                 await CurrentPage.GetByRole(AriaRole.Button, new() { Name = " Logout " }).WaitForAsync();
-
+                
                 return new AdminUiHomePage(CurrentPage);
             }
 

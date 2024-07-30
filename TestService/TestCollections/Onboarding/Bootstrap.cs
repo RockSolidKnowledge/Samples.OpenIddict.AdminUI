@@ -16,7 +16,7 @@ namespace TestService.TestCollections.Onboarding
             string password = AdminUiAutoTestFixture.DefaultPassword;
 
             AdminUiHomePage page = await GotoTheWebsite()
-                .AndThen(p => p.LogIn())
+                .AndThen(p => p.Login())
                 .AndThen(p => p.SetUserEmail("info@rocksolidknowledge.com"))
                 .AndThen(p => p.SetPassword(password))
                 .AndThen(p => p.LoginToBootstrapAdminUser())
@@ -28,12 +28,10 @@ namespace TestService.TestCollections.Onboarding
                 .AndThen(p => p.SetConfirmedPassword(password))
                 .AndThen(p => p.Save())
                 .AndThen(p => p.Login())
-                .AndThen(p => p.LogIn())
+                .AndThen(p => p.Login())
                 .AndThen(p => p.SetUserEmail(testUser.EmailAddress))
                 .AndThen(p => p.SetPassword(password))
                 .AndThen(p => p.Login());
-
-            // await LoginToAdminUi(testUser.EmailAddress);
 
             string loggedInUser = await page.GetLoggedInUser();
             loggedInUser.Should().Be(testUser.UserName);

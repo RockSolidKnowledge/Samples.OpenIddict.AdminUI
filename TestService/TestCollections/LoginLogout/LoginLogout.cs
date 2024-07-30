@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.Playwright;
 using TestService.Models;
 using TestService.Pages;
 using TestService.TestCollections.Fixture;
@@ -25,7 +24,7 @@ namespace TestService.TestCollections.LoginLogout
             const string expectedPageTitle = "Log in - Velusia.Server";
 
             WelcomePage.OpenIddictLoginPage page = await GotoTheWebsite()
-                .AndThen(p => p.LogIn());
+                .AndThen(p => p.Login());
 
             string? pageTitle = await page.GetTitle();
             pageTitle.Should().Be(expectedPageTitle);

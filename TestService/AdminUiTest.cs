@@ -1,10 +1,8 @@
 using Microsoft.Playwright;
 using TestService.Models;
 using TestService.Pages;
-using TestService.Pages.HomePageViews.Clients;
 using TestService.Pages.HomePageViews.Users;
 using TestService.TestCollections.Fixture;
-using TestService.TestCollections.HomePageViews.ClientsView;
 using static TestService.Pages.HomePageViews.Roles.RolesPage;
 
 // We do not want tests in parallel. Even though the default is what we want, we are making our intentions clear here.
@@ -35,7 +33,7 @@ namespace TestService
         protected async Task<AdminUiHomePage> LoginToAdminUi(string userEmail)
         {
             return TestFixture.AdminUiHomePage ??= await GotoTheWebsite()
-                .AndThen(p => p.LogIn())
+                .AndThen(p => p.Login())
                 .AndThen(p => p.SetUserEmail(userEmail))
                 .AndThen(p => p.SetPassword(AdminUiAutoTestFixture.DefaultPassword))
                 .AndThen(p => p.Login());
