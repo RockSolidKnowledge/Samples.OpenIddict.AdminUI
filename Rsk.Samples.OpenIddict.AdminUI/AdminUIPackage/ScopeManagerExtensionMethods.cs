@@ -18,6 +18,6 @@ public static class ScopeManagerExtensionMethods
             return JsonSerializer.Deserialize<List<string>>(claimsJson.ToString());
         }
         
-        return default;
+        return new List<string>();
     }
 }
