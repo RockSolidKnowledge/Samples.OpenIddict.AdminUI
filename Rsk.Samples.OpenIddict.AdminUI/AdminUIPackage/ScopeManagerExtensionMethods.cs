@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ public static class ScopeManagerExtensionMethods
         
         if(properties.TryGetValue(AdminUiConstants.ScopePropertyClaims, out var claimsJson))
         {
-            return JsonSerializer.Deserialize<List<string>>(claimsJson.ToString());
+            return claimsJson.Deserialize<List<string>>();
         }
         
         return new List<string>();
