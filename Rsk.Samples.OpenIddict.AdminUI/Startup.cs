@@ -29,8 +29,9 @@ public class Startup
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             var openIddictConnectionString = Configuration.GetValue<string>("OpenIddictConnectionString");
+            var dbProvider = Configuration.GetValue<string>("DbProvider");
             
-            switch (Configuration.GetValue<string>("DbProvider"))
+            switch (dbProvider)
             {
                 case "SqlServer":
                     options.UseSqlServer(openIddictConnectionString);
@@ -42,7 +43,7 @@ public class Startup
                     options.UseNpgsql(openIddictConnectionString);
                     break;
                 default:
-                    throw new NotSupportedException("Unsupported database provider");
+                    throw new NotSupportedException($"{dbProvider} is not a supported database provider.");
             }
 
             // Register the entity sets needed by OpenIddict.
