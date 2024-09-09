@@ -12,8 +12,11 @@ public static class ApplicationManagerExtensionMethods
     {
         ImmutableDictionary<string, JsonElement> properties = await applicationManager.GetPropertiesAsync(scope);
 
-        if (!properties.ContainsKey(AdminUiConstants.ApplicationPropertyClaims)) return new Dictionary<string, string>();
+        if (properties.TryGetValue(AdminUiConstants.ApplicationPropertyClaims, out var claimsJson))
+        {
+            return claimsJson.Deserialize<Dictionary<string, string>>();
+        }
         
-        return JsonSerializer.Deserialize<Dictionary<string, string>>(properties[AdminUiConstants.ApplicationPropertyClaims]);
+        return new Dictionary<string, string>();
     }
 }
