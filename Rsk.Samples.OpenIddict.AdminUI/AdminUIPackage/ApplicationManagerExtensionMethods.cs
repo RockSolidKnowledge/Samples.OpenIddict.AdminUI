@@ -8,15 +8,15 @@ namespace IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 
 public static class ApplicationManagerExtensionMethods
 {
-    public static async Task<Dictionary<string, string>> GetClaimsFromProperties(this IOpenIddictApplicationManager applicationManager, object scope)
+    public static async Task<List<AdminUIClaim>> GetClaimsFromProperties(this IOpenIddictApplicationManager applicationManager, object scope)
     {
         ImmutableDictionary<string, JsonElement> properties = await applicationManager.GetPropertiesAsync(scope);
 
         if (properties.TryGetValue(AdminUiConstants.ApplicationPropertyClaims, out var claimsJson))
         {
-            return claimsJson.Deserialize<Dictionary<string, string>>();
+            return claimsJson.Deserialize<List<AdminUIClaim>>(new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
         }
         
-        return new Dictionary<string, string>();
+        return new List<AdminUIClaim>();
     }
 }

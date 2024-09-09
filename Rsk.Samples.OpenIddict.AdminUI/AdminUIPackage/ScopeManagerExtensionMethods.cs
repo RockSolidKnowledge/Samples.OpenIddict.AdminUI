@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using OpenIddict.Abstractions;
@@ -18,5 +19,20 @@ public static class ScopeManagerExtensionMethods
         }
         
         return new List<string>();
+    }
+    
+    public static async Task<bool> ScopesExist(this IOpenIddictScopeManager scopeManager, OpenIddictRequest request)
+    {
+        var scopes = request.GetScopes().ToList();
+        
+        foreach (var scope in scopes)
+        {
+            if (await scopeManager.FindByNameAsync(scope) == null)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

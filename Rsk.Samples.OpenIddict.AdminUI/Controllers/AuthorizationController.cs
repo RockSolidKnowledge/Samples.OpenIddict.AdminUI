@@ -351,27 +351,51 @@ public class AuthorizationController : Controller
         {
             // Note: the client credentials are automatically validated by OpenIddict:
             // if client_id or client_secret are invalid, this action won't be invoked.
+            
+            //However OpenIddict does NOT validate the Scopes are valid, so we need to do that here.
+            if (!await _scopeManager.ScopesExist(request))
+            {
+                return Forbid(
+                    authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
+                    properties: new AuthenticationProperties(new Dictionary<string, string>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidScope,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The specified scopes are not valid."
+                    }));
+            }
+            
+            var client = await _applicationManager.FindByClientIdAsync(request.ClientId!);
         
             var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         
             // Subject (sub) is a required field, we use the client id as the subject identifier here.
             identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
             
-            var client = await _applicationManager.FindByClientIdAsync(request.ClientId);
-            
             var clientProperties = await _applicationManager.GetClaimsFromProperties(client);
+            List<string> roles = new List<string>();
             
             foreach (var claim in clientProperties)
             {
-                identity.AddClaim(new Claim(claim.Key, claim.Value)
-                    .SetDestinations(Destinations.AccessToken));
+                if (claim.Type == Claims.Role)
+                {
+                    roles.Add(claim.Value);
+                }
+                else
+                {
+                    identity.AddClaim(claim.ToSystemClaim()
+                        .SetDestinations(Destinations.AccessToken));
+                }
+            }
+
+            if (roles.Any())
+            {
+                identity.AddClaims(Claims.Role, roles.ToImmutableArray());
             }
 
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
         
             claimsPrincipal.SetScopes(request.GetScopes());
             
-            // TODO: Probably need to check the scopes exist in the client and add the related resources
             claimsPrincipal.SetResources(request.GetScopes());
 
             return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
