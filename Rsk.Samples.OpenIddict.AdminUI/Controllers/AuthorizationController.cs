@@ -371,26 +371,21 @@ public class AuthorizationController : Controller
             // Subject (sub) is a required field, we use the client id as the subject identifier here.
             identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
             
-            var clientProperties = await _applicationManager.GetClaimsFromProperties(client);
-            List<string> roles = new List<string>();
+            var clientClaims = await _applicationManager.GetGroupedClaimsFromProperties(client);
             
-            foreach (var claim in clientProperties)
+            foreach (var claim in clientClaims)
             {
-                if (claim.Type == Claims.Role)
+                if (claim.Values.Count > 1)
                 {
-                    roles.Add(claim.Value);
+                    identity.AddClaims(claim.Type, claim.Values.ToImmutableArray());
                 }
-                else
+                else if (claim.Values.Count == 1)
                 {
-                    identity.AddClaim(claim.ToSystemClaim()
-                        .SetDestinations(Destinations.AccessToken));
+                    identity.AddClaim(new Claim(claim.Type, claim.Values[0]));
                 }
             }
-
-            if (roles.Any())
-            {
-                identity.AddClaims(Claims.Role, roles.ToImmutableArray());
-            }
+            
+            identity.SetDestinations(GetDestinations);
 
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
         

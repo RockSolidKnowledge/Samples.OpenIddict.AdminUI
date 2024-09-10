@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using OpenIddict.Abstractions;
@@ -18,5 +19,18 @@ public static class ApplicationManagerExtensionMethods
         }
         
         return new List<AdminUIClaim>();
+    }
+    
+    public static async Task<List<AdminUIGroupedClaims>> GetGroupedClaimsFromProperties(this IOpenIddictApplicationManager applicationManager, object scope)
+    {
+        var claimsList = await GetClaimsFromProperties(applicationManager, scope);
+        
+        return claimsList.GroupBy(c => c.Type)
+            .Select(g => new AdminUIGroupedClaims()
+            {
+                Type = g.Key,
+                Values = g.Select(c => c.Value).ToList()
+            })
+            .ToList();
     }
 }
