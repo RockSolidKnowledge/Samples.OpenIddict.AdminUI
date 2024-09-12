@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -345,6 +346,54 @@ public class AuthorizationController : Controller
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        }
+        else if (request.IsClientCredentialsGrantType())
+        {
+            // Note: the client credentials are automatically validated by OpenIddict:
+            // if client_id or client_secret are invalid, this action won't be invoked.
+            
+            //However OpenIddict does NOT validate the Scopes are valid, so we need to do that here.
+            if (!await _scopeManager.ScopesExist(request))
+            {
+                return Forbid(
+                    authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
+                    properties: new AuthenticationProperties(new Dictionary<string, string>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidScope,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The specified scopes are not valid."
+                    }));
+            }
+            
+            var client = await _applicationManager.FindByClientIdAsync(request.ClientId!);
+        
+            var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        
+            // Subject (sub) is a required field, we use the client id as the subject identifier here.
+            identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
+            
+            var clientClaims = await _applicationManager.GetGroupedClaimsFromProperties(client);
+            
+            foreach (var claim in clientClaims)
+            {
+                if (claim.Values.Count > 1)
+                {
+                    identity.AddClaims(claim.Type, claim.Values.ToImmutableArray());
+                }
+                else if (claim.Values.Count == 1)
+                {
+                    identity.AddClaim(new Claim(claim.Type, claim.Values[0]));
+                }
+            }
+            
+            identity.SetDestinations(GetDestinations);
+
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+        
+            claimsPrincipal.SetScopes(request.GetScopes());
+            
+            claimsPrincipal.SetResources(request.GetScopes());
+
+            return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
         throw new InvalidOperationException("The specified grant type is not supported.");
