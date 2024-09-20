@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using OpenIddict.Abstractions;
 
-namespace IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
 
 public static class ApplicationManagerExtensionMethods
 {
@@ -13,24 +13,17 @@ public static class ApplicationManagerExtensionMethods
     {
         ImmutableDictionary<string, JsonElement> properties = await applicationManager.GetPropertiesAsync(scope);
 
-        if (properties.TryGetValue(AdminUiConstants.ApplicationPropertyClaims, out var claimsJson))
-        {
-            return claimsJson.Deserialize<List<AdminUIClaim>>(new JsonSerializerOptions(){PropertyNameCaseInsensitive = true});
-        }
-        
-        return new List<AdminUIClaim>();
+        return properties.TryGetValue(AdminUiConstants.ApplicationPropertyClaims, out var claimsJson) ?
+            claimsJson.Deserialize<List<AdminUIClaim>>(new JsonSerializerOptions {PropertyNameCaseInsensitive = true}) :
+            [];
     }
     
-    public static async Task<List<AdminUIGroupedClaims>> GetGroupedClaimsFromProperties(this IOpenIddictApplicationManager applicationManager, object scope)
+    public static async Task<IDictionary<string, ImmutableArray<string>>> GetClaimValuesDictionary(this IOpenIddictApplicationManager applicationManager, object scope)
     {
         var claimsList = await GetClaimsFromProperties(applicationManager, scope);
-        
+
         return claimsList.GroupBy(c => c.Type)
-            .Select(g => new AdminUIGroupedClaims()
-            {
-                Type = g.Key,
-                Values = g.Select(c => c.Value).ToList()
-            })
-            .ToList();
+            .ToDictionary(x => x.Key, 
+                x => x.Select(g => g.Value).ToImmutableArray());
     }
 }

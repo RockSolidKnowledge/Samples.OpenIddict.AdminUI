@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
+﻿namespace Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
 
 public class AdminUIClaim
 {

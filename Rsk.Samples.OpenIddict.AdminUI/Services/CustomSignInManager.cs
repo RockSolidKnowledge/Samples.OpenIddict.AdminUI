@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Velusia.Server.Data;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 
-namespace OpenIddict.Sandbox.AspNetCore.Server.Services;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Services;
 
 public class CustomSignInManager : SignInManager<ApplicationUser>
 {

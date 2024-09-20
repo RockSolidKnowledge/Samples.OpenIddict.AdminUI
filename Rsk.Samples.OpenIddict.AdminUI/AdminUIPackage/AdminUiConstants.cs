@@ -1,4 +1,4 @@
-﻿namespace IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
+﻿namespace Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
 
 public static class AdminUiConstants
 {

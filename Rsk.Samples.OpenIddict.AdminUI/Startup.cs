@@ -7,9 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenIddict.Sandbox.AspNetCore.Server.Services;
 using Quartz;
-using Velusia.Server.Data;
+using Rsk.Saml.Configuration;
+using Rsk.Saml.OpenIddict.AspNetCore.Identity.Configuration.DependencyInjection;
+using Rsk.Saml.OpenIddict.Configuration.DependencyInjection;
+using Rsk.Saml.OpenIddict.EntityFrameworkCore.Configuration.DependencyInjection;
+using Rsk.Saml.OpenIddict.Quartz.Configuration.DependencyInjection;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Services;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Velusia.Server;
@@ -28,23 +33,7 @@ public class Startup
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            var openIddictConnectionString = Configuration.GetValue<string>("OpenIddictConnectionString");
-            var dbProvider = Configuration.GetValue<string>("DbProvider");
-            
-            switch (dbProvider)
-            {
-                case "SqlServer":
-                    options.UseSqlServer(openIddictConnectionString);
-                    break;
-                case "MySql":
-                    options.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString));
-                    break;
-                case "PostgreSql":
-                    options.UseNpgsql(openIddictConnectionString);
-                    break;
-                default:
-                    throw new NotSupportedException($"{dbProvider} is not a supported database provider.");
-            }
+            GetDbConnection(options);
 
             // Register the entity sets needed by OpenIddict.
             // Note: use the generic overload if you need
@@ -127,6 +116,8 @@ public class Startup
             // Register the OpenIddict server components.
             .AddServer(options =>
             {
+                options.DisableAccessTokenEncryption();
+                
                 // Enable the authorization, logout, token and userinfo endpoints.
                 options.SetAuthorizationEndpointUris("connect/authorize")
                        .SetLogoutEndpointUris("connect/logout")
@@ -142,7 +133,7 @@ public class Startup
 
                 // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate();
+                    .AddDevelopmentSigningCertificate();
 
                 // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options.UseAspNetCore()
@@ -152,6 +143,40 @@ public class Startup
                        .EnableTokenEndpointPassthrough()
                        .EnableUserinfoEndpointPassthrough()
                        .EnableStatusCodePagesIntegration();
+                
+                options.AddSamlPlugin(builder =>
+                {
+                    // builder.UseSamlEntityFrameworkCore().AddSamlDbContexts(opt =>
+                    // {
+                    //     // options.Services.AddDbContext<>()
+                    // });// Options builder emitted);
+
+                    builder.UseSamlEntityFrameworkCore()
+                        .AddSamlArtifactDbContext(GetDbConnection)
+                        .AddSamlConfigurationDbContext(GetDbConnection)
+                        .AddSamlMessageDbContext(GetDbConnection);
+                
+                    builder.ConfigureSamlOpenIddictServerOptions(serverOptions =>
+                    {
+                        serverOptions.HostOptions = new SamlHostUserInteractionOptions()
+                        {
+                            LoginUrl = "/Identity/Account/Login",
+                            LogoutUrl = "/connect/logout",
+                        };
+                        
+                        var licensee = Configuration.GetValue<string>("SAML2PLicensee");
+                        var license = Configuration.GetValue<string>("SAML2PLicense");
+                        serverOptions.IdpOptions = new SamlIdpOptions()
+                        {
+                            Licensee = licensee,
+                            LicenseKey = license,
+                        };
+                    });
+                
+                    builder.PruneSamlMessages();
+                
+                    builder.AddSamlAspIdentity<ApplicationUser>();
+                });
             })
 
             // Register the OpenIddict validation components.
@@ -187,6 +212,8 @@ public class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        app.UseOpenIddictSamlPlugin();
 
         app.UseEndpoints(endpoints =>
         {
@@ -194,5 +221,26 @@ public class Startup
             endpoints.MapDefaultControllerRoute();
             endpoints.MapRazorPages();
         });
+    }
+
+    private void GetDbConnection(DbContextOptionsBuilder optBuilder)
+    {
+        var openIddictConnectionString = Configuration.GetValue<string>("OpenIddictConnectionString");
+        var dbProvider = Configuration.GetValue<string>("DbProvider");
+            
+        switch (dbProvider)
+        {
+            case "SqlServer":
+                optBuilder.UseSqlServer(openIddictConnectionString);
+                break;
+            case "MySql":
+                optBuilder.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString));
+                break;
+            case "PostgreSql":
+                optBuilder.UseNpgsql(openIddictConnectionString);
+                break;
+            default:
+                throw new NotSupportedException($"{dbProvider} is not a supported database provider.");
+        }
     }
 }
