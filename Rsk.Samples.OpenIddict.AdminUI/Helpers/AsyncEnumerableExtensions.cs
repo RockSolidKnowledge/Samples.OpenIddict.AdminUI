@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Velusia.Server.Helpers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Helpers;
 
 public static class AsyncEnumerableExtensions
 {

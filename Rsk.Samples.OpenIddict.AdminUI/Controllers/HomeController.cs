@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Velusia.Server.Controllers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Controllers;
 
 public class HomeController : Controller
 {

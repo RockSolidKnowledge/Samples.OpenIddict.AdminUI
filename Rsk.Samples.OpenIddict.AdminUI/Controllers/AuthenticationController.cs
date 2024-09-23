@@ -8,7 +8,7 @@ using OpenIddict.Abstractions;
 using OpenIddict.Client.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace Velusia.Server.Controllers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Controllers;
 
 public class AuthenticationController : Controller
 {

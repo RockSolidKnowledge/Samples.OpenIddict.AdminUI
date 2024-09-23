@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +13,13 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Velusia.Server.Data;
-using Velusia.Server.Helpers;
-using Velusia.Server.ViewModels.Authorization;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Helpers;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.ViewModels.Authorization;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace Velusia.Server.Controllers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Controllers;
 
 public class AuthorizationController : Controller
 {
@@ -351,7 +350,7 @@ public class AuthorizationController : Controller
         {
             // Note: the client credentials are automatically validated by OpenIddict:
             // if client_id or client_secret are invalid, this action won't be invoked.
-            
+
             //However OpenIddict does NOT validate the Scopes are valid, so we need to do that here.
             if (!await _scopeManager.ScopesExist(request))
             {
@@ -363,34 +362,26 @@ public class AuthorizationController : Controller
                         [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The specified scopes are not valid."
                     }));
             }
-            
+
             var client = await _applicationManager.FindByClientIdAsync(request.ClientId!);
-        
+
             var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-        
+
             // Subject (sub) is a required field, we use the client id as the subject identifier here.
             identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
             
-            var clientClaims = await _applicationManager.GetGroupedClaimsFromProperties(client);
-            
-            foreach (var claim in clientClaims)
+            // Add Claims Applied to Clien
+            foreach (var (type, values) in await _applicationManager.GetClaimValuesDictionary(client))
             {
-                if (claim.Values.Count > 1)
-                {
-                    identity.AddClaims(claim.Type, claim.Values.ToImmutableArray());
-                }
-                else if (claim.Values.Count == 1)
-                {
-                    identity.AddClaim(new Claim(claim.Type, claim.Values[0]));
-                }
+                identity.AddClaims(type, values);
             }
-            
+
             identity.SetDestinations(GetDestinations);
 
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
-        
+
             claimsPrincipal.SetScopes(request.GetScopes());
-            
+
             claimsPrincipal.SetResources(request.GetScopes());
 
             return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);

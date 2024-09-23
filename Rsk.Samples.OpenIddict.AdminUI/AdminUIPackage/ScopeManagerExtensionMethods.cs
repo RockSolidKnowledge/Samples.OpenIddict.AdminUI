@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using OpenIddict.Abstractions;
 
-namespace IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
 
 public static class ScopeManagerExtensionMethods
 {
@@ -13,12 +13,8 @@ public static class ScopeManagerExtensionMethods
     {
         ImmutableDictionary<string, JsonElement> properties = await scopeManager.GetPropertiesAsync(scope);
         
-        if(properties.TryGetValue(AdminUiConstants.ScopePropertyClaims, out var claimsJson))
-        {
-            return claimsJson.Deserialize<List<string>>();
-        }
-        
-        return new List<string>();
+        return properties.TryGetValue(AdminUiConstants.ScopePropertyClaims, out var claimsJson) ?
+            claimsJson.Deserialize<List<string>>() : [];
     }
     
     public static async Task<bool> ScopesExist(this IOpenIddictScopeManager scopeManager, OpenIddictRequest request)

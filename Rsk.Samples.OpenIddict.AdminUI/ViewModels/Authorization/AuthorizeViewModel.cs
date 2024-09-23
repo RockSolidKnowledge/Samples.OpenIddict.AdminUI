@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Velusia.Server.ViewModels.Authorization;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.ViewModels.Authorization;
 
 public class AuthorizeViewModel
 {

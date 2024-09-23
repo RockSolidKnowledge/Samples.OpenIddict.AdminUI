@@ -6,9 +6,9 @@
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using Velusia.Server.ViewModels.Shared;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.ViewModels.Shared;
 
-namespace Velusia.Server.Controllers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Controllers;
 
 public class ErrorController : Controller
 {

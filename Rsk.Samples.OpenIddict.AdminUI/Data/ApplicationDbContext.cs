@@ -1,8 +1,7 @@
 using IdentityExpress.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Velusia.Server.Data;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 
 public class ApplicationDbContext : IdentityExpressDbContext<ApplicationUser>
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Routing;
 
-namespace Velusia.Server.Helpers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Helpers;
 
 public sealed class FormValueRequiredAttribute : ActionMethodSelectorAttribute
 {

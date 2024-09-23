@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using IdentityExpress.Manager.BusinessLogic.OpenIddict.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Velusia.Server.Data;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace Velusia.Server.Controllers;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration.Controllers;
 
 public class UserinfoController : Controller
 {
