@@ -17,7 +17,7 @@ using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Services;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace Velusia.Server;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration;
 
 public class Startup
 {
@@ -42,7 +42,7 @@ public class Startup
         });
 
         services.AddDatabaseDeveloperPageExceptionFilter();
-        
+
         // Register the Identity services.
         services.AddIdentity<ApplicationUser, IdentityExpressRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,34 +70,33 @@ public class Startup
                 // Configure OpenIddict to use the Entity Framework Core stores and models.
                 // Note: call ReplaceDefaultEntities() to replace the default OpenIddict entities.
                 options.UseEntityFrameworkCore()
-                       .UseDbContext<ApplicationDbContext>();
+                    .UseDbContext<ApplicationDbContext>();
 
                 // Enable Quartz.NET integration.
                 options.UseQuartz();
             })
-            
             .AddClient(options =>
             {
                 options.AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
                     .AllowClientCredentialsFlow();
-
+            
                 // Register the signing and encryption credentials used to protect
                 // sensitive data like the state tokens produced by OpenIddict.
                 options.AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate();
-
+            
                 // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options.UseAspNetCore()
                        .EnableStatusCodePagesIntegration()
                        .EnableRedirectionEndpointPassthrough();
-
+            
                 // Register the System.Net.Http integration and use the identity of the current
                 // assembly as a more specific user agent, which can be useful when dealing with
                 // providers that use the user agent as a way to throttle requests (e.g Reddit).
                 options.UseSystemNetHttp()
                        .SetProductInformation(typeof(Startup).Assembly);
-
+            
                 // Register the Web providers integrations.
                 //
                 // Note: to mitigate mix-up attacks, it's recommended to use a unique redirection endpoint
@@ -107,9 +106,7 @@ public class Startup
                 options.UseWebProviders()
                        .AddGitHub(options =>
                        {
-                           options.SetClientId("c4ade52327b01ddacff3")
-                                  .SetClientSecret("da6bed851b75e317bf6b2cb67013679d9467c122")
-                                  .SetRedirectUri("callback/login/github");
+                           //Configure GitHub Options here
                        });
             })
 
@@ -119,17 +116,24 @@ public class Startup
                 options.DisableAccessTokenEncryption();
                 
                 // Enable the authorization, logout, token and userinfo endpoints.
-                options.SetAuthorizationEndpointUris("connect/authorize")
-                       .SetLogoutEndpointUris("connect/logout")
-                       .SetTokenEndpointUris("connect/token")
-                       .SetUserinfoEndpointUris("connect/userinfo");
+                options
+                    //Authorisation Endpoints
+                    .SetAuthorizationEndpointUris("connect/authorize")
+                    .SetLogoutEndpointUris("connect/logout")
+                    //Device Endpoints
+                    .SetDeviceEndpointUris("connect/device")
+                    .SetVerificationEndpointUris("connect/verify")
+                    //Shared Endpoints
+                    .SetTokenEndpointUris("connect/token")
+                    .SetUserinfoEndpointUris("connect/userinfo");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
-                
+
                 options.AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
-                    .AllowClientCredentialsFlow();
+                    .AllowClientCredentialsFlow()
+                    .AllowDeviceCodeFlow();
 
                 // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate()
@@ -137,20 +141,16 @@ public class Startup
 
                 // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                 options.UseAspNetCore()
-                       .DisableTransportSecurityRequirement()
-                       .EnableAuthorizationEndpointPassthrough()
-                       .EnableLogoutEndpointPassthrough()
-                       .EnableTokenEndpointPassthrough()
-                       .EnableUserinfoEndpointPassthrough()
-                       .EnableStatusCodePagesIntegration();
+                    .DisableTransportSecurityRequirement()
+                    .EnableAuthorizationEndpointPassthrough()
+                    .EnableLogoutEndpointPassthrough()
+                    .EnableTokenEndpointPassthrough()
+                    .EnableUserinfoEndpointPassthrough()
+                    .EnableStatusCodePagesIntegration()
+                    .EnableVerificationEndpointPassthrough();
                 
                 options.AddSamlPlugin(builder =>
                 {
-                    // builder.UseSamlEntityFrameworkCore().AddSamlDbContexts(opt =>
-                    // {
-                    //     // options.Services.AddDbContext<>()
-                    // });// Options builder emitted);
-
                     builder.UseSamlEntityFrameworkCore()
                         .AddSamlArtifactDbContext(GetDbConnection)
                         .AddSamlConfigurationDbContext(GetDbConnection)
@@ -205,6 +205,7 @@ public class Startup
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //app.UseHsts();
         }
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
