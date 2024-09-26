@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
+using Rsk.OpenIddict.Utils.Extensions;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
