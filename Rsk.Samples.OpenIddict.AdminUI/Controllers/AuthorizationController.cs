@@ -13,7 +13,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Rsk.Samples.OpenIddict.AdminUiIntegration.AdminUIPackage;
+using Rsk.OpenIddict.Utils.Extensions;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Helpers;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.ViewModels.Authorization;
