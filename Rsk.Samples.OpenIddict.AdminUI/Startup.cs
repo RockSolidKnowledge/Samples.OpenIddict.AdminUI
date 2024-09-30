@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using IdentityExpress.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -227,17 +228,18 @@ public class Startup
     {
         var openIddictConnectionString = Configuration.GetValue<string>("OpenIddictConnectionString");
         var dbProvider = Configuration.GetValue<string>("DbProvider");
+        var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             
         switch (dbProvider)
         {
             case "SqlServer":
-                optBuilder.UseSqlServer(openIddictConnectionString);
+                optBuilder.UseSqlServer(openIddictConnectionString, options => options.MigrationsAssembly(migrationAssembly));
                 break;
             case "MySql":
-                optBuilder.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString));
+                optBuilder.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString), options => options.MigrationsAssembly(migrationAssembly));
                 break;
             case "PostgreSql":
-                optBuilder.UseNpgsql(openIddictConnectionString);
+                optBuilder.UseNpgsql(openIddictConnectionString, options => options.MigrationsAssembly(migrationAssembly));
                 break;
             default:
                 throw new NotSupportedException($"{dbProvider} is not a supported database provider.");
