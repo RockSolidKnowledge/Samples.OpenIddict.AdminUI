@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Velusia.Server;
+namespace Rsk.Samples.OpenIddict.AdminUiIntegration;
 
 public static class Program
 {
