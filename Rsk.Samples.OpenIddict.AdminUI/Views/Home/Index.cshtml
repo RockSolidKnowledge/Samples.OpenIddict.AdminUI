@@ -1,8 +1,115 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.Identity.Name;
+    }
+    bool signedIn = !string.IsNullOrWhiteSpace(name);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section banner
+{
+    <div class="bg-green-600 text-white px-6 py-8 md:py-12 lg:py-16 relative z-10">
+        <div class="container w-full text-left mx-auto self-center max-w-[1200px]">
+            <div class="max-w-lg">
+                <div class="flex flex-wrap items-center">
+                    <h1 class="font-bold w-full text-3xl lg:text-4xl leading-tight">Welcome to OpenIddict</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="">
+
+    <section class="mb-6 lg:mb-10">
+        <h2 class="text-xl mb-1">Let's get started...</h2>
+        <p class="text-navy-light text-sm mb-5">OpenIddict publishes a <a class="underline hover:no-underline" href="~/.well-known/openid-configuration" target="_blank">discovery document</a> where you can find metadata and links to all the endpoints, key material, etc.</p>
+        <ul class="flex flex-wrap list-reset -mt-4 -ml-4">
+            @if (signedIn)
+            {
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" asp-action="Logout" asp-controller="Account">
+						<span class="block">
+							<span class="fas fa-sign-out-alt block text-4xl" aria-hidden="true"></span>
+							<span class="block mt-3">Logout</span>
+						</span>
+                </a>
+            </li>
+            }
+            else
+            {
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" asp-action="Login" asp-controller="Account">
+						<span class="block">
+							<span class="fas fa-user block text-4xl" aria-hidden="true"></span>
+							<span class="block mt-3">Login</span>
+						</span>
+                </a>
+            </li>
+            }
+        </ul>
+    </section>
+
+    <section class="mb-6 lg:mb-10">
+        <h2 class="text-xl mb-3">Documentation</h2>
+        <ul class="flex flex-wrap list-reset -mt-4 -ml-4">
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://github.com/openiddict" target="_blank">
+					<span class="block">
+						<span class="fab fa-github block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">OpenIddict<span class="block">on GitHub</span></span>
+					</span>
+                </a>
+            </li>
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://www.openiddictcomponents.com/documentation/adminui" target="_blank">
+					<span class="block">
+						<span class="fas fa-file-alt block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">AdminUI <span class="block">documentation</span></span>
+					</span>
+                </a>
+            </li>
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://www.openiddictcomponents.com/documentation/saml2p" target="_blank">
+					<span class="block">
+						<span class="fas fa-file-alt block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">SAML2P <span class="block">documentation</span></span>
+					</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2 class="text-xl mb-3">Flexible support plans</h2>
+        <ul class="flex flex-wrap list-reset -mt-4 -ml-4">
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://www.openiddictcomponents.com/services/developer-support" target="_blank">
+					<span class="block">
+						<span class="fas fa-laptop-code block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">Developer <span class="block">support</span></span>
+					</span>
+                </a>
+            </li>
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://www.openiddictcomponents.com/services/production-support" target="_blank">
+					<span class="block">
+						<span class="fas fa-headset block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">Production <span class="block">support</span></span>
+					</span>
+                </a>
+            </li>
+            <li class="w-full pt-4 pl-4 sm:w-1/2 md:w-full lg:w-1/4">
+                <a class="btn-index" href="https://www.openiddictcomponents.com/services/bespoke-development" target="_blank">
+					<span class="block">
+						<span class="fas fa-code block text-4xl" aria-hidden="true"></span>
+						<span class="block mt-3">Bespoke <span class="block">development</span></span>
+					</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
 </div>
