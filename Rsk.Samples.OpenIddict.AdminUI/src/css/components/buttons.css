@@ -1,4 +1,4 @@
-﻿/* primary (red) */
+﻿/* primary (green) */
 
 .btn {
 	@apply inline-block inline-flex items-center justify-center bg-green-600 border-2 border-green-600 text-white font-semibold px-6 py-2 text-center rounded-full truncate;
@@ -59,7 +59,7 @@
 /* text */
 
 .btn-text {
-	@apply bg-transparent border-none text-red p-0 rounded-none;
+	@apply bg-transparent border-none text-rose-600 p-0 rounded-none;
 }
 
 .btn-text:hover {

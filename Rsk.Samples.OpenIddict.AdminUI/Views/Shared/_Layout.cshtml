@@ -38,11 +38,11 @@
             <li>
                 @if (signedIn)
                 {
-                <a class="text-grey-lighter hover:text-white trans" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                <a class="text-grey-lighter hover:text-white trans" asp-action="Logout" asp-controller="Account">Logout</a>
                 }
                 else
                 {
-                <a class="text-grey-lighter hover:text-white trans" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                <a class="text-grey-lighter hover:text-white trans" asp-action="Login" asp-controller="Account">Login</a>
                 }
             </li>
         </ul>

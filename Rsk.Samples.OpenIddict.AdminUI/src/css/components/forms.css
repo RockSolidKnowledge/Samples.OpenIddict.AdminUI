@@ -7,7 +7,7 @@
 }
 
 .form-control {
-	@apply block bg-white text-navy border-2 border-grey-lighter shadow-inner h-12 p-3 w-full max-w-md rounded trans;
+	@apply block bg-white text-navy border-2 border-grey-lighter shadow-inner h-12 p-3 w-full max-w-md rounded;
 }
 
 .form-control:focus {
@@ -19,7 +19,7 @@ select.form-control {
 }
 
 .form-checks {
-	@apply flex flex-wrap items-start list-reset -mt-2 -ml-6;
+	@apply flex flex-wrap items-start -mt-2 -ml-6;
 }
 
 .form-checks__item {
@@ -31,11 +31,11 @@ select.form-control {
 }
 
 .form-checks__input {
-	@apply flex-no-shrink mt-1 mr-2 cursor-pointer;
+	@apply shrink-0 mt-1 mr-2 cursor-pointer;
 }
 
 .form-checks__input:focus {
-	@apply outline-none shadow-outline;
+	@apply outline-none;
 }
 
 .form-checks__text {
@@ -55,6 +55,6 @@ select.form-control {
 }
 
 .form-error:before {
-	@apply font-icons font-bold;
+	@apply font-bold;
 	content: "\f06a";
 }

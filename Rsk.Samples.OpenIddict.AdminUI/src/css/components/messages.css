@@ -4,11 +4,6 @@
 	@apply flex bg-navy-lightest shadow font-semibold text-navy mb-6 px-4 py-3 rounded overflow-hidden;
 }
 
-.message:before {
-	@apply bg-navy-light text-white font-icons font-bold flex-no-shrink px-4 py-3 -my-3 -ml-4 mr-4;
-	content: "\f06a";
-}
-
 /* success */
 
 .message-success {
@@ -35,9 +30,4 @@
 
 .message-error {
 	@apply bg-red-lightest text-red-dark;
-}
-
-.message-error:before {
-	@apply bg-red-light;
-	content: "\f057";
 }
