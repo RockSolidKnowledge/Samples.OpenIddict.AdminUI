@@ -97,10 +97,13 @@ public class Startup
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
 
-                options.AllowAuthorizationCodeFlow()
+                options
+                    .AllowImplicitFlow()
+                    .AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
                     .AllowClientCredentialsFlow()
-                    .AllowDeviceCodeFlow();
+                    .AllowDeviceCodeFlow()
+                    .AllowPasswordFlow();
 
                 // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate()
@@ -155,10 +158,14 @@ public class Startup
                 // Register the ASP.NET Core host.
                 options.UseAspNetCore();
             });
+        
+        services.AddCors();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseCors(b => b.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5112"));
+        
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
