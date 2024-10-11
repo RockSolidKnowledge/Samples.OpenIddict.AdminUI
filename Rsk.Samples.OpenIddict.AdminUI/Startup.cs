@@ -48,7 +48,6 @@ public class Startup
         services.AddIdentity<ApplicationUser, IdentityExpressRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
-            .AddDefaultUI()
             .AddSignInManager<CustomSignInManager>();
 
         // OpenIddict offers native integration with Quartz.NET to perform scheduled tasks

@@ -1,0 +1,22 @@
+﻿@model Rsk.Samples.OpenIddict.AdminUiIntegration.Models.LoginInputModel
+@{
+	// set this so the layout rendering sees an anonymous user
+	ViewData["signed-out"] = true;
+}
+
+@section banner
+{
+<div class="bg-green-600 text-white px-6 py-8 md:py-12 lg:py-16 relative z-10">
+	<div class="container w-full text-left mx-auto self-center max-w-[1200px]">
+		<div class="max-w-lg">
+			<div class="flex flex-wrap items-center">
+				<h1 class="font-bold w-full text-3xl lg:text-4xl leading-tight">Logged out</h1>
+			</div>
+		</div>
+	</div>
+</div>
+}
+
+<div class="cms">
+	<p><strong>You are now logged out of OpenIddict.</strong></p>
+</div>

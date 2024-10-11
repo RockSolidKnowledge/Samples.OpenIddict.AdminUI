@@ -1,0 +1,10 @@
+﻿@if (ViewContext.ModelState.IsValid == false)
+{
+<div class="flex bg-red-lightest shadow font-semibold rounded overflow-hidden mb-6">
+	<span class="fas fa-times-circle block flex-none w-12 pt-4 text-center text-red-lightest bg-red-light" aria-hidden="true"></span>
+	<div class="flex-1 px-4 py-3 text-red-dark">
+		<h2 class="text-base text-left">Error</h2>
+		<div asp-validation-summary="All"></div>
+	</div>
+</div>
+}

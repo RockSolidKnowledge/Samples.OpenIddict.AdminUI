@@ -1,49 +1,186 @@
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.Identity?.Name;
+    }
+    bool signedIn = !string.IsNullOrWhiteSpace(name);
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Velusia.Server</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>OpenIddict</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,shrink-to-fit=no,initial-scale=1,minimum-scale=1" />
+    <link href="~/fonts/fontawesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/site.min.css" rel="stylesheet" media="screen" asp-append-version="true" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" asp-append-version="true" />
+    <meta name="theme-color" content="#000913" />
+    <meta name="format-detection" content="telephone=no" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Velusia.Server</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+<body id="top" class="bg-green-800 text-white text-center text-base font-sans leading-normal">
+
+<div class="relative bg-green-800 px-6 py-3 no-print">
+    <nav class="flex items-center justify-end container text-xs leading-none text-grey-lighter text-right mx-auto max-w-[1200px]" aria-label="Account">
+        <span class="hidden sm:block fas fa-user-alt opacity-75 mr-2" aria-hidden="true"></span>
+        <ul class="flex items-center list-reset">
+            @if (signedIn)
+            {
+            <li class="flex items-center mr-2 sm:mr-3" aria-hidden="true">
+                <span class="block text-right w-48 sm:w-auto sm:max-w-xs truncate">@name</span>
+                <span class="block bg-grey w-1 h-1 ml-2 rounded-full sm:ml-3"></span>
+            </li>
+            }
+            <li>
+                @if (signedIn)
+                {
+                <a class="text-grey-lighter hover:text-white trans" asp-action="Logout" asp-controller="Account">Logout</a>
+                }
+                else
+                {
+                <a class="text-grey-lighter hover:text-white trans" asp-action="Login" asp-controller="Account">Login</a>
+                }
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<header id="header" class="relative bg-green-600 border-b border-white-25 text-white px-6 py-3" role="banner">
+    <div class="flex items-center justify-between container mx-auto h-header max-w-[1200px]">
+        <a class="font-semibold flex items-center bg-accent text-green-800 px-5 py-1 rounded-full hover:bg-accent-light focus:shadow-outline focus:outline-none trans-bg" href="https://www.openiddictcomponents.com" target="_blank">
+            <span>OpenIddictComponents</span>
+            <span class="text-green-600 font-normal no-print">.com</span>
+        </a>
+        <nav id="nav">
+            <ul class="flex flex-wrap items-center list-reset">
+                <li class="sm:mr-5">
+                    <a class="block p-1 text-green-200 hover:text-white trans-color" asp-action="Index" asp-controller="Home">
+                        Home
+                    </a>
+                </li>
+                <li class="hidden sm:block">
+                    <a class="flex items-center bg-green-400 font-semibold text-white px-5 py-1 hover:bg-navy-lightest hover:text-navy rounded-full trans" href="https://www.openiddictcomponents.com/products" target="_blank">
+                        <span class="capitalize md:normal-case">Our products</span>
+                        <span class="fas fa-long-arrow-alt-right ml-2" aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main id="main" class="text-copy focus:outline-none" role="main" tabindex="-1">
+
+    @RenderSection("banner", false)
+
+    <div id="content">
+
+        <div class="row-block bg-grey-lightest">
+            <div class="flex items-stretch justify-center w-full text-left mx-auto">
+                <div class="grow flex flex-wrap -mt-6 -ml-6 lg:-mt-12 lg:-ml-12 xl:-mt-16 xl:-ml-16 max-w-[1200px]" style="flex-grow: 1;">
+
+                    <div id="body" class="text-left mx-auto pt-6 pl-6 w-full md:w-1/2 lg:w-2/3 lg:pt-12 lg:pl-12 xl:pt-16 xl:pl-16">
+                        @RenderBody()
+                    </div>
+
+                    <aside class="text-left mx-auto pt-6 pl-6 max-w-[400px] md:w-1/2 lg:w-1/3 lg:pt-12 lg:pl-12 xl:pt-16 xl:pl-16 print-grid">
+                        <section class="bg-white border-b-4 border-rose-600 overflow-hidden rounded shadow-md print-grid__col-1/2">
+                            <h2 class="bg-rose-600 text-base text-white p-4 font-bold">
+                                <span class="fas fa-wrench fa-fw mr-1" aria-hidden="true"></span>
+                                Your own customised <abbr title="Single sign-on">SSO</abbr> solution
+                            </h2>
+                            <div class="p-4 pb-6">
+                                <p class="text-sm">We can develop a customised OpenIddict solution to fit your needs:</p>
+                                <ul class="list-reset text-sm mt-3">
+                                    <li class="flex items-start">
+                                        <span class="fas fa-check-circle flex-no-shrink text-rose-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>Built to your exact requirements</span>
+                                    </li>
+                                    <li class="flex items-start mt-1">
+                                        <span class="fas fa-check-circle flex-no-shrink text-rose-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>Seamless integration with your IT infrastructure</span>
+                                    </li>
+                                    <li class="flex items-start mt-1">
+                                        <span class="fas fa-check-circle flex-no-shrink text-rose-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>Full source code</span>
+                                    </li>
+                                </ul>
+                                <p class="mt-6 text-center">
+                                    <span class="hidden" aria-hidden="true">Email: sales@openiddictcomponents.com</span>
+                                    <a class="btn btn-small btn-accent" href="mailto:sales@openiddictcomponents.com?subject=Custom+SSO+solutions" target="_blank">Enquire Now</a>
+                                </p>
+                            </div>
+                        </section>
+
+                        <section class="bg-white border-b-4 border-green-600 overflow-hidden rounded shadow-md mt-6 lg:mt-8 print-grid__col-1/2">
+                            <h2 class="bg-green-600 text-base text-white p-4 font-bold">
+                                <span class="far fa-question-circle fa-fw mr-1" aria-hidden="true"></span>
+                                Looking for OpenIddict support?
+                            </h2>
+                            <div class="p-4 pb-6">
+                                <p class="text-sm">We can help with your OpenIddict solution providing expert guidance, support and consultancy:</p>
+                                <ul class="list-reset text-sm mt-3">
+                                    <li class="flex items-start">
+                                        <span class="fas fa-check-circle flex-no-shrink text-green-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>Remote development support</span>
+                                    </li>
+                                    <li class="flex items-start mt-1">
+                                        <span class="fas fa-check-circle flex-no-shrink text-green-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>OpenIddict production support</span>
+                                    </li>
+                                    <li class="flex items-start mt-1">
+                                        <span class="fas fa-check-circle flex-no-shrink text-green-600 leading-normal mr-2" aria-hidden="true"></span>
+                                        <span>Formal health checks</span>
+                                    </li>
+                                </ul>
+                                <p class="mt-6 text-center">
+                                    <span class="hidden" aria-hidden="true">Email: sales@openiddictcomponents.com</span>
+                                    <a class="btn btn-small" href="mailto:sales@openiddictcomponents.com?subject=OpenIddict+support" target="_blank">Enquire Now</a>
+                                </p>
+                            </div>
+                        </section>
+
+                    </aside>
+
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Velusia.Server - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        <aside id="site-info" class="row-block bg-white-90">
+            <div class="max-w-md text-green-600 text-sm text-center mx-auto">
+                <p>This implementation of OpenIddict is completely open source. Please go ahead and change the branding to meet your requirements. If you need any support or are interested in our commercial options for OpenIddict, please feel free to contact us at <a class="text-red-dark font-bold hover:text-navy trans" href="mailto:sales@openiddictcomponents.com?subject=Commercial" target="_blank">sales@openiddictcomponents.com</a></p>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<div class="relative z-30 w-full">
+    <p class="absolute w-full -mt-5 -ml-4 z-20">
+        <a class="bg-green-800 text-green-200 h-10 w-10 rounded-full flex items-center justify-center mx-auto hover:bg-rose-600 hover:text-white trans" href="#top">
+            <span class="fas fa-arrow-up" aria-hidden="true"></span>
+            <span class="sr-only">Back To Top</span>
+        </a>
+    </p>
+</div>
+
+<footer id="footer" class="bg-green-800 text-green-400 px-6 py-10 text-xs relative z-20" role="contentinfo">
+    <div class="flex flex-wrap sm:flex-no-wrap items-center sm:justify-between container text-left mx-auto px-20">
+        <p class="mb-4 sm:mb-0 w-full sm:w-auto">&copy; @DateTime.Now.Year <a class="hover:text-white trans" href="https://www.rocksolidknowledge.com" target="_blank">Rock Solid Knowledge</a></p>
+        <p class="list-reset w-full sm:w-auto no-print">
+            <a class="hover:text-white trans" href="https://www.openiddictcomponents.com/" target="_blank">
+                OpenIddictComponents.com
+            </a>
+        </p>
+    </div>
+</footer>
+
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+@RenderSection("scripts", false)
+
 </body>
 </html>
