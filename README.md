@@ -44,4 +44,4 @@ dotnet ef database update -c SamlConfigurationDbContext
 dotnet ef database update -c SamlArtifactDbContext
 ```
 
-*Remember to add a [SAML license](https://www.openiddictcomponents.com/products/saml2p) if you want to use the SAML component.*
+*Remember to add a [SAML license](https://www.openiddictcomponents.com/products/saml2p) in appsettings.json if you want to use the SAML component.*
