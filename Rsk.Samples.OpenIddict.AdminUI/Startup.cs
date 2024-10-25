@@ -32,6 +32,7 @@ public class Startup
         services.AddControllersWithViews();
         services.AddRazorPages();
 
+        services.AddDbContext<IdentityDbContext>(GetDbConnection);
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             GetDbConnection(options);
@@ -46,7 +47,7 @@ public class Startup
 
         // Register the Identity services.
         services.AddIdentity<ApplicationUser, IdentityExpressRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders()
             .AddSignInManager<CustomSignInManager>();
 
