@@ -23,14 +23,14 @@ public class AccountController(SignInManager<ApplicationUser> signInManager) : C
     {
         if (ModelState.IsValid)
         {
-            var user = await signInManager.UserManager.FindByEmailAsync(model.Email);
+            var user = await signInManager.UserManager.FindByNameAsync(model.Username);
             if (user?.UserName == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid Credentials");
                 return View(model);
             }
 
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (!result.Succeeded)
             {
                 ModelState.AddModelError(string.Empty, "Invalid Credentials");
