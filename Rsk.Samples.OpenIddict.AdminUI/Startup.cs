@@ -15,7 +15,6 @@ using Rsk.Saml.OpenIddict.Configuration.DependencyInjection;
 using Rsk.Saml.OpenIddict.EntityFrameworkCore.Configuration.DependencyInjection;
 using Rsk.Saml.OpenIddict.Quartz.Configuration.DependencyInjection;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
-using Rsk.Samples.OpenIddict.AdminUiIntegration.Services;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Rsk.Samples.OpenIddict.AdminUiIntegration;
@@ -48,8 +47,7 @@ public class Startup
         // Register the Identity services.
         services.AddIdentity<ApplicationUser, IdentityExpressRole>()
             .AddEntityFrameworkStores<IdentityDbContext>()
-            .AddDefaultTokenProviders()
-            .AddSignInManager<CustomSignInManager>();
+            .AddDefaultTokenProviders();
 
         // OpenIddict offers native integration with Quartz.NET to perform scheduled tasks
         // (like pruning orphaned authorizations/tokens from the database) at regular intervals.
