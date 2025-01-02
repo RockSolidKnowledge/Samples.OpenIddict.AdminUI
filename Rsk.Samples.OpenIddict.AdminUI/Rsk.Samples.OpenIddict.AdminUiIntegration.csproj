@@ -18,17 +18,17 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="All" Version="8.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
-    <PackageReference Include="OpenIddict.AspNetCore" Version="5.6.0" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.6.0" />
-    <PackageReference Include="OpenIddict.Quartz" Version="5.6.0" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="OpenIddict.Quartz" Version="6.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.9.0" />
     <PackageReference Include="IdentityExpress.Identity" Version="6.0.1" />
     <PackageReference Include="Rsk.OpenIddict.Utils" Version="1.0.0" />
-    <PackageReference Include="Rsk.Saml.OpenIddict" Version="9.1.1" />
-    <PackageReference Include="Rsk.Saml.OpenIddict.AspNetCore.Identity" Version="9.1.1" />
-    <PackageReference Include="Rsk.Saml.OpenIddict.EntityFrameworkCore" Version="9.1.1" />
-    <PackageReference Include="Rsk.Saml.OpenIddict.Quartz" Version="9.1.1" />
+    <PackageReference Include="Rsk.Saml.OpenIddict" Version="9.2.0" />
+    <PackageReference Include="Rsk.Saml.OpenIddict.AspNetCore.Identity" Version="9.2.0" />
+    <PackageReference Include="Rsk.Saml.OpenIddict.EntityFrameworkCore" Version="9.2.0" />
+    <PackageReference Include="Rsk.Saml.OpenIddict.Quartz" Version="9.2.0" />
   </ItemGroup>
 
   <ItemGroup>
