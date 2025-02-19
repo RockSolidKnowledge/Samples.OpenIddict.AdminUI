@@ -84,13 +84,13 @@ public class Startup
                 options
                     //Authorisation Endpoints
                     .SetAuthorizationEndpointUris("connect/authorize")
-                    .SetLogoutEndpointUris("connect/logout")
+                    .SetEndSessionEndpointUris("connect/logout")
                     //Device Endpoints
-                    .SetDeviceEndpointUris("connect/device")
-                    .SetVerificationEndpointUris("connect/verify")
+                    .SetDeviceAuthorizationEndpointUris("connect/device")
+                    .SetEndUserVerificationEndpointUris("connect/verify")
                     //Shared Endpoints
                     .SetTokenEndpointUris("connect/token")
-                    .SetUserinfoEndpointUris("connect/userinfo");
+                    .SetUserInfoEndpointUris("connect/userinfo");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
@@ -98,7 +98,7 @@ public class Startup
                 options.AllowAuthorizationCodeFlow()
                     .AllowRefreshTokenFlow()
                     .AllowClientCredentialsFlow()
-                    .AllowDeviceCodeFlow();
+                    .AllowDeviceAuthorizationFlow();
 
                 // Register the signing and encryption credentials.
                 options.AddDevelopmentEncryptionCertificate()
@@ -108,11 +108,11 @@ public class Startup
                 options.UseAspNetCore()
                     .DisableTransportSecurityRequirement()
                     .EnableAuthorizationEndpointPassthrough()
-                    .EnableLogoutEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
-                    .EnableUserinfoEndpointPassthrough()
+                    .EnableUserInfoEndpointPassthrough()
                     .EnableStatusCodePagesIntegration()
-                    .EnableVerificationEndpointPassthrough();
+                    .EnableEndUserVerificationEndpointPassthrough();
                 
                 options.AddSamlPlugin(builder =>
                 {
