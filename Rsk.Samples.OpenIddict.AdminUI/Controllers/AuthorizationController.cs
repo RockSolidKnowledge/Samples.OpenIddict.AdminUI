@@ -62,7 +62,7 @@ public class AuthorizationController : Controller
         // For scenarios where the default authentication handler configured in the ASP.NET Core
         // authentication options shouldn't be used, a specific scheme can be specified here.
         var result = await HttpContext.AuthenticateAsync();
-        if (result == null || !result.Succeeded || request.HasPromptValue(PromptValues.Login) ||
+        if (!result.Succeeded || request.HasPromptValue(PromptValues.Login) ||
            (request.MaxAge != null && result.Properties?.IssuedUtc != null &&
             DateTimeOffset.UtcNow - result.Properties.IssuedUtc > TimeSpan.FromSeconds(request.MaxAge.Value)))
         {
@@ -102,7 +102,8 @@ public class AuthorizationController : Controller
             throw new InvalidOperationException("The user details cannot be retrieved.");
 
         // Retrieve the application details from the database.
-        var application = await _applicationManager.FindByClientIdAsync(request.ClientId) ??
+        var reqClientId = request.ClientId ?? throw new InvalidOperationException("Failed to obtain client id from OpenIddictRequest");
+        var application = await _applicationManager.FindByClientIdAsync(reqClientId) ??
             throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
 
         // Retrieve the permanent authorizations associated with the user and the calling client application.
@@ -157,12 +158,12 @@ public class AuthorizationController : Controller
                 authorization ??= await _authorizationManager.CreateAsync(
                     identity: identity,
                     subject : await _userManager.GetUserIdAsync(user),
-                    client  : await _applicationManager.GetIdAsync(application),
+                    client  : await _applicationManager.GetIdAsync(application) ?? throw new InvalidOperationException("Failed to obtain application unique id from OpenIddictApplication"),
                     type    : AuthorizationTypes.Permanent,
                     scopes  : identity.GetScopes());
 
                 identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));
-                identity.SetDestinations(GetDestinations);
+                identity.SetDestinations(c => GetDestinations(c, request));
 
                 return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
@@ -200,7 +201,8 @@ public class AuthorizationController : Controller
             throw new InvalidOperationException("The user details cannot be retrieved.");
 
         // Retrieve the application details from the database.
-        var application = await _applicationManager.FindByClientIdAsync(request.ClientId) ??
+        var reqClientId = request.ClientId ?? throw new InvalidOperationException("Failed to obtain client id from OpenIddictRequest");
+        var application = await _applicationManager.FindByClientIdAsync(reqClientId) ??
             throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
 
         // Retrieve the permanent authorizations associated with the user and the calling client application.
@@ -251,12 +253,12 @@ public class AuthorizationController : Controller
         authorization ??= await _authorizationManager.CreateAsync(
             identity: identity,
             subject : await _userManager.GetUserIdAsync(user),
-            client  : await _applicationManager.GetIdAsync(application),
+            client  : await _applicationManager.GetIdAsync(application) ?? throw new InvalidOperationException("Failed to obtain application unique id from OpenIddictApplication"),
             type    : AuthorizationTypes.Permanent,
             scopes  : identity.GetScopes());
 
         identity.SetAuthorizationId(await _authorizationManager.GetIdAsync(authorization));
-        identity.SetDestinations(GetDestinations);
+        identity.SetDestinations(c => GetDestinations(c, request));
 
         // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
         return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -294,7 +296,9 @@ public class AuthorizationController : Controller
         if (result.Succeeded)
         {
             // Retrieve the application details from the database using the client_id stored in the principal.
-            var application = await _applicationManager.FindByClientIdAsync(result.Principal.GetClaim(Claims.ClientId)) ??
+            var clientIdClaim = result.Principal.GetClaim(Claims.ClientId) 
+                                ?? throw new InvalidOperationException("Failed to obtain ClientId from AuthenticateResult");
+            var application = await _applicationManager.FindByClientIdAsync(clientIdClaim) ??
                 throw new InvalidOperationException("Details concerning the calling client application cannot be found.");
 
             // Render a form asking the user to confirm the authorization demand.
@@ -343,7 +347,10 @@ public class AuthorizationController : Controller
             // For that, simply restrict the list of scopes before calling SetScopes.
             identity.SetScopes(result.Principal.GetScopes());
             identity.SetResources(await _scopeManager.ListResourcesAsync(identity.GetScopes()).ToListAsync());
-            identity.SetDestinations(GetDestinations);
+            
+            var request = HttpContext.GetOpenIddictServerRequest() ??
+                          throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+            identity.SetDestinations(c => GetDestinations(c, request));
 
             var properties = new AuthenticationProperties
             {
@@ -406,7 +413,9 @@ public class AuthorizationController : Controller
             var result = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
             // Retrieve the user profile corresponding to the authorization code/refresh token.
-            var user = await _userManager.FindByIdAsync(result.Principal.GetClaim(Claims.Subject));
+            var resultSubject = result.Principal?.GetClaim(Claims.Subject) ?? 
+                                throw new InvalidOperationException("Failed to obtain Subject from AuthenticateResult");
+            var user = await _userManager.FindByIdAsync(resultSubject);
             if (user is null)
             {
                 return Forbid(
@@ -443,7 +452,7 @@ public class AuthorizationController : Controller
                     .SetClaim(Claims.PreferredUsername, await _userManager.GetUserNameAsync(user))
                     .SetClaims(Claims.Role, [.. (await _userManager.GetRolesAsync(user))]);
 
-            identity.SetDestinations(GetDestinations);
+            identity.SetDestinations(c => GetDestinations(c, request));
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -466,22 +475,25 @@ public class AuthorizationController : Controller
                     }));
             }
 
-            var client = await _applicationManager.FindByClientIdAsync(request.ClientId!);
+            var reqClientId = request.ClientId ?? 
+                              throw new InvalidOperationException("Failed to obtain client id from OpenIddictRequest");
+            var client = await _applicationManager.FindByClientIdAsync(reqClientId) ?? 
+                         throw new InvalidOperationException($"Failed to obtain application for client id {reqClientId}");
 
             var identity = new ClaimsIdentity(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
             // Subject (sub) is a required field, we use the client id as the subject identifier here.
-            identity.AddClaim(Claims.Subject, request.ClientId ?? throw new InvalidOperationException());
+            identity.AddClaim(Claims.Subject, reqClientId);
             
             // Add Claims Applied to Clien
             foreach (var (type, values) in await _applicationManager.GetClaimValuesDictionary(client))
             {
                 identity.AddClaims(type, values);
             }
+            
+            identity.SetDestinations(c => GetDestinations(c, request));
 
-            identity.SetDestinations(GetDestinations);
-
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
+            var claimsPrincipal = new ClaimsPrincipal(identity);
 
             claimsPrincipal.SetScopes(request.GetScopes());
 
@@ -493,43 +505,42 @@ public class AuthorizationController : Controller
         throw new InvalidOperationException("The specified grant type is not supported.");
     }
 
-    private static IEnumerable<string> GetDestinations(Claim claim)
+    /// <summary>
+    /// New Get Destinations Method
+    /// </summary>
+    /// <param name="claim"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    private static IEnumerable<string> GetDestinations(Claim claim, OpenIddictRequest request)
     {
-        // Note: by default, claims are NOT automatically included in the access and identity tokens.
-        // To allow OpenIddict to serialize them, you must attach them a destination, that specifies
-        // whether they should be included in access tokens, in identity tokens or in both.
+        // If has token response type, only basic claims should be attached to ID token
+        if (request.HasResponseType(ResponseTypes.Token))
+        {
+            yield break;
+        }
 
+        // If no token response type, then should add claims to id token
         switch (claim.Type)
         {
             case Claims.Name or Claims.PreferredUsername:
-                yield return Destinations.AccessToken;
-
-                if (claim.Subject.HasScope(Scopes.Profile))
+                if (claim.Subject?.HasScope(Scopes.Profile) ?? false)
                     yield return Destinations.IdentityToken;
 
                 yield break;
 
             case Claims.Email:
-                yield return Destinations.AccessToken;
-
-                if (claim.Subject.HasScope(Scopes.Email))
+                if (claim.Subject?.HasScope(Scopes.Email) ?? false)
                     yield return Destinations.IdentityToken;
 
                 yield break;
 
             case Claims.Role:
-                yield return Destinations.AccessToken;
-
-                if (claim.Subject.HasScope(Scopes.Roles))
+                if (claim.Subject?.HasScope(Scopes.Roles) ?? false)
                     yield return Destinations.IdentityToken;
 
                 yield break;
 
-            // Never include the security stamp in the access and identity tokens, as it's a secret value.
-            case "AspNet.Identity.SecurityStamp": yield break;
-
             default:
-                yield return Destinations.AccessToken;
                 yield break;
         }
     }
