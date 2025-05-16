@@ -491,7 +491,7 @@ public class AuthorizationController : Controller
                 identity.AddClaims(type, values);
             }
             
-            identity.SetDestinations(c => SetAllDestinationsToAccessToken());
+            identity.SetDestinations(c => GetDestinations(c, request));
 
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
@@ -513,6 +513,11 @@ public class AuthorizationController : Controller
     /// <returns></returns>
     private static IEnumerable<string> GetDestinations(Claim claim, OpenIddictRequest request)
     {
+        if (request.IsClientCredentialsGrantType())
+        {
+            yield return Destinations.AccessToken;
+        }
+
         // If has token response type, only basic claims should be attached to ID token
         if (request.HasResponseType(ResponseTypes.Token))
         {
@@ -543,10 +548,5 @@ public class AuthorizationController : Controller
             default:
                 yield break;
         }
-    }
-    
-    private static IEnumerable<string> SetAllDestinationsToAccessToken()
-    {
-        yield return Destinations.AccessToken;
     }
 }
