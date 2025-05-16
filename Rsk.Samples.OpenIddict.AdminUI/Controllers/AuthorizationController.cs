@@ -513,6 +513,11 @@ public class AuthorizationController : Controller
     /// <returns></returns>
     private static IEnumerable<string> GetDestinations(Claim claim, OpenIddictRequest request)
     {
+        if (request.IsClientCredentialsGrantType())
+        {
+            yield return Destinations.AccessToken;
+        }
+
         // If has token response type, only basic claims should be attached to ID token
         if (request.HasResponseType(ResponseTypes.Token))
         {
