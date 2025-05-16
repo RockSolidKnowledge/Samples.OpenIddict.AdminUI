@@ -491,7 +491,7 @@ public class AuthorizationController : Controller
                 identity.AddClaims(type, values);
             }
             
-            identity.SetDestinations(c => GetDestinations(c, request));
+            identity.SetDestinations(c => SetAllDestinationsToAccessToken());
 
             var claimsPrincipal = new ClaimsPrincipal(identity);
 
@@ -543,5 +543,10 @@ public class AuthorizationController : Controller
             default:
                 yield break;
         }
+    }
+    
+    private static IEnumerable<string> SetAllDestinationsToAccessToken()
+    {
+        yield return Destinations.AccessToken;
     }
 }
