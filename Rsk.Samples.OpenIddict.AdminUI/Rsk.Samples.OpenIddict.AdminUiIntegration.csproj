@@ -23,7 +23,7 @@
     <PackageReference Include="OpenIddict.Quartz" Version="6.1.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
-    <PackageReference Include="IdentityExpress.Identity" Version="6.0.1" />
+    <PackageReference Include="IdentityExpress.Identity" Version="7.0.0" />
     <PackageReference Include="Rsk.OpenIddict.Utils" Version="2.0.0" />
     <PackageReference Include="Rsk.Saml.OpenIddict" Version="9.2.0" />
     <PackageReference Include="Rsk.Saml.OpenIddict.AspNetCore.Identity" Version="9.2.0" />
