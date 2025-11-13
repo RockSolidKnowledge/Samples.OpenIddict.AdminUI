@@ -31,7 +31,17 @@ public class Startup
         services.AddControllersWithViews();
         services.AddRazorPages();
 
+        var identitySchema = Configuration.GetValue<string>("IdentityStoreSchemaName");
         services.AddDbContext<IdentityDbContext>(GetDbConnection);
+        services.AddScoped<IdentityDbContext>(serviceProvider =>
+        {
+            var options = serviceProvider
+                .GetRequiredService<DbContextOptions<IdentityDbContext>>();
+
+            return new IdentityDbContext(options, identitySchema);
+        });
+        
+        var openIddictSchema = Configuration.GetValue<string>("OpenIddictStoreSchemaName");
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             GetDbConnection(options);
@@ -41,11 +51,20 @@ public class Startup
             // to replace the default OpenIddict entities.
             options.UseOpenIddict();
         });
+        services.AddScoped<ApplicationDbContext>(serviceProvider =>
+        {
+            var options = serviceProvider
+                .GetRequiredService<DbContextOptions<ApplicationDbContext>>();
+
+            return new ApplicationDbContext(options, openIddictSchema);
+        });
 
         services.AddDatabaseDeveloperPageExceptionFilter();
+        
 
         // Register the Identity services.
-        services.AddIdentity<ApplicationUser, IdentityExpressRole>()
+        services
+            .AddIdentity<ApplicationUser, IdentityExpressRole>()
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddDefaultTokenProviders();
 
@@ -117,9 +136,9 @@ public class Startup
                 options.AddSamlPlugin(builder =>
                 {
                     builder.UseSamlEntityFrameworkCore()
-                        .AddSamlArtifactDbContext(GetDbConnection)
-                        .AddSamlConfigurationDbContext(GetDbConnection)
-                        .AddSamlMessageDbContext(GetDbConnection);
+                        .AddSamlArtifactDbContext(GetDbConnection, openIddictSchema)
+                        .AddSamlConfigurationDbContext(GetDbConnection, openIddictSchema)
+                        .AddSamlMessageDbContext(GetDbConnection, openIddictSchema);
                 
                     builder.ConfigureSamlOpenIddictServerOptions(serverOptions =>
                     {
