@@ -200,9 +200,9 @@ public class Startup
             case "SqlServer":
                 optBuilder.UseSqlServer(openIddictConnectionString, options => options.MigrationsAssembly(migrationAssembly));
                 break;
-            case "MySql":
-                optBuilder.UseMySql(openIddictConnectionString, ServerVersion.AutoDetect(openIddictConnectionString), options => options.MigrationsAssembly(migrationAssembly));
-                break;
+            // case "MySql":
+            //     optBuilder.UseMySQL(openIddictConnectionString, options => options.MigrationsAssembly(migrationAssembly));
+            //     break;
             case "PostgreSql":
                 optBuilder.UseNpgsql(openIddictConnectionString, options => options.MigrationsAssembly(migrationAssembly));
                 break;
