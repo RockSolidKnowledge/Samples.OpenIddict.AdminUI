@@ -73,7 +73,7 @@ public class AccountController(
                 await LinkIfExternalLogin(user);
 
                 // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
-                if (IsValidReturnUrl(model.ReturnUrl))
+                if (!Url.IsLocalUrl(model.ReturnUrl))
                 {
                     return Redirect(model.ReturnUrl);
                 }
@@ -211,14 +211,5 @@ public class AccountController(
         var outcome =  await signInManager.UserManager.AddLoginAsync(localUser, new UserLoginInfo(provider.Name, userId, provider.DisplayName));
         await HttpContext.SignOutAsync("Identity.External");
         return outcome;
-    }
-    
-    private bool IsValidReturnUrl(string returnUrl)
-    {
-        if(!Url.IsLocalUrl(returnUrl)) return false;
-        
-        if(!returnUrl.EndsWith("/connect/authorize", StringComparison.OrdinalIgnoreCase)) return false;
-        
-        return true;
     }
 }
