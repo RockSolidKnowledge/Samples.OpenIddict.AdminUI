@@ -80,36 +80,8 @@ public class AccountController(
 
                 return Redirect("~/");
             }
-            
-            // await events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
 
             ModelState.AddModelError("", "Invalid username or password");
-
-            // if (user?.UserName == null)
-            // {
-            //     ModelState.AddModelError(string.Empty, "Invalid Credentials");
-            //     return View(model);
-            // }
-            //
-            // var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            // if (!result.Succeeded)
-            // {
-            //     ModelState.AddModelError(string.Empty, "Invalid Credentials");
-            //     return View(model);
-            // }
-            //
-            // await signInManager.SignInAsync(user, false);
-            //
-            // // link external login if cookie exists
-            // await LinkIfExternalLogin(user);
-            //
-            // var returnUrl = model.ReturnUrl;
-            // if (returnUrl == null || !Url.IsLocalUrl(returnUrl))
-            // {
-            //     return Redirect("~/");
-            // }
-            //
-            // return Redirect(returnUrl);
         }
         
         // something went wrong, show form with error
