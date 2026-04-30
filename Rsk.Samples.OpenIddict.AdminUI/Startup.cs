@@ -80,7 +80,6 @@ public class Startup
             .AddServer(options =>
             {
                 options.DisableAccessTokenEncryption();
-                options.RequirePushedAuthorizationRequests();
                 
                 // Enable the authorization, logout, token and userinfo endpoints.
                 options
