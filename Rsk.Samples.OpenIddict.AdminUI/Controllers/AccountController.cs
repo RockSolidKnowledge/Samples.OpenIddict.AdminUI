@@ -36,7 +36,7 @@ public class AccountController(
     /// </summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginInputModel model, string button)
+    public async Task<IActionResult> Login(LoginViewModel model, string button)
     {
         if (button != "login")
         {
