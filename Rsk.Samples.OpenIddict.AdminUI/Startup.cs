@@ -155,21 +155,24 @@ public class Startup
                 // Register the ASP.NET Core host.
                 options.UseAspNetCore();
             });
-        
-        services.AddDynamicProviders(options =>
-            {
-                // Component setup
-                options.Licensee = Configuration.GetValue<string>("DynamicAuthLicensee");
-                options.LicenseKey = Configuration.GetValue<string>("DynamicAuthLicense");
-            })
-            .AddEntityFrameworkStore(GetDbConnection)
-            .AddOpenIdConnect()
-            .AddSaml(o =>
-            {
-                o.Licensee = Configuration.GetValue<string>("SAML2PLicensee");
-                o.LicenseKey = Configuration.GetValue<string>("SAML2PLicense");
-            });
-        
+
+        if (!string.IsNullOrWhiteSpace(Configuration.GetValue<string>("DynamicAuthLicense")))
+        {
+            services.AddDynamicProviders(options =>
+                {
+                    // Component setup
+                    options.Licensee = Configuration.GetValue<string>("DynamicAuthLicensee");
+                    options.LicenseKey = Configuration.GetValue<string>("DynamicAuthLicense");
+                })
+                .AddEntityFrameworkStore(GetDbConnection)
+                .AddOpenIdConnect()
+                .AddSaml(o =>
+                {
+                    o.Licensee = Configuration.GetValue<string>("SAML2PLicensee");
+                    o.LicenseKey = Configuration.GetValue<string>("SAML2PLicense");
+                });
+        }
+
         services.AddScoped<IAccountService, AccountService>();
     }
 
