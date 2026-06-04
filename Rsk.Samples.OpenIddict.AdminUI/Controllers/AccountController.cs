@@ -73,7 +73,7 @@ public class AccountController(
                 await LinkIfExternalLogin(user);
 
                 // make sure the returnUrl is still valid, and if so redirect back to authorize endpoint or a local page
-                if (!Url.IsLocalUrl(model.ReturnUrl))
+                if (Url.IsLocalUrl(model.ReturnUrl))
                 {
                     return Redirect(model.ReturnUrl);
                 }
