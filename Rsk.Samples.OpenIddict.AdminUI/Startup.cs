@@ -15,6 +15,7 @@ using Rsk.Saml.OpenIddict.Configuration.DependencyInjection;
 using Rsk.Saml.OpenIddict.EntityFrameworkCore.Configuration.DependencyInjection;
 using Rsk.Saml.OpenIddict.Quartz.Configuration.DependencyInjection;
 using Rsk.Samples.OpenIddict.AdminUiIntegration.Data;
+using Rsk.Samples.OpenIddict.AdminUiIntegration.Services;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Rsk.Samples.OpenIddict.AdminUiIntegration;
@@ -90,7 +91,8 @@ public class Startup
                     .SetEndUserVerificationEndpointUris("connect/verify")
                     //Shared Endpoints
                     .SetTokenEndpointUris("connect/token")
-                    .SetUserInfoEndpointUris("connect/userinfo");
+                    .SetUserInfoEndpointUris("connect/userinfo")
+                    .SetPushedAuthorizationEndpointUris("/connect/par");
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
                 options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
@@ -153,6 +155,25 @@ public class Startup
                 // Register the ASP.NET Core host.
                 options.UseAspNetCore();
             });
+
+        if (!string.IsNullOrWhiteSpace(Configuration.GetValue<string>("DynamicAuthLicense")))
+        {
+            services.AddDynamicProviders(options =>
+                {
+                    // Component setup
+                    options.Licensee = Configuration.GetValue<string>("DynamicAuthLicensee");
+                    options.LicenseKey = Configuration.GetValue<string>("DynamicAuthLicense");
+                })
+                .AddEntityFrameworkStore(GetDbConnection)
+                .AddOpenIdConnect()
+                .AddSaml(o =>
+                {
+                    o.Licensee = Configuration.GetValue<string>("SAML2PLicensee");
+                    o.LicenseKey = Configuration.GetValue<string>("SAML2PLicense");
+                });
+        }
+
+        services.AddScoped<IAccountService, AccountService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

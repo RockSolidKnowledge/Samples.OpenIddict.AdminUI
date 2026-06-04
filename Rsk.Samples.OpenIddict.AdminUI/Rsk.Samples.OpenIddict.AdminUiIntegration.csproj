@@ -29,6 +29,9 @@
     <PackageReference Include="Rsk.Saml.OpenIddict.AspNetCore.Identity" Version="11.0.0" />
     <PackageReference Include="Rsk.Saml.OpenIddict.EntityFrameworkCore" Version="11.0.0" />
     <PackageReference Include="Rsk.Saml.OpenIddict.Quartz" Version="11.0.0" />
+    <PackageReference Include="Rsk.DynamicAuthenticationProviders" Version="3.3.0" />
+    <PackageReference Include="Rsk.DynamicAuthenticationProviders.EntityFramework" Version="3.3.0" />
+    <PackageReference Include="Rsk.DynamicAuthenticationProviders.Saml" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
