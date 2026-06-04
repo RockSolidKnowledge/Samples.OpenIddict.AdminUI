@@ -57,7 +57,7 @@ public class AccountController(
                 // only set explicit expiration here if user chooses "remember me". 
                 // otherwise we rely upon expiration configured in cookie middleware.
                 AuthenticationProperties props = null;
-                if (model.RememberLogin)
+                if (model.RememberMe)
                 {
                     props = new AuthenticationProperties
                     {

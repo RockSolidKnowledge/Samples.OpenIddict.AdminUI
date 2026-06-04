@@ -52,7 +52,7 @@ public class AccountService(
     {
         var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
         vm.Username = model.Username;
-        vm.RememberLogin = model.RememberLogin;
+        vm.RememberMe = model.RememberMe;
         return vm;
     }
     

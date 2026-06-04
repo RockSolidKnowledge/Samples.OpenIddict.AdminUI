@@ -14,5 +14,5 @@ public class LoginInputModel
     public string ReturnUrl { get; set; }
     
     [Display(Name = "Remember me?")]
-    public bool RememberLogin { get; set; }
+    public bool RememberMe { get; set; }
 }
